@@ -1,0 +1,60 @@
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
+    <div class="auth-box">
+        <div>
+            <div class="logo">
+                <span class="db"><img src="assets/images/logo-icon.png" alt="logo" /></span>
+                <h5 class="font-medium m-b-20">Demande d'adhésion</h5>
+            </div>
+            <!-- Form -->
+            <div class="row">
+                <div class="col-12">
+                    <form class="form-horizontal m-t-20" #signUpForm="ngForm" (ngSubmit)="onSubmit(signUpForm)" >
+                        <div class="form-group row ">
+                            <div class="col-12 ">
+                                <input class="form-control form-control-lg" name="login" type="text" required=" " placeholder="login" #login="ngModel" [(ngModel)]="userService.selectedUser.login">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12 ">
+                                <input class="form-control form-control-lg" type="password" name="password" required=" " placeholder="password" #password="ngModel" [(ngModel)]="userService.selectedUser.password">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12 ">
+                                <input class="form-control form-control-lg" type="text" required=" " name="society" placeholder="society" #society="ngModel" [(ngModel)]="userService.selectedUser.society">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12 ">
+                                <input class="form-control form-control-lg" type="text" required=" " name="activity" placeholder="activity" #activity="ngModel" [(ngModel)]="userService.selectedUser.activity">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12 ">
+                                <input class="form-control form-control-lg" type="text" required=" " name="phone" placeholder="phone" #phone="ngModel" [(ngModel)]="userService.selectedUser.phone">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12 ">
+                                <input class="form-control form-control-lg" type="mail" required=" " name="mail" placeholder="mail" #mail="ngModel" [(ngModel)]="userService.selectedUser.mail">
+                            </div>
+                        </div>
+
+                        <div class="form-group text-center ">
+                            <div class="col-xs-12 p-b-20 ">
+                              <input type="hidden" name="etat" #etat="ngModel" [(ngModel)]="userService.selectedUser.etat"  value="en attente">
+                                <input class="btn btn-block btn-lg btn-info" type="submit" value="signup">
+                            </div>
+                        </div>
+                        <div class="form-group m-b-0 m-t-10 ">
+                            <div class="col-sm-12 text-center ">
+                                Already have an account? <a href="#/authentication/login " class="text-info m-l-5 "><b>Sign In</b></a>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
