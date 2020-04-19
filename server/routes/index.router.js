@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const ctrlUser = require('../controllers/user.controller');
+const ctrlService = require('../controllers/service.controller');
 
 const jwtHelper = require('../config/jwtHelper');
 
@@ -13,4 +14,5 @@ router.get('/list', ctrlUser.list);
 router.get('/list1/:id', ctrlUser.list1);
 router.get('/userProfile',jwtHelper.verifyJwtToken, ctrlUser.userProfile);
 router.get('/listAdmins/:society', ctrlUser.listAdmins);
+router.post('/service',ctrlService.f1);
 module.exports = router;
