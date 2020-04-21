@@ -47,6 +47,14 @@ export const ROUTES_SA: RouteInfo[] = [
       class: '',
       extralink: false,
       submenu: []
+    },
+    {
+      path: '/admins/tableAdmins',
+      title: 'Gestions des admins',
+      icon: '',
+      class: '',
+      extralink: false,
+      submenu: []
     }
   ]
   },
@@ -129,6 +137,14 @@ export const ROUTES_A: RouteInfo[] = [
     {
       path: '/fournisseurs/tablefournisseurs',
       title: 'Gestions des fournisseurs',
+      icon: '',
+      class: '',
+      extralink: false,
+      submenu: []
+    },
+    {
+      path: '/admins/tableAdmins',
+      title: 'Gestions des admins',
       icon: '',
       class: '',
       extralink: false,

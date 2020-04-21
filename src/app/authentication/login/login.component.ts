@@ -38,10 +38,9 @@ export class LoginComponent implements OnInit {
         this.userService.getUserProfile().subscribe(
           res => {
             this.userDetails = res['user'];
-            if(this.userDetails.etat=="approuvé"){
               this.router.navigateByUrl('/dashboard/dashboard');
-
-            }
+              console.log("login clicked")
+            
 
 
           },
