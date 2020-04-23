@@ -7,7 +7,8 @@ var ObjectId = require('mongoose').Types.ObjectId;
 const User = mongoose.model('User');
 
 
-module.exports.register = (req, res, next) => {
+module.exports.register = (req,role, res, next) => {
+  console.log(req.body);
   var user = new User();
   user.login = req.body.login;
   user.password = req.body.password;
@@ -15,6 +16,7 @@ module.exports.register = (req, res, next) => {
   user.activity = req.body.activity;
   user.phone = req.body.phone;
   user.mail = req.body.mail;
+  user.role = role;
   user.etat = "en attente";
   user.save((err, doc) => {
       if (!err)
@@ -36,7 +38,10 @@ module.exports.authenticate = (req, res, next) => {
       // error from passport middleware
       if (err) return res.status(400).json(err);
       // registered user
-      else if (user) return res.status(200).json({ "token": user.generateJwt() });
+      else if (user){
+        console.log(user);
+        return res.status(200).json({ "token": user.generateJwt() });
+      } 
       // unknown user or wrong password
       else return res.status(404).json(info);
   })(req, res);
@@ -55,6 +60,7 @@ module.exports.userProfile = (req, res, next) =>{
 
 
 module.exports.list = (req, res) => {
+  console.log(req._id);
   User.find((err, docs) => {
       if (!err) { res.send(docs); }
       else { console.log('Error in Retriving users :' + JSON.stringify(err, undefined, 2)); }
@@ -85,6 +91,7 @@ module.exports.listAdmins= (req, res) => {
 
 
 module.exports.update = (req, res) => {
+  console.log(req.user);
   if (!ObjectId.isValid(req.params.id))
   return res.status(400).send(`No record with given id : ${req.params.id}`);
 

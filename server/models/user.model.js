@@ -34,6 +34,11 @@ var userSchema = new mongoose.Schema({
       unique: true
 
   },
+  role:{
+    type : String,
+    default : "fournisseur",
+    enum :["superadmin","admin","fournisseur","client"]
+  },
   etat: {
       type: String
 
@@ -65,7 +70,7 @@ userSchema.methods.verifyPassword = function (password) {
 };
 
 userSchema.methods.generateJwt = function () {
-  return jwt.sign({ _id: this._id},
+  return jwt.sign({ _id: this._id,role:this.role,email:this.mail},
       process.env.JWT_SECRET,
   {
       expiresIn: process.env.JWT_EXP
