@@ -8,6 +8,7 @@ const cors = require('cors');
 const passport = require('passport');
 
 const rtsIndex = require('./routes/index.router');
+const serviceRouter = require('./routes/service.router');
 
 var app = express();
 
@@ -17,6 +18,8 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(passport.initialize());
 app.use('/api', rtsIndex);
+app.use('/service',serviceRouter);
+
 
 // error handler
 app.use((err, req, res, next) => {
