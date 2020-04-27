@@ -15,6 +15,8 @@ module.exports.verifyJwtToken = (req, res, next) => {
                 else {
                     console.log("wselt lena ");
                     req._id = decoded._id;
+                    req.role = decoded.role;
+                    req.email = decoded.email;
                     console.log(req._id);
                     next();
                 }
@@ -22,8 +24,8 @@ module.exports.verifyJwtToken = (req, res, next) => {
         )
     }
 }
-module.exports.cheackRole = roles => (req,res,next) => {
-    if (roles.includes(req.user.role)){
+module.exports.cheackRole = roles=>(req,res,next) => {
+    if (roles.includes(req.role)){
         next();
     }else {
         return res.status(401).json({
@@ -31,5 +33,4 @@ module.exports.cheackRole = roles => (req,res,next) => {
             success : false
         });
     }
-
 }

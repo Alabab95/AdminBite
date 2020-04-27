@@ -82,7 +82,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    },AuthGuard,UserService
+    },
+    AuthGuard,
+    UserService
 
   ],
 

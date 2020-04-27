@@ -58,10 +58,8 @@ module.exports.userProfile = (req, res, next) =>{
   );
 }
 
-
-module.exports.list = (req, res) => {
-  console.log(req._id);
-  User.find((err, docs) => {
+module.exports.list = (req, res, next) => {
+  User.find({role : 'fournisseur'},(err, docs) => {
       if (!err) { res.send(docs); }
       else { console.log('Error in Retriving users :' + JSON.stringify(err, undefined, 2)); }
   });

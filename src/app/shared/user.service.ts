@@ -8,6 +8,9 @@ import { User } from './user.model';
   providedIn: 'root'
 })
 export class UserService {
+
+  constructor(private http: HttpClient) { }
+
   selectedUser: User = {
     _id:"",
     login: '',
@@ -22,7 +25,8 @@ export class UserService {
   users: User[];
 
   noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True' }) };
-  constructor(private http: HttpClient) { }
+  Header = { headers: new HttpHeaders({ 'Authorization': 'Bearer '+this.getToken()}) };
+  
   postUser(user: User){
     return this.http.post(environment.apiBaseUrl+'/register-fournisseur',user,this.noAuthHeader);
   }
@@ -35,7 +39,7 @@ export class UserService {
   }
 
   getUserList() {
-    return this.http.get(environment.apiBaseUrl +'/list');
+    return this.http.get(environment.apiBaseUrl +'/list',this.Header);
   }
   getAdminsList(society: string) {
     return this.http.get(environment.apiBaseUrl +`/delete/${society}`);
