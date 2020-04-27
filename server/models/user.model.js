@@ -23,6 +23,9 @@ var userSchema = new mongoose.Schema({
       required: 'last name can\'t be empty'
 
   },
+  type: {
+    type: String,
+  },
   phone: {
       type: String,
       required: 'phone can\'t be empty'

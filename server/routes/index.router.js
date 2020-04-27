@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const ctrlUser = require('../controllers/user.controller');
-const ctrlService = require('../controllers/service.controller');
-
 const jwtHelper = require('../config/jwtHelper');
+//les routers de services
 
 //register fournisseur
 router.post('/register-fournisseur', (req,res,next)=>{
@@ -29,5 +28,5 @@ router.get('/list',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','
 router.get('/list1/:id',ctrlUser.list1);
 router.get('/userProfile',jwtHelper.verifyJwtToken,jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','fournisseur']), ctrlUser.userProfile);
 router.get('/listAdmins/:society',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','fournisseur']),ctrlUser.listAdmins);
-router.post('/service',ctrlService.f1);
+
 module.exports = router;
