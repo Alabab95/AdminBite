@@ -4,6 +4,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { UserService } from '../../shared/user.service';
 import { Router } from "@angular/router";
 import { User } from 'src/app/shared/user.model';
+import { HttpHeaders } from '@angular/common/http';
 @Component({
   templateUrl: './table-fournisseurs.component.html',
   providers:[UserService]
@@ -153,6 +154,9 @@ deleteRecord(event){
 
 
 refreshUserList(){
+  const header = {
+    headers: new HttpHeaders().set("Authorization", "Bearer " + this.userService.getToken())
+  }
   this.userService.getUserList().subscribe((res) => {
   this.userService.users = res as User[];
     console.log( this.userService.users);

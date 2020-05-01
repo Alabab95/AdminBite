@@ -4,5 +4,7 @@ import { HttpClient } from "@angular/common/http";
 @Injectable({ providedIn : "root"})
 export class AuthService {
     constructor(private http: HttpClient) { }
-    createUser(email:string ,password)
+    createUser(email:string ,password){
+        
+    }
 }
