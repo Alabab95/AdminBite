@@ -9,6 +9,7 @@ const passport = require('passport');
 
 const rtsIndex = require('./routes/index.router');
 const serviceRouter = require('./routes/service.router');
+const packageRouteur = require('./routes/package.router');
 
 var app = express();
 
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(passport.initialize());
 app.use('/api', rtsIndex);
 app.use('/service',serviceRouter);
+app.use('/packages',packageRouteur);
 
 
 // error handler

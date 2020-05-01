@@ -3,8 +3,7 @@ const router = express.Router();
 
 const ctrlUser = require('../controllers/user.controller');
 const jwtHelper = require('../config/jwtHelper');
-//les routers de services
-
+const ctrlPack = require('../controllers/package.controller');
 //register fournisseur
 router.post('/register-fournisseur', (req,res,next)=>{
     ctrlUser.register(req,'fournisseur',res,next);
@@ -28,6 +27,7 @@ router.get('/list',ctrlUser.list);
 router.get('/list1/:id', ctrlUser.list1);
 router.get('/userProfile',jwtHelper.verifyJwtToken, ctrlUser.userProfile);
 router.get('/listAdmins/:society', ctrlUser.listAdmins);
+
 
 
 

@@ -10,7 +10,12 @@ var ServiceSchema = new mongoose.Schema({
       type: String,
       required: 'price can\'t be empty',
   },
-  description: { type: String}
+  description: {
+    type: String
+  },
+  state : {
+    type : String
+  }
   
 });
 

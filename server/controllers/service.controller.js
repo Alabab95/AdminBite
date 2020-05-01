@@ -9,7 +9,8 @@ module.exports.addService = (req, res, next) => {
         _id : new mongoose.Types.ObjectId(),
         name : req.body.name,
         price : req.body.price,
-        description : req.body.description
+        description : req.body.description,
+        state : "NOT DONE"
     });
     
     service
@@ -23,6 +24,7 @@ module.exports.addService = (req, res, next) => {
             name: result.name,
             price: result.price,
             description : result.description,
+            state : "NOT DONE",
             request: {
                 type: 'GET',
                 url: "http://localhost:3000/service/" + result._id
@@ -51,7 +53,8 @@ module.exports.deleteService = (req,res,next) => {
           body : {
             name: 'String',
             price: 'Number',
-            description : 'String'
+            description : 'String',
+            state : 'String'
           }
         }
       });
@@ -93,7 +96,7 @@ module.exports.updateService = (req,res,next) => {
 module.exports.getService = (req,res,next) => {
   const id = req.params.id;
   Service.findById(id)
-    .select('name price description')
+    .select('name price description state')
     .exec()
     .then(doc => {
       console.log("From database :",doc);
@@ -120,7 +123,7 @@ module.exports.getService = (req,res,next) => {
 module.exports.allServices = (req,res,next) => {
   
   Service.find()
-    .select('name price description')
+    .select('name price description state')
     .exec()
     .then(docs => {
       const response = {
