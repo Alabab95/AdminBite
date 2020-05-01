@@ -31,7 +31,7 @@ app.use((req,res,next)=>{
 });
 app.use(passport.initialize());
 app.use('/api', rtsIndex);
-app.use('/service',serviceRouter);
+app.use('/services',serviceRouter);
 app.use('/packages',packageRouteur);
 
 
