@@ -1,10 +1,10 @@
 const packages = require('express').Router();
 const ctrlPackage = require('../controllers/package.controller');
 
-packages.post('/',ctrlPack.createPackage);
-packages.get('/:id',ctrlPack.returnPackage);
-packages.get('/',ctrlPack.allPackages);
-packages.patch('/:id',ctrlPack.update);
-packages.delete('/:id',ctrlPack.delete);
+packages.post('/',ctrlPackage.createPackage);
+packages.get('/:id',ctrlPackage.returnPackage);
+packages.get('/',ctrlPackage.allPackages);
+packages.patch('/:id',ctrlPackage.update);
+packages.delete('/:id',ctrlPackage.delete);
 
 module.exports = packages;
