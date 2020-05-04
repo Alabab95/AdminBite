@@ -19,6 +19,9 @@ module.exports.register = (req,role, res, next) => {
   user.mail = req.body.mail;
   user.role = role;
   user.role == "fournisseur" ? user.etat = "en attente":user.etat = "approuvé";
+  user.firstName = req.body.firstName;
+  user.lastName = req.body.lastName;
+  user.adress = req.body.adress;
   user.save((err, doc) => {
       if (!err)
           res.send(doc);
