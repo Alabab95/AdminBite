@@ -27,6 +27,7 @@ const storage = multer.diskStorage({
     }
 
 });
+const ctrlPack = require('../controllers/package.controller');
 //register fournisseur
 router.post('/register-fournisseur',multer({storage:storage}).single("image"), (req,res,next)=>{
     ctrlUser.register(req,'fournisseur',res,next);
@@ -52,5 +53,6 @@ router.get('/listadmin',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadm
 router.get('/list1/:id',ctrlUser.list1);
 router.get('/userProfile',jwtHelper.verifyJwtToken,jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']), ctrlUser.userProfile);
 router.get('/listAdmins/:society',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlUser.listAdmins);
+
 
 module.exports = router;

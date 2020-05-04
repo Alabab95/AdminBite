@@ -61,6 +61,9 @@ var userSchema = new mongoose.Schema({
   etat: {
       type: String
   },
+ /*  package : {
+    type : mongoose.Schema.Types.ObjectId , ref : 'Package'
+  }, */
   saltSecret: String
 });
 
