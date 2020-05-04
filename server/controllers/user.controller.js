@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const passport = require('passport');
+const bcrypt = require('bcryptjs');
 const _ = require('lodash');
 var ObjectId = require('mongoose').Types.ObjectId;
 
@@ -31,7 +32,22 @@ module.exports.register = (req,role, res, next) => {
   });
 console.log('here');
 }
-
+module.exports.resetpassword = (req, res, next) => {
+  User.findOne({ _id: req._id },
+    (err, user) => {
+        if (!user)
+            return res.status(404).json({ status: false, message: 'User record not found.' });
+        console.log(user);
+        let hash = bcrypt.hashSync(req.body.newpassword,10);
+        if (user.verifyPassword(req.body.password)){ 
+        User.findByIdAndUpdate(req._id, { $set: {password : hash} }, { new: true }, (err, doc) => {
+          if (!err) { res.send(doc); }
+          else { console.log('Error in updating password :' + JSON.stringify(err, undefined, 2)); }
+        }); 
+      } else return res.status(400).json({"message":"wrong password!"});  
+    }
+);
+}
 module.exports.authenticate = (req, res, next) => {
   // call for passport authentication
   passport.authenticate('local', (err, user, info) => {
@@ -42,7 +58,7 @@ module.exports.authenticate = (req, res, next) => {
         if(user.role == "fournisseur" && user.etat == "en attente"){
           return res.status(400).json({"message":"you need to wait"});
         }
-        console.log(user);
+       
         return res.status(200).json({ "token": user.generateJwt() });
       } 
       // unknown user or wrong password
@@ -94,9 +110,6 @@ module.exports.listAdmins= (req, res) => {
       else { console.log('Error in Retriving Employee :' + JSON.stringify(err, undefined, 2)); }
   });
 }
-
-
-
 
 module.exports.update = (req, res) => {
   console.log(req.user);

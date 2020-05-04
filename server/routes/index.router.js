@@ -53,6 +53,7 @@ router.get('/listadmin',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadm
 router.get('/list1/:id',ctrlUser.list1);
 router.get('/userProfile',jwtHelper.verifyJwtToken,jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']), ctrlUser.userProfile);
 router.get('/listAdmins/:society',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlUser.listAdmins);
+router.post('/resetpassword',jwtHelper.verifyJwtToken,ctrlUser.resetpassword);
 
 
 module.exports = router;
