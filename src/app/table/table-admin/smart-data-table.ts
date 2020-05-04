@@ -1,32 +1,60 @@
 export let settings = {
   columns: {
-    id: {
-      title: 'ID',
-      filter: false
-    },
-    name: {
-      title: 'Full Name',
+
+    login: {
+      title: 'login',
       filter: true
     },
-    username: {
-      title: 'username',
+    society: {
+      title: 'Society',
       filter: true
     },
-    email: {
-      title: 'Email',
+    activity: {
+      title: 'Activity',
+      filter: true
+    },
+    phone: {
+      title: 'Phone',
+      filter: true
+    },
+    mail: {
+      title: 'Mail',
+      filter: true
+    },
+    etat: {
+      title: 'Etat',
+      filter: true
+    },
+    _id: {
+      title: '#',
+      filter: true
+    },
+    password: {
+      title: 'password',
+      filter: true
+    },
+    saltSecret: {
+      title: 'password',
       filter: true
     }
   },
+  add:{
+    confirmCreate:true
+   },
   edit: {
+    confirmSave:true,
     editButtonContent: '<i class="ti-pencil text-info m-r-10"></i>',
     saveButtonContent: '<i class="ti-save text-success m-r-10"></i>',
     cancelButtonContent: '<i class="ti-close text-danger"></i>'
   },
   delete: {
+    confirmDelete: true,
     deleteButtonContent: '<i class="ti-trash text-danger m-r-10"></i>',
     saveButtonContent: '<i class="ti-save text-success m-r-10"></i>',
     cancelButtonContent: '<i class="ti-close text-danger"></i>'
-  }
+  },
+
+
 };
 export let settings2 = {
   columns: {
@@ -59,7 +87,7 @@ export let settings2 = {
   }
 };
 export let data = [
-  {
+  /*{
     id: 1,
     name: 'Leanne Graham',
     username: 'Bret',
@@ -124,5 +152,5 @@ export let data = [
     name: 'Hitesh patel',
     username: 'Hitesh',
     email: 'Hitesh@annie.ca'
-  }
+  }*/
 ];

@@ -17,7 +17,7 @@ module.exports.register = (req,role, res, next) => {
   user.phone = req.body.phone;
   user.mail = req.body.mail;
   user.role = role;
-  user.etat = "en attente";
+  user.role == "fournisseur" ? user.etat = "en attente":user.etat = "approuvé";
   user.save((err, doc) => {
       if (!err)
           res.send(doc);
@@ -39,6 +39,9 @@ module.exports.authenticate = (req, res, next) => {
       if (err) return res.status(400).json(err);
       // registered user
       else if (user){
+        if(user.role == "fournisseur" && user.etat == "en attente"){
+          return res.status(400).json({"message":"you need to wait"});
+        }
         console.log(user);
         return res.status(200).json({ "token": user.generateJwt() });
       } 
@@ -53,13 +56,20 @@ module.exports.userProfile = (req, res, next) =>{
           if (!user)
               return res.status(404).json({ status: false, message: 'User record not found.' });
           else
-              return res.status(200).json({ status: true, user : _.pick(user,['society','login','activity','etat']) });
+              return res.status(200).json({ status: true, user : _.pick(user,['society','login','activity','etat','role']) });
       }
   );
 }
 
 module.exports.list = (req, res, next) => {
   User.find({role : 'fournisseur'},(err, docs) => {
+      if (!err) { res.send(docs); }
+      else { console.log('Error in Retriving users :' + JSON.stringify(err, undefined, 2)); }
+  });
+}
+module.exports.listadmin = (req, res, next) => {
+  User.find({role : 'admin'},(err, docs) => {
+      console.log(docs);
       if (!err) { res.send(docs); }
       else { console.log('Error in Retriving users :' + JSON.stringify(err, undefined, 2)); }
   });
