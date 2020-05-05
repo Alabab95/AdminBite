@@ -2,8 +2,69 @@ const mongoose = require('mongoose');
 const Package = mongoose.model('Package');
 const Service = mongoose.model('Service');
 
+module.exports.addServicesToPackage = (req,res,next) => {
+  console.log("service id === ",req.body.serviceId);
+  console.log("package id === ",req.body.packageId);
+  Package.findById(req.body.packageId)
+    /* .then(service => {
+        if(!service) {
+            return res.status(404).json({
+                message : "Service not found"
+            });
+        }
+        else {
+          console.log("serviceee ",service)
+        }
+        Package.findById(req.body.packageId)
+          .then(package => {
+            if(!package){
+              return res.status(404).json({
+                message : "Package not found"
+              });
+            }
+            else {
+              package.services.push(service);
+              console.log("package found",Package);
+            }
+          })
+      })
+     */  
+      .then(package => {
+        console.log(package);
+        Service.findById(req.body.serviceId)
+          .then(service => {
+            package.services.push(service)
+            var packPrice;
+            package.services.map(id => {
+              console.log("item ==",id)
+              Service.findById(id)
+                .then(service=> {
+                  console.log("service mapping",service);
+                  packPrice = packPrice + service.price;
+                  console.log("package price ==",packPrice)
+                  package.price= packPrice;
+                })
+                
+            })
+            
+            res.status(201).json({
+              message: "Added service successfully",
+            });
+            return package.save()
+          })
+          
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+       
+}
+
 module.exports.createPackage = (req,res,next) => {
-    console.log("service id === ",req.body.serviceId);
+    /* console.log("service id === ",req.body.serviceId);
     Service.findById(req.body.serviceId)
         .then(service => {
             if(!service) {
@@ -11,17 +72,22 @@ module.exports.createPackage = (req,res,next) => {
                     message : "Service not found"
                 });
             }
-            const package = new Package({
-                _id : new mongoose.Types.ObjectId(),
-                name : req.body.name,
-                domaine : req.body.domaine,
-                fournisseur :"alaba",
-                service :req.body.serviceId,
-                price : 10,
-                date : new Date()
-            });
-            return package.save();
-        })
+            else {
+              console.log("serviceee ",service)
+            } */
+        const pack = new Package({
+            _id : new mongoose.Types.ObjectId(),
+            name : req.body.name,
+            domaine : req.body.domaine,
+            fournisseur :"alaba",
+            services :[],
+            price : 0,
+            date : new Date()
+        });
+            
+        //})
+        pack
+        .save()
         .then(result => {
             console.log(result);
             res.status(201).json({
@@ -31,7 +97,7 @@ module.exports.createPackage = (req,res,next) => {
                     name : result.name,
                     domaine : result.domaine,
                     fournisseur :result.fournisseur,
-                    service :result.id,
+                    services :result.services,
                     price : result.price,
                     date : result.date
                 },
@@ -110,7 +176,7 @@ module.exports.allPackages = (req,res,next) => {
             name : doc.name,
             domaine : doc.domaine,
             fournisseur : doc.fournisseur,
-            service : doc.service,
+            services : doc.services,
             price : doc.price,
             date : doc.date,
             request: {
@@ -130,7 +196,7 @@ module.exports.allPackages = (req,res,next) => {
 
 module.exports.returnPackage = (req,res,next) => {
     Package.findById(req.params.id)
-    .populate('service')
+    .populate('services','name price description state')
     .exec()
     .then(package => {
       if (!package) {
@@ -139,14 +205,20 @@ module.exports.returnPackage = (req,res,next) => {
         });
       }
       res.status(200).json({
-        order: order,
         request: {
+          PackageId : package._id,
+          PackageName:package.name,
+          Services : package.services,
+          price : package.price,
+          date : package.date,
+          fournisseur : package.fournisseur,
           type: "GET",
           url: "http://localhost:3000/packages"
         }
       });
     })
     .catch(err => {
+      console.log(err)
       res.status(500).json({
         error: err
       });

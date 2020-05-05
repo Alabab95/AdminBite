@@ -6,9 +6,10 @@ const packageSchema = mongoose.Schema({
     domaine : { type : String , required : true },
     //fournisseur : {type : mongoose.Schema.Types.ObjectId , ref : 'User' , required :true},
     fournisseur : {type : String , required : true},
-    service : {type :mongoose.Schema.Types.ObjectId , ref : 'Service'},
+    services : [{type :mongoose.Schema.Types.ObjectId , ref : 'Service'}],
     price : {type : Number},
-    date : {type : Date}
+    date : {type : Date},
+    imageUrl : {type : String}
 });
 
 module.export = mongoose.model('Package',packageSchema);
