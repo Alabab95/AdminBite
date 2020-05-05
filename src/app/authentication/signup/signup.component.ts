@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
+  styleUrls : ['./signup.component.css'],
   providers:[UserService]
 })
 export class SignupComponent implements OnInit {
@@ -17,6 +18,7 @@ export class SignupComponent implements OnInit {
 
   }
   onSubmit(form: NgForm) {
+    console.log(form.value);
     this.userService.postUser(form.value).subscribe(
       res => {
         console.log("success");

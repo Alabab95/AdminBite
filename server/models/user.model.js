@@ -8,23 +8,43 @@ var userSchema = new mongoose.Schema({
       required: 'login can\'t be empty',
       unique: true
   },
+  firstName: {
+    type: String,
+    required: 'first name is required ',
+  },
+  lastName: {
+    type: String,
+    required: 'last name is required',
+  },
+  adress: {
+    type: String,
+    required:[function(){
+      return this.role === 'fournisseur' ||this.role === 'client';
+    },'Adress is required']
+  },
   password: {
       type: String,
       required: 'password can\'t be empty',
       minlength : [8,'Password must be atleast 8 character long']
   },
+  role:{
+    type : String,
+    default : "fournisseur",
+    enum :["superadmin","admin","fournisseur","client"]
+  },
   society: {
       type: String,
-      required: 'first can\'t be empty'
+      required: [function(){
+        return this.role === 'fournisseur';
+      },'Society is required']
 
   },
   activity: {
       type: String,
-      required: 'last name can\'t be empty'
+      required:[function(){
+        return this.role === 'fournisseur';
+      },'Activity is required']
 
-  },
-  type: {
-    type: String,
   },
   phone: {
       type: String,
@@ -37,14 +57,9 @@ var userSchema = new mongoose.Schema({
       unique: true
 
   },
-  role:{
-    type : String,
-    default : "fournisseur",
-    enum :["superadmin","admin","fournisseur","client"]
-  },
+  image: {type: String},
   etat: {
       type: String
-
   },
  /*  package : {
     type : mongoose.Schema.Types.ObjectId , ref : 'Package'

@@ -45,19 +45,17 @@ export class SidebarComponent implements OnInit {
     this.userService.getUserProfile().subscribe(
       res => {
         this.userDetails = res['user'];
-        if(this.userDetails.society=="itfirst"){
-          if(this.userDetails.activity == "admin"){
+          if(this.userDetails.role == "admin"){
             this.sidebarnavItems = ROUTES_A.filter(sidebarnavItem => sidebarnavItem);
-          }else{
+          }else if(this.userDetails.role == "superadmin"){
             this.sidebarnavItems = ROUTES_SA.filter(sidebarnavItem => sidebarnavItem);
             console.log(this.userDetails.activity,"<---");
+          }
+          else{
+            this.sidebarnavItems = ROUTES_F.filter(sidebarnavItem => sidebarnavItem);
 
           }
-        }
-        else{
-          this.sidebarnavItems = ROUTES_F.filter(sidebarnavItem => sidebarnavItem);
-        }
-        console.log(this.userDetails.society);
+          console.log(this.userDetails.society);
 
       },
       err => {
