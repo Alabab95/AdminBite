@@ -128,11 +128,21 @@ var user = {
   etat : req.body.etat,
   mail : req.body.mail,
 };
-User.findByIdAndUpdate(req.params.id, { $set: user }, { new: true }, (err, doc) => {
+User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true }, (err, doc) => {
   if (!err) { res.send(doc); }
   else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
 });
 }
+
+module.exports.updateProfile = (req, res) => {
+  if (!ObjectId.isValid(req._id))
+  return res.status(400).send(`No record with given id : ${req._id}`);
+User.findByIdAndUpdate(req._id, { $set: req.body }, { new: true }, (err, doc) => {
+  if (!err) { res.send(doc); }
+  else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
+});
+}
+
 
 module.exports.delete = (req, res) => {
   if (!ObjectId.isValid(req.params.id))
