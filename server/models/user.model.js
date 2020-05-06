@@ -10,16 +10,20 @@ var userSchema = new mongoose.Schema({
   },
   firstName: {
     type: String,
-    required: 'first name is required ',
+    required: [function(){
+      return this.role === 'client';
+    },'firstName is required']
   },
   lastName: {
     type: String,
-    required: 'last name is required',
+    required: [function(){
+      return this.role === 'client';
+    },'lastName is required']
   },
   adress: {
     type: String,
     required:[function(){
-      return this.role === 'fournisseur' ||this.role === 'client';
+      return this.role === 'client' ||this.role === 'client';
     },'Adress is required']
   },
   password: {

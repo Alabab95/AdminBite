@@ -18,8 +18,6 @@ export class TableFournisseursComponent implements OnInit {
    }
    ngOnInit(){
     this.refreshUserList();
-
-
     this.source2 = new LocalDataSource(tableData.data); // create the source
    }
 
