@@ -69,13 +69,13 @@ module.exports.authenticate = (req, res, next) => {
   })(req, res);
 }
 
-module.exports.userProfile = (req, res, next) =>{
+module.exports.userProfile = (req, res, next) => {
   User.findOne({ _id: req._id },
       (err, user) => {
           if (!user)
               return res.status(404).json({ status: false, message: 'User record not found.' });
           else
-              return res.status(200).json({ status: true, user : _.pick(user,['society','login','activity','etat','role']) });
+              return res.status(200).json({ status: true, user : _.pick(user,['_id','society','login','activity','etat','firstName','lastName','phone','mail']) });
       }
   );
 }
@@ -128,11 +128,21 @@ var user = {
   etat : req.body.etat,
   mail : req.body.mail,
 };
-User.findByIdAndUpdate(req.params.id, { $set: user }, { new: true }, (err, doc) => {
+User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true }, (err, doc) => {
   if (!err) { res.send(doc); }
   else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
 });
 }
+
+module.exports.updateProfile = (req, res) => {
+  if (!ObjectId.isValid(req._id))
+  return res.status(400).send(`No record with given id : ${req._id}`);
+User.findByIdAndUpdate(req._id, { $set: req.body }, { new: true }, (err, doc) => {
+  if (!err) { res.send(doc); }
+  else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
+});
+}
+
 
 module.exports.delete = (req, res) => {
   if (!ObjectId.isValid(req.params.id))
