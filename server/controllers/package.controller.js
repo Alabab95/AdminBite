@@ -5,30 +5,7 @@ const Service = mongoose.model('Service');
 module.exports.addServicesToPackage = (req,res,next) => {
   console.log("service id === ",req.body.serviceId);
   console.log("package id === ",req.body.packageId);
-  Package.findById(req.body.packageId)
-    /* .then(service => {
-        if(!service) {
-            return res.status(404).json({
-                message : "Service not found"
-            });
-        }
-        else {
-          console.log("serviceee ",service)
-        }
-        Package.findById(req.body.packageId)
-          .then(package => {
-            if(!package){
-              return res.status(404).json({
-                message : "Package not found"
-              });
-            }
-            else {
-              package.services.push(service);
-              console.log("package found",Package);
-            }
-          })
-      })
-     */  
+  Package.findById(req.body.packageId) 
       .then(package => {
         console.log(package);
         Service.findById(req.body.serviceId)
