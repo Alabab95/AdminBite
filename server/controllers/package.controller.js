@@ -220,14 +220,7 @@ module.exports.update = (req,res,next) => {
 
 module.exports.allPackages = (req,res,next) => {
     Package.find()
-<<<<<<< HEAD
     .select("_id name domaine fournisseur services price date")
-    .populate('services', 'name')
-    .exec()
-    .then(docs => {
-      res.send(docs)
-=======
-    .select("_id name domaine fournisseur service price date")
     .populate('services','name price description state')
     .exec()
     .then(docs => {
@@ -261,7 +254,6 @@ module.exports.allPackages = (req,res,next) => {
       res.status(500).json({
         error: err
       });
->>>>>>> 5b2e2e4b82b6c350112d8429df3595b305c3828b
     });
 }
 
