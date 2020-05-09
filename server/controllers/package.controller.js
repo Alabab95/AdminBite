@@ -150,6 +150,7 @@ module.exports.createPackage = (req,res,next) => {
             else {
               console.log("serviceee ",service)
             } */
+        console.log(req.body);
         const pack = new Package({
             _id : new mongoose.Types.ObjectId(),
             name : req.body.name,
@@ -164,7 +165,7 @@ module.exports.createPackage = (req,res,next) => {
         pack
         .save()
         .then(result => {
-            console.log(result);
+            
             res.status(201).json({
                 message : "Package created",
                 createdPackage : {
@@ -183,7 +184,6 @@ module.exports.createPackage = (req,res,next) => {
             });
         })
         .catch(err => {
-            console.log(err);
             res.status(500).json({
                 error : err
             });
@@ -212,31 +212,21 @@ module.exports.delete = (req,res,next)=> {
 
 module.exports.update = (req,res,next) => {
     const id = req.params.id;
-    const updateOps = {};
-    for(const ops of req.body){
-        updateOps[ops.propName] = ops.value;
-    }
-    Service.update({_id : id},{ $set : updateOps})
-      .exec()
-      .then(result => {
-        res.status(200).json({
-          message : 'package updated',
-          request : {
-            type : 'GET',
-            url : 'http://localhost:3000/packages/'+id
-          }
-        });
-      })
-      .catch(err => {
-        console.log(err);
-        res.status(500).json({
-          error : err
-        });
+    Package.findByIdAndUpdate(id, { $set: req.body }, { new: true }, (err, doc) => {
+      if (!err) { res.send(doc); }
+      else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
     });
 }
 
 module.exports.allPackages = (req,res,next) => {
     Package.find()
+<<<<<<< HEAD
+    .select("_id name domaine fournisseur services price date")
+    .populate('services', 'name')
+    .exec()
+    .then(docs => {
+      res.send(docs)
+=======
     .select("_id name domaine fournisseur service price date")
     .populate('services','name price description state')
     .exec()
@@ -271,6 +261,7 @@ module.exports.allPackages = (req,res,next) => {
       res.status(500).json({
         error: err
       });
+>>>>>>> 5b2e2e4b82b6c350112d8429df3595b305c3828b
     });
 }
 

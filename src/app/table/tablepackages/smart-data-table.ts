@@ -5,28 +5,46 @@ export let settings = {
       filter: false
     },
     name: {
-      title: 'Packs',
+      title: 'Name',
       filter: true
     },
-    username: {
-      title: 'Fournisseurs',
+    domaine: {
+      title: 'Domaine',
       filter: true
     },
-    email: {
-      title: 'Quantités',
+    fournisseur: {
+      title: 'Fournisseur',
       filter: true
-    }
+    },
+    services: {
+      title: 'Services',
+      filter: true
+    },
+    price: {
+      title: 'Price',
+      filter: true
+    },
+    date: {
+      title: 'Date',
+      filter: true
+    },
+
   },
+  add:{
+    confirmCreate:true
+   },
   edit: {
+    confirmSave:true,
     editButtonContent: '<i class="ti-pencil text-info m-r-10"></i>',
     saveButtonContent: '<i class="ti-save text-success m-r-10"></i>',
     cancelButtonContent: '<i class="ti-close text-danger"></i>'
   },
   delete: {
+    confirmDelete: true,
     deleteButtonContent: '<i class="ti-trash text-danger m-r-10"></i>',
     saveButtonContent: '<i class="ti-save text-success m-r-10"></i>',
     cancelButtonContent: '<i class="ti-close text-danger"></i>'
-  }
+  },
 };
 export let settings2 = {
   columns: {
@@ -35,94 +53,111 @@ export let settings2 = {
       filter: false
     },
     name: {
-      title: 'Full Name',
+      title: 'Name',
       filter: true
     },
-    username: {
-      title: 'User Name',
+    domaine: {
+      title: 'Domaine',
       filter: true
     },
-    email: {
-      title: 'Email',
+    fournisseur: {
+      title: 'Fournisseur',
       filter: true
-    }
+    },
+    services: {
+      title: 'Services',
+      filter: true
+    },
+    price: {
+      title: 'Price',
+      filter: true
+    },
+    date: {
+      title: 'Date',
+      filter: true
+    },
   },
+  add:{
+    confirmCreate:true
+   },
   edit: {
+    confirmSave:true,
     editButtonContent: '<i class="ti-pencil text-info m-r-10"></i>',
     saveButtonContent: '<i class="ti-save text-success m-r-10"></i>',
     cancelButtonContent: '<i class="ti-close text-danger"></i>'
   },
   delete: {
+    confirmDelete: true,
     deleteButtonContent: '<i class="ti-trash text-danger m-r-10"></i>',
     saveButtonContent: '<i class="ti-save text-success m-r-10"></i>',
     cancelButtonContent: '<i class="ti-close text-danger"></i>'
-  }
+  },
 };
 export let data = [
-  {
-    id: 1,
-    name: 'Leanne Graham',
-    username: 'Bret',
-    email: '5'
-  },
-  {
-    id: 2,
-    name: 'Ervin Howell',
-    username: 'Antonette',
-    email: '156'
-  },
-  {
-    id: 3,
-    name: 'Clementine Bauch',
-    username: 'Samantha',
-    email: '10'
-  },
-  {
-    id: 4,
-    name: 'Patricia Lebsack',
-    username: 'Karianne',
-    email: '752'
-  },
-  {
-    id: 5,
-    name: 'Chelsey Dietrich',
-    username: 'Kamren',
-    email: '0'
-  },
-  {
-    id: 6,
-    name: 'Sunil Joshi',
-    username: 'suniljoshi',
-    email: '15'
-  },
-  {
-    id: 7,
-    name: 'Nirav joshi',
-    username: 'niravjoshi',
-    email: '29'
-  },
-  {
-    id: 8,
-    name: 'Vishal bhatt',
-    username: 'vbhatt',
-    email: '0'
-  },
-  {
-    id: 9,
-    name: 'Bhavesh patel',
-    username: 'bhavesh',
-    email: '302'
-  },
-  {
-    id: 10,
-    name: 'Darshan patel',
-    username: 'Darshan',
-    email: '6'
-  },
-  {
-    id: 11,
-    name: 'Hitesh patel',
-    username: 'Hitesh',
-    email: '123'
-  }
+  // {
+  //   id: 1,
+  //   name: 'Leanne Graham',
+  //   username: 'Bret',
+  //   email: '5'
+  // },
+  // {
+  //   id: 2,
+  //   name: 'Ervin Howell',
+  //   username: 'Antonette',
+  //   email: '156'
+  // },
+  // {
+  //   id: 3,
+  //   name: 'Clementine Bauch',
+  //   username: 'Samantha',
+  //   email: '10'
+  // },
+  // {
+  //   id: 4,
+  //   name: 'Patricia Lebsack',
+  //   username: 'Karianne',
+  //   email: '752'
+  // },
+  // {
+  //   id: 5,
+  //   name: 'Chelsey Dietrich',
+  //   username: 'Kamren',
+  //   email: '0'
+  // },
+  // {
+  //   id: 6,
+  //   name: 'Sunil Joshi',
+  //   username: 'suniljoshi',
+  //   email: '15'
+  // },
+  // {
+  //   id: 7,
+  //   name: 'Nirav joshi',
+  //   username: 'niravjoshi',
+  //   email: '29'
+  // },
+  // {
+  //   id: 8,
+  //   name: 'Vishal bhatt',
+  //   username: 'vbhatt',
+  //   email: '0'
+  // },
+  // {
+  //   id: 9,
+  //   name: 'Bhavesh patel',
+  //   username: 'bhavesh',
+  //   email: '302'
+  // },
+  // {
+  //   id: 10,
+  //   name: 'Darshan patel',
+  //   username: 'Darshan',
+  //   email: '6'
+  // },
+  // {
+  //   id: 11,
+  //   name: 'Hitesh patel',
+  //   username: 'Hitesh',
+  //   email: '123'
+  // }
 ];

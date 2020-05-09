@@ -18,6 +18,7 @@ module.exports.verifyJwtToken = (req, res, next) => {
                     req.role = decoded.role;
                     req.email = decoded.email;
                     console.log(req._id);
+                    console.log(req.role);
                     next();
                 }
             }

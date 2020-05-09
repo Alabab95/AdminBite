@@ -1,6 +1,7 @@
 const packages = require('express').Router();
 const ctrlPack = require('../controllers/package.controller');
 
+
 packages.post('/',ctrlPack.createPackage);
 packages.get('/:id',ctrlPack.returnPackage);
 packages.get('/',ctrlPack.allPackages);
