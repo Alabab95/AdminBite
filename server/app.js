@@ -10,6 +10,7 @@ const passport = require('passport');
 const rtsIndex = require('./routes/index.router');
 const serviceRouter = require('./routes/service.router');
 const packageRouteur = require('./routes/package.router');
+const abonnementRouteur = require('./routes/abonnement.router');
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use(passport.initialize());
 app.use('/api', rtsIndex);
 app.use('/services',serviceRouter);
 app.use('/packages',packageRouteur);
+app.use('/abonnements',abonnementRouteur);
 
 
 // error handler

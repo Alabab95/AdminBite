@@ -234,8 +234,6 @@ module.exports.allPackages = (req,res,next) => {
           })
           return {
             _id: doc._id,
-            product: doc.product,
-            quantity: doc.quantity,
             name : doc.name,
             domaine : doc.domaine,
             fournisseur : doc.fournisseur,
