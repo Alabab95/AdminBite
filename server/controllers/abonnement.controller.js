@@ -6,7 +6,7 @@ const User = mongoose.model('User');
 
 module.exports.getAbonnementByClientId =(req,res,next) => {
   console.log("client id :",req.params.id)
-  Abonnement.findOne({"client": req.params.id})
+  Abonnement.find({"client": req.params.id})
     .select("_id name fournisseur client package price etat date")
     .populate([{
       path: 'package',
@@ -27,22 +27,22 @@ module.exports.getAbonnementByClientId =(req,res,next) => {
       console.log(docs);
           res.status(200).json({
             count: docs.length,
-            //abonnement: docs.map(doc => {
-              
-                _id: docs._id,
-                name : docs.name,
-                client : docs.client,
-                fournisseur : docs.fournisseur,
-                package : docs.package,
-                price : docs.price,
-                etat : docs.etat,
-                date : docs.date,
+            abonnement: docs.map(doc => {
+              return {
+                _id: doc._id,
+                name : doc.name,
+                client : doc.client,
+                fournisseur : doc.fournisseur,
+                package : doc.package,
+                price : doc.price,
+                etat : doc.etat,
+                date : doc.date,
                 request: {
                   type: "GET",
-                  url: "http://localhost:3000/abonnements/" + docs._id
+                  url: "http://localhost:3000/abonnements/" + doc._id
                 }
-              //};
-            //})
+              };
+            })
           });
         
     })
