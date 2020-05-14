@@ -58,12 +58,20 @@ module.exports.getAbonnementByClientId =(req,res,next) => {
 module.exports.filterParDate = (req,res,next) => {
     Abonnement.find({})
     .select("_id name fournisseur client package price etat date")
-    .populate('package','_id name domaine fournisseur services price date')
-    /* populate({
-        path: 'friends',
-        // Get friends of friends - populate the 'friends' array for every friend
-        populate: { path: 'friends' }
-      }); */
+    .populate([{
+      path: 'package',
+      model: 'Package',
+      populate: {
+        path: 'services',
+        model: 'Service'
+      }
+    }, {
+      path: 'client',
+      model: 'User'
+    },{
+      path: 'fournisseur',
+      model: 'User'
+    }])
     .sort('-date')
     .exec()
     .then(docs => {
@@ -216,7 +224,20 @@ module.exports.update = (req,res,next) => {
 module.exports.allAbonnements = (req,res,next) => {
     Abonnement.find()
     .select("_id name fournisseur client package price etat date")
-    .populate('package','_id name domaine fournisseur services price date')
+    .populate([{
+      path: 'package',
+      model: 'Package',
+      populate: {
+        path: 'services',
+        model: 'Service'
+      }
+    }, {
+      path: 'client',
+      model: 'User'
+    },{
+      path: 'fournisseur',
+      model: 'User'
+    }])
     .exec()
     .then(docs => {
       res.status(200).json({
@@ -250,7 +271,20 @@ module.exports.allAbonnements = (req,res,next) => {
 
 module.exports.returnAbonnement = (req,res,next) => {
     Abonnement.findById(req.params.id)
-    .populate('package','_id name domaine fournisseur services price date')
+    .populate([{
+      path: 'package',
+      model: 'Package',
+      populate: {
+        path: 'services',
+        model: 'Service'
+      }
+    }, {
+      path: 'client',
+      model: 'User'
+    },{
+      path: 'fournisseur',
+      model: 'User'
+    }])
     .exec()
     .then(abonnement => {
       if (!abonnement) {
