@@ -2,9 +2,57 @@ const mongoose = require('mongoose');
 const Package = mongoose.model('Package');
 const Service = mongoose.model('Service');
 const Abonnement = mongoose.model('Abonnement');
+const User = mongoose.model('User');
 
 module.exports.getAbonnementByClientId =(req,res,next) => {
-
+  console.log("client id :",req.params.id)
+  Abonnement.findOne({"client": req.params.id})
+    .select("_id name fournisseur client package price etat date")
+    .populate([{
+      path: 'package',
+      model: 'Package',
+      populate: {
+        path: 'services',
+        model: 'Service'
+      }
+    }, {
+      path: 'client',
+      model: 'User'
+    },{
+      path: 'fournisseur',
+      model: 'User'
+    }])
+    .exec() 
+    .then(docs => {
+      console.log(docs);
+          res.status(200).json({
+            count: docs.length,
+            //abonnement: docs.map(doc => {
+              
+                _id: docs._id,
+                name : docs.name,
+                client : docs.client,
+                fournisseur : docs.fournisseur,
+                package : docs.package,
+                price : docs.price,
+                etat : docs.etat,
+                date : docs.date,
+                request: {
+                  type: "GET",
+                  url: "http://localhost:3000/abonnements/" + docs._id
+                }
+              //};
+            //})
+          });
+        
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+      
 }
 
 module.exports.filterParDate = (req,res,next) => {
@@ -100,9 +148,9 @@ module.exports.createAbonnement = (req,res,next) => {
     const abonnement = new Abonnement({
         _id : new mongoose.Types.ObjectId(),
         name : req.body.name,
-        fournisseur :"alaba",
-        client :"skander",
-        package :{},
+        fournisseur :req.body.fournisseur,
+        client :req.body.client,
+        package :req.body.package,
         price : 0,
         date : new Date(),
         etat : "en cours",
