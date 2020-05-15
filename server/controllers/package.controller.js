@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Package = mongoose.model('Package');
 const Service = mongoose.model('Service');
+const User = mongoose.model('User');
 
 module.exports.filterParDate = (req,res,next) => {
   Package.find({})
@@ -88,6 +89,7 @@ module.exports.removeServiceFromPackage = (req,res,next) => {
     .then(package => {
       const index = package.services.indexOf(req.body.serviceId);
       if (index > -1) {
+        package.price -= req.body.price;
         package.services.splice(index, 1);
       }
       else {
@@ -115,27 +117,15 @@ module.exports.addServicesToPackage = (req,res,next) => {
   Package.findById(req.body.packageId) 
       .then(package => {
         console.log(package);
-        Service.findById(req.body.serviceId)
+        Service.findById(req.body._id)
           .then(service => {
             if(!service){
               return res.status(404).json({
                 message : "Service not found"
               });
             }
-            package.services.push(service)
-            var packPrice=0;
-            console.log("package price before ==",packPrice)
-            package.services.map(id => {
-              console.log("item ==",id)
-              Service.findById(id)
-                .then(service=> {
-                  packPrice = packPrice + parseInt(service.price);
-                  console.log("price =",parseInt(service.price))
-                  console.log("package price after ==",packPrice)
-                  
-                })
-                package.price= packPrice;
-            })
+            package.services.push(service._id)
+            package.price += service.price;
             
             res.status(201).json({
               message: "Added service successfully",
@@ -151,21 +141,7 @@ module.exports.addServicesToPackage = (req,res,next) => {
         });
       });     
 }
-const calculePrice =async(services) => {
-  let price = 0;
-  let i = 0;
-  console.log(services.length);
-  await services.map(async e => {
-    await Service.findById(e)
-      .then(s => {
-        price += s.price;
-        i++;
-        console.log("price "+i+" "+price);
-        if(i==services.length) return price;
-      });
-  });
 
-}
 
 module.exports.createPackage = (req,res,next) => {
     /* console.log("service id === ",req.body.serviceId);
@@ -301,43 +277,69 @@ module.exports.update = (req,res,next) => {
       else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
     });
 }
+module.exports.servicesCanAdd = (req,res,next) => {
+  console.log(req.params.id);
+  Package.findById(req.params.id)
+    .select("_id name domaine fournisseur services price date")
+    .populate('fournisseur','login')
+    .then(async docs => {
+      console.log(docs);
+      let services = await Service.find();
+      let arraytopass = [];
+      console.log(services);
+      let i=0;
+      services.map(  e => {
+        i++;
+        if( !docs.services.includes(e._id)){
+          console.log('bablaaze')
+          arraytopass.push(e);
+        } 
+        if(i==services.length) {
+         
+          res.send(arraytopass);
+        }
+      })
+
+      // docs.services.map(ele =>{
+      //   services.map(s =>{
+      //     console.log(ele != s.id);
+      //     if(ele != s._id && !arraytopass.includes(s)){
+      //       arraytopass.push(s);
+      //     }
+      //   })
+      // });
+      //let anothervar = services.filter(elem => !docs.services.includes(elem));
+      console.log(arraytopass);
+      
+    })
+}
 
 module.exports.allPackages = (req,res,next) => {
     Package.find()
     .select("_id name domaine fournisseur services price date")
     .populate('services', 'name price description state')
+    .populate('fournisseur','login')
     .exec()
     .then(docs => {
-      res.send(docs)
-    // .select("_id name domaine fournisseur service price date")
-    // .populate('services','name price description state')
-    // .exec()
-    // .then(docs => {
-    //   res.status(200).json({
-    //     count: docs.length,
-    //     packages: docs.map(doc => {
-    //       console.log("doc.services =",doc.services)
-    //       let price =0;
-    //       doc.services.map(item => {
-    //         price = price + item.price
-    //       })
-    //       return {
-    //         _id: doc._id,
-    //         product: doc.product,
-    //         quantity: doc.quantity,
-    //         name : doc.name,
-    //         domaine : doc.domaine,
-    //         fournisseur : doc.fournisseur,
-    //         services : doc.services,
-    //         price : price,
-    //         date : doc.date,
-    //         request: {
-    //           type: "GET",
-    //           url: "http://localhost:3000/packages/" + doc._id
-    //         }
-    //       };
-    //     })
-    //   });
+      i=0;
+      packs=[];
+      docs.map(async doc => {
+         doc.fournisseurName = doc.fournisseur.login;
+         pack={
+           _id:doc._id,
+           services:doc.services,
+           name : doc.name,
+           domaine : doc.domaine,
+           price:doc.price,
+           date:doc.date,
+           fournisseur : doc.fournisseur.login
+         }
+         i++;
+         console.log(pack);
+         packs.push(pack);
+         if(i == docs.length) res.send(packs);
+      })
+      
     })
     .catch(err => {
       res.status(500).json({

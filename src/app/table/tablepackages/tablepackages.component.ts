@@ -49,12 +49,17 @@ export class TablepackagesComponent implements OnInit {
     this.source2 = new LocalDataSource(tableData.data); // create the source
    }
    serviceslist;
+   allservices;
    settings = tableData.settings;
    settings2 = tableData.settings2;
    ngOnInit(){
     this.ServicesService.Service = [];
+    this.allservices = [];
     this.refreshPackagesList();
     let tab = [];
+    // this.packageService.refreshNeeded.subscribe(()=>{
+    //   this.allservicesOfPackage(this.currentPackageSelected);
+    // });
     /*this.ServicesService.getServiceList().subscribe((res) => {
       this.ServicesService.Service = res['services'] as Service[];
       this.serviceslist = res['services'];
@@ -184,16 +189,27 @@ onRefus(event) {
   }
   this.packageService.deleteServiceFromPackage(data).subscribe(
     res =>{
-      this.router.navigateByUrl('/packages/tablepack');
+      this.refreshPackagesList();
+      this.allservicesOfPackage(this.currentPackageSelected);
     }
   )
 
 }
+allservicesOfPackage(packId){
+  this.packageService.getServicesOfPackage(packId).subscribe(res=>{
+    this.ServicesService.Service = res['services'];
+  });
+}
 
 async test(event){
+  console.log(event);
   var selectedRow = event.selected;
   console.log(selectedRow);
   let services = [];
+  if(event.isSelected == false){
+    this.ServicesService.Service = [];
+    this.allservices = [];
+  }
   if(selectedRow.length > 0)
   {
     await this.packageService.getServicesOfPackage(selectedRow[0]._id).subscribe(res=>{
@@ -202,7 +218,11 @@ async test(event){
       this.ServicesService.Service = services;
       this.currentPackageSelected = selectedRow[0]._id
      // console.log(this.currentPackageSelected);
+      this.packageService.getServiceCanAdd(this.currentPackageSelected).subscribe(res=>{
+        this.allservices = res;
+      })
     });
+    
 }
  //console.log(this.ServicesService.Service);
 }
@@ -235,6 +255,27 @@ refreshPackagesList(){
     this.source = new LocalDataSource(this.packageService.Package);
     console.log(this.source);
     });
+}
+
+
+AddServiceToPackage(event) {
+  console.log(event);
+  var data =  {
+    "_id": event._id,
+    "name" : event.name,
+    "price" : event.price,
+    "description" : event.description,
+    "state" : event.state,
+    "fournisseurId" : event.fournisseurId,
+    "packageId" : this.currentPackageSelected
+  }
+  console.log(data);
+  this.packageService.AddServiceToPackage(data).subscribe(res =>{
+    this.refreshPackagesList();
+    this.packageService.getServiceCanAdd(this.currentPackageSelected).subscribe(res=>{
+      this.allservices = res;
+    })
+  });
 }
 
 }

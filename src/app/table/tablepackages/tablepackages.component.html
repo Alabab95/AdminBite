@@ -30,7 +30,7 @@
               <h4 class="card-title">Modifier Ajouter et Supprimer des Packages</h4>
               <h6 class="card-subtitle">Listes Des Packages.</h6>
               <div class="table table-responsive smart-table">
-                <ng2-smart-table [settings]="settings" [source]="source" class="" (userRowSelect)="test($event)"  (create)="testAdd($event)" (createConfirm)="addRecord($event)" (editConfirm)="updateRecord($event)" (deleteConfirm)="deleteRecord($event)"></ng2-smart-table>
+                <ng2-smart-table [settings]="settings" [source]="source" class="" (userRowSelect)="test($event)"  (createConfirm)="addRecord($event)" (editConfirm)="updateRecord($event)" (deleteConfirm)="deleteRecord($event)"></ng2-smart-table>
               </div>
           </div>
       </div>
@@ -69,5 +69,39 @@
           </div>
           </div>
 </div></div>
+<hr>
+<div *ngIf="allservices.length > 0 "  class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Add New Service</h4>
+            <h6 class="card-subtitle"></h6>
+  
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">name</th>
+                            <th scope="col">price</th>
+                            <th scope="col">description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+  
+                        <tr  *ngFor="let us of allservices">
+  
+                            <td>{{us.name}}</td>
+                            <td>{{us.price}}</td>
+                            <td>{{us.description}}</td>
+                            <td>
+                                <a (click)="AddServiceToPackage(us)">
+                                    <i class="ti-thumb-up text-info m-r-10"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+  </div></div>
 
 

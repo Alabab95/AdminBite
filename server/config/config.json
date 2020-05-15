@@ -1,7 +1,7 @@
 {
   "development": {
       "PORT": 3000,
-      "MONGODB_URI":"mongodb://LOOPr:LOOPr@cluster0-shard-00-00-wzalz.mongodb.net:27017,cluster0-shard-00-01-wzalz.mongodb.net:27017,cluster0-shard-00-02-wzalz.mongodb.net:27017/LOOPr?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority",
+      "MONGODB_URI":"mongodb://localhost:27017/LOOPr",
       "JWT_SECRET": "SECRET#123",
       "JWT_EXP": "24h"
   },

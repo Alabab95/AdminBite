@@ -48,7 +48,7 @@ export class CustomTemp extends DefaultEditor implements ViewCell,AfterViewInit,
     async ngOnInit(){
       console.log(this.cell);
       await this.ServicesService.getServiceList().subscribe((res) => {
-        this.ServicesService.Service = res['services'] as Service[];
+        //this.ServicesService.Service = res['services'] as Service[];
         res['services'].forEach(element => {
           console.log('servie : ' + element.name);
           let obj = {
