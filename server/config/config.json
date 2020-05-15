@@ -3,7 +3,7 @@
       "PORT": 3000,
       "MONGODB_URI": "mongodb://localhost:27017/LOOPr",
       "JWT_SECRET": "SECRET#123",
-      "JWT_EXP": "1h"
+      "JWT_EXP": "24h"
   },
   "production": {
       "PORT": 80,

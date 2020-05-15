@@ -1,51 +1,103 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input, ViewChild } from '@angular/core';
 import * as tableData from './smart-data-table';
 import { LocalDataSource } from 'ng2-smart-table';
 import { UserService } from '../../shared/user.service';
 import { PackageService } from '../../shared/package.service';
+import { ServicesService } from '../../shared/services.service';
+import {MessageService} from 'primeng/api';
 
 import { Router } from "@angular/router";
 import { User } from 'src/app/shared/user.model';
 import { Package } from 'src/app/shared/package.model';
+import { Service } from 'src/app/shared/service.model';
+import { Cell, DefaultEditor, Editor} from 'ng2-smart-table';
 
 import { HttpHeaders } from '@angular/common/http';
 @Component({
   templateUrl: './tablepackages.component.html',
-  providers:[PackageService]
+  styles : [`
+  :host ::ng-deep button {
+      margin-right: .25em;
+  }
+
+  :host ::ng-deep .custom-toast .ui-toast-message {
+      background: #FC466B;
+      background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
+      background: linear-gradient(to right, #3F5EFB, #FC466B);
+  }
+
+  :host ::ng-deep .custom-toast .ui-toast-message div {
+      color: #ffffff;
+  }
+
+  :host ::ng-deep .custom-toast .ui-toast-message.ui-toast-message-info .ui-toast-close-icon {
+      color: #ffffff;
+  }
+`],
+  providers:[PackageService,MessageService]
 })
 export class TablepackagesComponent implements OnInit {
-
+  
+  @Input() variable  = "value";
+  currentPackageSelected;
+  serviceToDelete;
   source: LocalDataSource;
   source2: LocalDataSource;
-  constructor(private packageService : PackageService,private router : Router) {
+  boolAdd :Boolean = false ;
+  constructor(private messageService: MessageService,private ServicesService:ServicesService,private packageService : PackageService,private router : Router) {
     this.source = new LocalDataSource(tableData.data); // create the source
     this.source2 = new LocalDataSource(tableData.data); // create the source
    }
-   ngOnInit(){
-    this.refreshPackagesList();
-    this.source2 = new LocalDataSource(tableData.data); // create the source
-   }
-
-
+   serviceslist;
    settings = tableData.settings;
    settings2 = tableData.settings2;
+   ngOnInit(){
+    this.ServicesService.Service = [];
+    this.refreshPackagesList();
+    let tab = [];
+    /*this.ServicesService.getServiceList().subscribe((res) => {
+      this.ServicesService.Service = res['services'] as Service[];
+      this.serviceslist = res['services'];
+      this.serviceslist.forEach(element => {
+        console.log('servie : ' + element.name);
+        let obj = {
+          value : element._id,
+          title : element.name
+        }
+        tab.push(obj);
+      });
+      
+      //this.settings.columns.services.editor.config.list = tab;
+      //this.settings = Object.assign({},this.settings);
+      });*/
+    //this.source2 = new LocalDataSource(tableData.data); // create the source
+   }
+
+   showSuccess() {
+    this.messageService.add({severity:'success', summary: 'Success Message', detail:'Order submitted'});
+}
    addRecord(event) {
-     console.log(event.newData);
+    console.log(event.newData);
+    var services = [];
+    event.newData.services!=""?services=event.newData.services:services=[];
+    console.log(services);
     var data =  {
       "_id": '',
       "name" : event.newData.name,
       "domaine" : event.newData.domaine,
       "fournisseur" : event.newData.fournisseur,
-      "services" : event.newData.services,
+      "services" : services,
       "price" : event.newData.price,
       "date" : event.newData.date
     }
     this.packageService.postPackage(data).subscribe(
       res => {
+        this.boolAdd = false;
         console.log("success");
         event.confirm.resolve(event.newData);
-        this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
-
+        //this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
+        this.showSuccess();
+        this.refreshPackagesList();
       },
       err => {
         console.log("fail",err);
@@ -65,6 +117,7 @@ updateRecord(event) {
     "price" : event.newData.price,
     "date" : event.newData.date
   }
+  console.log(data);
   this.packageService.putPackage(data).subscribe(
     res => {
 
@@ -95,7 +148,7 @@ onAccept(event) {
     res => {
 
       console.log("success");
-      this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
+      this.router.navigateByUrl('/packages/tablepackages');
 
     },
     err => {
@@ -104,32 +157,54 @@ onAccept(event) {
   );
 
 }
+showConfirm(event) {
+  this.serviceToDelete = event;
+  this.messageService.clear();
+  this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Are you sure?', detail:'Confirm to proceed'});
+}
+onReject() {
+  this.messageService.clear('c');
+}
+
+onConfirm() {
+  this.onRefus(this.serviceToDelete);
+  this.messageService.clear('c');
+}
 
 onRefus(event) {
-  console.log("updating");
+  console.log(event);
   var data =  {
-    "_id": '',
-    "name" : event.newData.name,
-    "domaine" : event.newData.domaine,
-    "fournisseur" : event.newData.fournisseur,
-    "services" : event.newData.services,
-    "price" : event.newData.price,
-    "date" : event.newData.date
-
+    "serviceId": event._id,
+    "name" : event.name,
+    "price" : event.price,
+    "descrition" : event.descrition,
+    "state" : event.state,
+    "fournisseurId" : event.fournisseurId,
+    "packageId" : this.currentPackageSelected
   }
-  this.packageService.putPackage(data).subscribe(
-    res => {
-
-      console.log("success");
-      this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
-
-
-    },
-    err => {
-      console.log("fail",err);
+  this.packageService.deleteServiceFromPackage(data).subscribe(
+    res =>{
+      this.router.navigateByUrl('/packages/tablepack');
     }
-  );
+  )
 
+}
+
+async test(event){
+  var selectedRow = event.selected;
+  console.log(selectedRow);
+  let services = [];
+  if(selectedRow.length > 0)
+  {
+    await this.packageService.getServicesOfPackage(selectedRow[0]._id).subscribe(res=>{
+      services = res['services'];
+     // console.log(services);
+      this.ServicesService.Service = services;
+      this.currentPackageSelected = selectedRow[0]._id
+     // console.log(this.currentPackageSelected);
+    });
+}
+ //console.log(this.ServicesService.Service);
 }
 
 deleteRecord(event){
@@ -146,16 +221,20 @@ deleteRecord(event){
   );
 
 }
+testAdd(event){
+  console.log(this.boolAdd);
+  this.boolAdd = true;
+}
 
 
 refreshPackagesList(){
-  this.packageService.getPackageList().subscribe((res) => {
+  this.packageService.getPackageList().subscribe(async (res) => {
   this.packageService.Package = res as Package[];
     console.log( this.packageService.Package);
-    console.log('nchllh');
+    await this.packageService.Package.forEach(elem => delete elem.services);
     this.source = new LocalDataSource(this.packageService.Package);
-  });
-
+    console.log(this.source);
+    });
 }
 
 }

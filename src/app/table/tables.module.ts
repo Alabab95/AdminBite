@@ -14,16 +14,28 @@ import { ColortableComponent } from './color-table/color.component';
 import { TablesizeComponent } from './sizing/size.component';
 import { TableFournisseursComponent } from './table-fournisseurs/table-fournisseurs.component';
 import { TableAdminComponent } from './table-admin/table-admin.component';
+import { TableFournisseursInactiveComponent } from './table-fournisseurs-non_active/table-fournisseurs-inactive.component';
 import { TableAbonnementsComponent } from './table-abonnements/table-abonnements.component';
 import { TablepackagesComponent } from './tablepackages/tablepackages.component';
-import { TableReservationsComponent } from './table-reservations/table-reservations.component';
+import { CustomTemp } from './tablepackages/customTemp.component';
+import { TableServicesComponent } from './table-services/table-services.component';
+import { FormsModule } from '@angular/forms';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {ToastModule} from 'primeng/toast';
+import {ButtonModule} from 'primeng/button';
+
+
 
 @NgModule({
   imports: [
     RouterModule.forChild(TablesRoutes),
     CommonModule,
     NgxDatatableModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    FormsModule,
+    MultiSelectModule,
+    ToastModule,
+    ButtonModule
   ],
   declarations: [
     DatatableComponent,
@@ -36,7 +48,12 @@ import { TableReservationsComponent } from './table-reservations/table-reservati
     TableAdminComponent,
     TableAbonnementsComponent,
     TablepackagesComponent,
-    TableReservationsComponent
+    TableServicesComponent,
+    TableFournisseursInactiveComponent,
+    CustomTemp,
+  ],
+  entryComponents:[
+    CustomTemp,
   ]
 })
 export class TablesModule {}

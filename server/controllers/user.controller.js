@@ -79,9 +79,16 @@ module.exports.userProfile = (req, res, next) => {
       }
   );
 }
-
+//list fournisseur
 module.exports.list = (req, res, next) => {
   User.find({role : 'fournisseur'},(err, docs) => {
+      if (!err) { res.send(docs); }
+      else { console.log('Error in Retriving users :' + JSON.stringify(err, undefined, 2)); }
+  });
+}
+//list fournisseur en attente
+module.exports.listFourniAtt = (req, res, next) => {
+  User.find({role : 'fournisseur', etat : "en attente"},(err, docs) => {
       if (!err) { res.send(docs); }
       else { console.log('Error in Retriving users :' + JSON.stringify(err, undefined, 2)); }
   });

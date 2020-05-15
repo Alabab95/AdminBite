@@ -6,54 +6,9 @@
               <h4 class="card-title">Modifier Ajouter et Supprimer des Fournisseurs</h4>
               <h6 class="card-subtitle">Listes Des Fournisseurs.</h6>
               <div class="table table-responsive smart-table">
-                  <ng2-smart-table [settings]="settings" [source]="source" class="" (createConfirm)="addRecord($event)" (editConfirm)="updateRecord($event)" (deleteConfirm)="deleteRecord($event)"></ng2-smart-table>
+                  <ng2-smart-table [settings]="settings" [source]="source" class="" (userRowSelect)="test($event)" (createConfirm)="addRecord($event)" (editConfirm)="updateRecord($event)" (deleteConfirm)="deleteRecord($event)"></ng2-smart-table>
               </div>
           </div>
       </div>
 </div>
-<div class="col-12">
-  <div class="card">
-      <div class="card-body">
-          <h4 class="card-title">Demande d'adhésion</h4>
-          <h6 class="card-subtitle"></h6>
-          <h6 class="card-title m-t-40">
-              <i class="m-r-5 font-18 mdi mdi-numeric-1-box-multiple-outline"></i> Table With Outside Padding</h6>
-          <div class="table-responsive">
-              <table class="table">
-                  <thead>
-                      <tr>
-                          <th scope="col">Login</th>
-                          <th scope="col">Society</th>
-                          <th scope="col">Activity</th>
-                          <th scope="col">Phone</th>
-                          <th scope="col">Mail</th>
-                          <th scope="col">Action</th>
-
-
-                      </tr>
-                  </thead>
-                  <tbody>
-
-                      <tr  *ngFor="let us of userService.users">
-
-                          <td *ngIf="us.etat == 'en attente'">{{us.login}}</td>
-                          <td *ngIf="us.etat == 'en attente'">{{us.society}}</td>
-                          <td *ngIf="us.etat == 'en attente'">{{us.activity}}</td>
-                          <td *ngIf="us.etat == 'en attente'">{{us.phone}}</td>
-                          <td *ngIf="us.etat == 'en attente'">{{us.mail}}</td>
-                          <td *ngIf="us.etat == 'en attente'">
-                          <a (click)="onAccept(us)">
-                            <i class="ti-thumb-up text-info m-r-10"></i>
-                          </a>
-                          <a (click)="onRefus(us)">
-                            <i class="ti-close text-danger m-r-10"></i>
-                          </a>
-                          </td>
-
-                      </tr>
-
-                  </tbody>
-              </table>
-          </div>
-          </div>
-</div></div>
+</div>

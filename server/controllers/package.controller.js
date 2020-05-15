@@ -134,8 +134,22 @@ module.exports.addServicesToPackage = (req,res,next) => {
         res.status(500).json({
           error: err
         });
+      });     
+}
+const calculePrice =async(services) => {
+  let price = 0;
+  let i = 0;
+  console.log(services.length);
+  await services.map(async e => {
+    await Service.findById(e)
+      .then(s => {
+        price += s.price;
+        i++;
+        console.log("price "+i+" "+price);
+        if(i==services.length) return price;
       });
-       
+  });
+
 }
 
 module.exports.createPackage = (req,res,next) => {
@@ -150,44 +164,99 @@ module.exports.createPackage = (req,res,next) => {
             else {
               console.log("serviceee ",service)
             } */
+       // console.log(p);
+        //const ress = calculePrice(req.body.services);
+
+        let price = 0;
+        let i = 0;
         console.log(req.body);
-        const pack = new Package({
-            _id : new mongoose.Types.ObjectId(),
-            name : req.body.name,
-            domaine : req.body.domaine,
-            fournisseur :"alaba",
-            services :[],
-            price : 0,
-            date : new Date()
-        });
-            
+        if(req.body.services.length>0){
+            req.body.services.map(async e => {
+              await Service.findById(e)
+                .then(s => {
+                  price += s.price;
+                  i++;
+                  console.log("price "+ i +" "+price);
+                  if(i==req.body.services.length) {
+                    const pack = new Package({
+                    _id : new mongoose.Types.ObjectId(),
+                    name : req.body.name,
+                    domaine : req.body.domaine,
+                    fournisseur :req._id,
+                    services :req.body.services,
+                    price : price,
+                    date : new Date()
+                    });
+                    pack
+                            .save()
+                            .then(result => {
+                                res.status(200).json({
+                                    message : "Package created",
+                                    createdPackage : {
+                                        _id : result._id,
+                                        name : result.name,
+                                        domaine : result.domaine,
+                                        fournisseur :result.fournisseur,
+                                        services :result.services,
+                                        price : result.price,
+                                        date : result.date
+                                    },
+                                    request: {
+                                        type: "GET",
+                                        url: "http://localhost:3000/packages/" + result._id
+                                      }
+                                });
+                            })
+                            .catch(err => {
+                                res.status(500).json({
+                                    error : err
+                                });
+                            });
+
+
+                  };
+                });
+            });
+          }else {
+            const pack = new Package({
+              _id : new mongoose.Types.ObjectId(),
+              name : req.body.name,
+              domaine : req.body.domaine,
+              fournisseur :req._id,
+              services :req.body.services,
+              price : 0,
+              date : new Date()
+              });
+              pack
+                      .save()
+                      .then(result => {
+                          res.status(200).json({
+                              message : "Package created",
+                              createdPackage : {
+                                  _id : result._id,
+                                  name : result.name,
+                                  domaine : result.domaine,
+                                  fournisseur :result.fournisseur,
+                                  services :result.services,
+                                  price : result.price,
+                                  date : result.date
+                              },
+                              request: {
+                                  type: "GET",
+                                  url: "http://localhost:3000/packages/" + result._id
+                                }
+                          });
+                      })
+                      .catch(err => {
+                          res.status(500).json({
+                              error : err
+                          });
+                      });
+
+          }
+        //console.log(pack);    
         //})
-        pack
-        .save()
-        .then(result => {
-            
-            res.status(201).json({
-                message : "Package created",
-                createdPackage : {
-                    _id : result._id,
-                    name : result.name,
-                    domaine : result.domaine,
-                    fournisseur :result.fournisseur,
-                    services :result.services,
-                    price : result.price,
-                    date : result.date
-                },
-                request: {
-                    type: "GET",
-                    url: "http://localhost:3000/packages/" + result._id
-                  }
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                error : err
-            });
-        });
+        
 }
 
 module.exports.delete = (req,res,next)=> {
@@ -220,49 +289,69 @@ module.exports.update = (req,res,next) => {
 
 module.exports.allPackages = (req,res,next) => {
     Package.find()
-<<<<<<< HEAD
     .select("_id name domaine fournisseur services price date")
-    .populate('services', 'name')
+    .populate('services', 'name price description state')
     .exec()
     .then(docs => {
       res.send(docs)
-=======
-    .select("_id name domaine fournisseur service price date")
-    .populate('services','name price description state')
-    .exec()
-    .then(docs => {
-      res.status(200).json({
-        count: docs.length,
-        packages: docs.map(doc => {
-          console.log("doc.services =",doc.services)
-          let price =0;
-          doc.services.map(item => {
-            price = price + item.price
-          })
-          return {
-            _id: doc._id,
-            product: doc.product,
-            quantity: doc.quantity,
-            name : doc.name,
-            domaine : doc.domaine,
-            fournisseur : doc.fournisseur,
-            services : doc.services,
-            price : price,
-            date : doc.date,
-            request: {
-              type: "GET",
-              url: "http://localhost:3000/packages/" + doc._id
-            }
-          };
-        })
-      });
+    // .select("_id name domaine fournisseur service price date")
+    // .populate('services','name price description state')
+    // .exec()
+    // .then(docs => {
+    //   res.status(200).json({
+    //     count: docs.length,
+    //     packages: docs.map(doc => {
+    //       console.log("doc.services =",doc.services)
+    //       let price =0;
+    //       doc.services.map(item => {
+    //         price = price + item.price
+    //       })
+    //       return {
+    //         _id: doc._id,
+    //         product: doc.product,
+    //         quantity: doc.quantity,
+    //         name : doc.name,
+    //         domaine : doc.domaine,
+    //         fournisseur : doc.fournisseur,
+    //         services : doc.services,
+    //         price : price,
+    //         date : doc.date,
+    //         request: {
+    //           type: "GET",
+    //           url: "http://localhost:3000/packages/" + doc._id
+    //         }
+    //       };
+    //     })
+    //   });
     })
     .catch(err => {
       res.status(500).json({
         error: err
       });
->>>>>>> 5b2e2e4b82b6c350112d8429df3595b305c3828b
     });
+}
+module.exports.allServiceOfPackage = (req,res,next) => {
+  Package.findById(req.params.id).then(async pack=>{
+    if(!pack) return res.status(500).json({
+      message: "Package not found",
+    });
+    let services = [];
+    let i = 0;
+    console.log(pack.services);
+    if(pack.services.length == 0) return res.status(200).json({services : services});
+    pack.services.map(async ele =>{
+      let s = await Service.findById(ele);
+      services.push(s);
+      i++;
+      if(i == pack.services.length){
+        res.status(200).json({
+          services : services,
+        });
+      }
+    });
+    console.log(services);
+    
+  });
 }
 
 module.exports.returnPackage = (req,res,next) => {

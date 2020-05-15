@@ -50,7 +50,6 @@ export class SidebarComponent implements OnInit {
             this.sidebarnavItems = ROUTES_A.filter(sidebarnavItem => sidebarnavItem);
           }else if(this.userDetails.role == "superadmin"){
             this.sidebarnavItems = ROUTES_SA.filter(sidebarnavItem => sidebarnavItem);
-            console.log(this.userDetails.activity,"<---");
           }
           else{
             this.sidebarnavItems = ROUTES_F.filter(sidebarnavItem => sidebarnavItem);

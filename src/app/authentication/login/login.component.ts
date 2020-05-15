@@ -10,6 +10,7 @@ import { UserService } from '../../shared/user.service';
 })
 export class LoginComponent implements OnInit {
   userDetails;
+  erreur = false;
   constructor(private userService: UserService,private router : Router) { }
 
   model ={
@@ -33,20 +34,18 @@ export class LoginComponent implements OnInit {
   onSubmit(form : NgForm){
     this.userService.login(form.value).subscribe(
       res => {
+        this.erreur=false;
         this.userService.setToken(res['token']);
-
         this.userService.getUserProfile().subscribe(
           res => {
             this.userDetails = res['user'];
               this.router.navigateByUrl('/dashboard/dashboard');
               console.log("login clicked")
-            
-
-
+          
           },
           err => {
             console.log('1234564',err);
-
+            this.erreur = true;
           }
         );
 

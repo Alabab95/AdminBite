@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {Subject} from 'rxjs';
+import {tap} from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { User } from './user.model';
@@ -10,6 +12,12 @@ import { User } from './user.model';
 export class UserService {
 
   constructor(private http: HttpClient) { }
+
+  private _refreshsNeeded = new Subject<void>();
+
+  get refreshNeeded(){
+    return this._refreshsNeeded;
+  }
 
   selectedUser: User = {
     _id:"",
@@ -32,15 +40,22 @@ export class UserService {
     return this.http.post(environment.apiBaseUrl+'/register-fournisseur',user,this.noAuthHeader);
   }
   putUser(user: User) {
-    return this.http.put(environment.apiBaseUrl + `/update/${user._id}`,user,this.Header);
+    return this.http.put(environment.apiBaseUrl + `/update/${user._id}`,user,this.Header)
+    .pipe(
+      tap(()=>{
+        this._refreshsNeeded.next();
+      })
+    );
   }
 
   deleteUser(_id: string) {
     return this.http.delete(environment.apiBaseUrl + `/delete/${_id}`,this.Header);
   }
-
   getUserList() {
     return this.http.get(environment.apiBaseUrl +'/list',this.Header);
+  }
+  getUserListFourniAtt() {
+    return this.http.get(environment.apiBaseUrl +'/listfourniatt',this.Header);
   }
   getUserListAdmin() {
     return this.http.get(environment.apiBaseUrl +'/listadmin',this.Header);

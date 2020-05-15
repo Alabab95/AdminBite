@@ -17,6 +17,10 @@ export class TableFournisseursComponent implements OnInit {
     this.source2 = new LocalDataSource(tableData.data); // create the source
    }
    ngOnInit(){
+    this.userService.refreshNeeded
+    .subscribe(()=>{
+      this.refreshUserList();
+    })
     this.refreshUserList();
     this.source2 = new LocalDataSource(tableData.data); // create the source
    }
@@ -90,11 +94,9 @@ onAccept(event) {
     "mail" : event.mail,
     "etat" : "approuvé",
     "saltSecret": ''
-
   }
   this.userService.putUser(data).subscribe(
     res => {
-
       console.log("success");
       this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
 
@@ -104,6 +106,10 @@ onAccept(event) {
     }
   );
 
+}
+test(event){
+  var selectedRow = event.selected;
+  console.log(selectedRow);
 }
 
 onRefus(event) {
@@ -152,13 +158,9 @@ deleteRecord(event){
 
 
 refreshUserList(){
-  const header = {
-    headers: new HttpHeaders().set("Authorization", "Bearer " + this.userService.getToken())
-  }
   this.userService.getUserList().subscribe((res) => {
   this.userService.users = res as User[];
     console.log( this.userService.users);
-    console.log('nchllh');
     this.source = new LocalDataSource(this.userService.users);
   });
 

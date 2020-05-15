@@ -16,7 +16,7 @@ export class PackageService {
     name :'',
     domaine: '',
     fournisseur: '',
-    services: '',
+    services: [''],
     price: '',
     date:''
   };
@@ -25,8 +25,7 @@ export class PackageService {
   noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True' }) };
   Header = { headers: new HttpHeaders({ 'Authorization': 'Bearer '+ this.getToken()}) };
   
-  postPackage(Package: Package){
-    const PackageData = new FormData();
+  postPackage(Package){
     return this.http.post('http://localhost:3000/packages/',Package,this.Header);
   }
   putPackage(Package: Package) {
@@ -39,6 +38,13 @@ export class PackageService {
 
   getPackageList() {
     return this.http.get('http://localhost:3000/packages/',this.Header);
+  }
+  getServicesOfPackage(packageid) {
+    return this.http.get(`http://localhost:3000/packages/allservices/${packageid}`,this.Header);
+  }
+
+  deleteServiceFromPackage(Service){
+    return this.http.post('http://localhost:3000/packages/removeService',Service,this.Header);
   }
 
 

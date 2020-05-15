@@ -8,6 +8,7 @@
             <!-- Form -->
             <div class="row">
                 <div class="col-12">
+                    <p *ngIf='Erreur'>Erreur</p>
                     <form class="form-horizontal m-t-20" #signInForm="ngForm" (ngSubmit)="onSubmit(signInForm)" >
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
