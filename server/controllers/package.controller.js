@@ -44,7 +44,7 @@ module.exports.filterParDate = (req,res,next) => {
 }
 module.exports.filterParDomaine = (req,res,next) => {
   console.log("domaine = ",req.body.domaine);
-  Package.findOne({ 'domaine':req.body.domaine })
+  Package.find({ 'domaine':req.body.domaine })
     .select("_id name domaine fournisseur service price date")
     .populate('services','name price description state')
     .exec()
@@ -56,8 +56,23 @@ module.exports.filterParDomaine = (req,res,next) => {
       }
       res.status(200).json({
         count: docs.length,
+        packages: docs.map(doc => {
         
-      });
+        return {
+          _id: doc._id,
+          name : doc.name,
+          domaine : doc.domaine,
+          fournisseur : doc.fournisseur,
+          services : doc.services,
+          price : doc.price,
+          date : doc.date,
+          request: {
+            type: "GET",
+            url: "http://localhost:3000/packages/" + doc._id
+          }
+        };
+        })
+      })
     })
     .catch(err => {
       console.log(err);
