@@ -11,19 +11,19 @@ var userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: [function(){
-      return this.role === 'client';
+      return this.role === 'client'|| this.role === 'fournisseur';
     },'firstName is required']
   },
   lastName: {
     type: String,
     required: [function(){
-      return this.role === 'client';
+      return this.role === 'client'|| this.role === 'fournisseur';
     },'lastName is required']
   },
   adress: {
     type: String,
     required:[function(){
-      return this.role === 'client' ||this.role === 'client';
+      return this.role === 'client' ||this.role === 'fournisseur';
     },'Adress is required']
   },
   password: {

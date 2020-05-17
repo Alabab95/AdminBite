@@ -152,8 +152,8 @@ export const ROUTES_A: RouteInfo[] = [
       submenu: []
     },
     {
-      path: '/admins/tableAdmins',
-      title: 'Gestions des fournisseurs inactive',
+      path: '/fournisseursinactive/tablefournisseursinactive',
+      title: 'Fournisseurs En attente',
       icon: '',
       class: '',
       extralink: false,

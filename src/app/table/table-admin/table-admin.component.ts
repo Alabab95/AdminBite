@@ -28,20 +28,14 @@ export class TableAdminComponent implements OnInit {
       "_id": '',
       "login" : event.newData.login,
       "password" : event.newData.password,
-      "society" : event.newData.society,
-      "activity" : event.newData.activity,
       "phone" : event.newData.phone,
       "mail" : event.newData.mail,
-      "etat" : event.newData.etat,
-      "saltSecret":''
     }
-    this.userService.postUser(data).subscribe(
+    this.userService.postadmin(data).subscribe(
       res => {
-
         console.log("success");
         event.confirm.resolve(event.newData);
-        this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
-
+        this.refreshUserList();
       },
       err => {
         console.log("fail",err);
@@ -51,17 +45,13 @@ export class TableAdminComponent implements OnInit {
 
 
 updateRecord(event) {
-  console.log("updating");
+  console.log(event);
   var data =  {
     "_id": event.newData._id,
     "login" : event.newData.login,
     "password" : event.newData.password,
-    "society" : event.newData.society,
-    "activity" : event.newData.activity,
     "phone" : event.newData.phone,
     "mail" : event.newData.mail,
-    "etat" : event.newData.etat,
-    "saltSecret": ''
 
   }
   this.userService.putUser(data).subscribe(
@@ -69,6 +59,7 @@ updateRecord(event) {
 
       console.log("success");
       event.confirm.resolve(event.newData);
+      this.refreshUserList();
 
     },
     err => {
@@ -84,19 +75,15 @@ onAccept(event) {
     "_id": event._id,
     "login" : event.login,
     "password" : event.password,
-    "society" : event.society,
-    "activity" : event.activity,
     "phone" : event.phone,
     "mail" : event.mail,
-    "etat" : "approuvé",
-    "saltSecret": ''
 
   }
   this.userService.putUser(data).subscribe(
     res => {
 
       console.log("success");
-      this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
+      this.refreshUserList();
 
     },
     err => {
@@ -112,19 +99,15 @@ onRefus(event) {
     "_id": event._id,
     "login" : event.login,
     "password" : event.password,
-    "society" : event.society,
-    "activity" : event.activity,
     "phone" : event.phone,
     "mail" : event.mail,
-    "etat" : 'Réfusée',
-    "saltSecret": ''
 
   }
   this.userService.putUser(data).subscribe(
     res => {
 
       console.log("success");
-      this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
+      this.refreshUserList();
 
 
     },
@@ -141,6 +124,7 @@ deleteRecord(event){
 
       console.log("success");
       event.confirm.resolve(event.source.data);
+      this.refreshUserList();
 
     },
     err => {

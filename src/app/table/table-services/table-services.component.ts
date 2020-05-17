@@ -6,24 +6,55 @@ import { ServicesService} from '../../shared/services.service';
 import { Router } from "@angular/router";
 import { Service } from 'src/app/shared/service.model';
 import { HttpHeaders } from '@angular/common/http';
+import {MessageService} from 'primeng/api';
 @Component({
   templateUrl: './table-servicess.component.html',
-  providers:[ServicesService]
+  styles: [`
+        :host ::ng-deep button {
+            margin-right: .25em;
+        }
+
+        :host ::ng-deep .custom-toast .ui-toast-message {
+            background: #FC466B;
+            background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
+            background: linear-gradient(to right, #3F5EFB, #FC466B);
+        }
+
+        :host ::ng-deep .custom-toast .ui-toast-message div {
+            color: #ffffff;
+        }
+
+        :host ::ng-deep .custom-toast .ui-toast-message.ui-toast-message-info .ui-toast-close-icon {
+            color: #ffffff;
+        }
+    `],
+  providers:[ServicesService,MessageService]
 })
 export class TableServicesComponent implements OnInit {
   source: LocalDataSource;
   source2: LocalDataSource;
-  constructor(private ServicesService : ServicesService,private router : Router) {
+  constructor(private messageService: MessageService,private ServicesService : ServicesService,private router : Router) {
     this.source = new LocalDataSource(tableData.data); // create the source
     this.source2 = new LocalDataSource(tableData.data); // create the source
    }
    ngOnInit(){
-    this.refreshUserList();
+    this.refreshServicesList();
     this.source2 = new LocalDataSource(tableData.data); // create the source
    }
+   
 
    settings = tableData.settings;
    settings2 = tableData.settings2;
+   showSuccess(summary,detail) {
+      this.messageService.add({severity:'success', summary: summary, detail: detail});
+   }
+   showError() {
+      this.messageService.add({severity:'error', summary: 'Error Message', detail:'Validation failed'});
+   }
+   showConfirm() {
+      this.messageService.clear();
+      this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'êtes-vous sûr?', detail:'êtes-vous sûr de vouloir supprimer ce service!!'});
+   }
    addRecord(event) {
     var data =  {          
       "_id": '',
@@ -38,7 +69,8 @@ export class TableServicesComponent implements OnInit {
 
         console.log("success");
         event.confirm.resolve(event.newData);
-        this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
+        this.showSuccess("Service",'service ajouté avec succès');
+        this.refreshServicesList();
 
       },
       err => {
@@ -86,7 +118,7 @@ onAccept(event) {
   this.ServicesService.putService(data).subscribe(
     res => {
       console.log("success");
-      this.router.navigateByUrl('/services/tableservices');
+      this.refreshServicesList();
 
     },
     err => {
@@ -141,7 +173,7 @@ deleteRecord(event){
 }
 
 
-refreshUserList(){
+refreshServicesList(){
   this.ServicesService.getServiceList().subscribe((res) => {
   this.ServicesService.Service = res['services'] as Service[];
     console.log( this.ServicesService.Service);

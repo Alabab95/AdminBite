@@ -1,3 +1,4 @@
+<p-toast position="top-center"></p-toast>
 <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
     <div class="auth-box">
         <div id="loginform" [ngClass]="{'d-none': recoverform}">
@@ -8,19 +9,34 @@
             <!-- Form -->
             <div class="row">
                 <div class="col-12">
-                    <p *ngIf='Erreur'>Erreur</p>
-                    <form class="form-horizontal m-t-20" #signInForm="ngForm" (ngSubmit)="onSubmit(signInForm)" >
-                        <div class="input-group mb-3">
+                    <form class="form-horizontal m-t-20 text-center" #signInForm="ngForm" (ngSubmit)="onSubmit(signInForm)" >
+                        <div class="input-group mb-3  " [class.has-error] = "login.invalid">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="ti-user"></i></span>
                             </div>
-                            <input type="text" class="form-control form-control-lg" placeholder="login" aria-label="login" aria-describedby="basic-addon1" name="login" #login="ngModel" [(ngModel)]="model.login">
+                            <!-- <input type="text" required class="form-control form-control-lg" placeholder="login" aria-label="login" aria-describedby="basic-addon1" name="login" #login="ngModel" [(ngModel)]="model.login"> -->
+                            
+                                <!-- <input class="form-control form-control-lg" name="login" type="text" required=" " placeholder="login" #login="ngModel" [(ngModel)]="userService.selectedUser.login"> -->
+                                <span class="ui-float-label">
+                                    <input id="float-input" class="form-control form-control-lg" name="login" type="text" required size="40" aria-label="login" #login="ngModel" aria-describedby="basic-addon1" [(ngModel)]="model.login" pInputText> 
+                                    <label class="h5" for="float-input">Login</label>
+                                </span>
+                                <div class="col-12 ">
+                                    <span class="text-danger" *ngIf="login.invalid && login.touched">Login is required</span>
+                                </div>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon2"><i class="ti-pencil"></i></span>
                             </div>
-                            <input type="password" class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1"name="password" #password="ngModel" [(ngModel)]="model.password">
+                            <!-- <input type="password" required class="form-control form-control-lg" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1"name="password" #password="ngModel" [(ngModel)]="model.password"> -->
+                            <span class="ui-float-label">
+                                <input id="float-input" class="form-control form-control-lg" name="password" type="password" required aria-label="Password" aria-describedby="basic-addon1" size="40" #password="ngModel" [(ngModel)]="model.password" pInputText> 
+                                <label class="h5" for="float-input">Password</label>
+                            </span>
+                            <div class="col-12 ">
+                                <span class="text-danger" *ngIf="password.invalid && password.touched">Password is required</span>
+                            </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-md-12">

@@ -41,6 +41,7 @@ export class TablepackagesComponent implements OnInit {
   @Input() variable  = "value";
   currentPackageSelected;
   serviceToDelete;
+  packageToDelete;
   source: LocalDataSource;
   source2: LocalDataSource;
   boolAdd :Boolean = false ;
@@ -78,9 +79,9 @@ export class TablepackagesComponent implements OnInit {
     //this.source2 = new LocalDataSource(tableData.data); // create the source
    }
 
-   showSuccess() {
-    this.messageService.add({severity:'success', summary: 'Success Message', detail:'Order submitted'});
-}
+   showSuccess(summary,detail) {
+    this.messageService.add({severity:'success', summary: summary, detail: detail});
+   }
    addRecord(event) {
     console.log(event.newData);
     var services = [];
@@ -101,7 +102,7 @@ export class TablepackagesComponent implements OnInit {
         console.log("success");
         event.confirm.resolve(event.newData);
         //this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
-        this.showSuccess();
+        this.showSuccess('Package','package ajouté avec succès');
         this.refreshPackagesList();
       },
       err => {
@@ -118,7 +119,6 @@ updateRecord(event) {
     "name" : event.newData.name,
     "domaine" : event.newData.domaine,
     "fournisseur" : event.newData.fournisseur,
-    "services" : event.newData.services,
     "price" : event.newData.price,
     "date" : event.newData.date
   }
@@ -127,6 +127,7 @@ updateRecord(event) {
     res => {
 
       console.log("success");
+      this.showSuccess('Package','Package modifié avec succès')
       event.confirm.resolve(event.newData);
 
     },
@@ -162,20 +163,31 @@ onAccept(event) {
   );
 
 }
-showConfirm(event) {
+showConfirmToDeleteService(event) {
   this.serviceToDelete = event;
   this.messageService.clear();
-  this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'Are you sure?', detail:'Confirm to proceed'});
+  this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'êtes-vous sûr?', detail:'êtes-vous sûr de vouloir supprimer ce service!!'});
+}
+showConfirmToDeletePackage(event) {
+  this.packageToDelete = event;
+  this.messageService.clear();
+  this.messageService.add({key: 'd', sticky: true, severity:'warn', summary:'êtes-vous sûr?', detail:'êtes-vous sûr de vouloir supprimer le package!!'});
 }
 onReject() {
   this.messageService.clear('c');
+}
+onRejectdelPack() {
+  this.messageService.clear('d');
 }
 
 onConfirm() {
   this.onRefus(this.serviceToDelete);
   this.messageService.clear('c');
 }
-
+onConfirmdelPack() {
+  this.deleteRecord(this.packageToDelete);
+  this.messageService.clear('d');
+}
 onRefus(event) {
   console.log(event);
   var data =  {
@@ -232,6 +244,9 @@ deleteRecord(event){
     res => {
 
       console.log("success");
+      this.refreshPackagesList();
+      this.ServicesService.Service=[];
+      this.allservices=[]
       event.confirm.resolve(event.source.data);
 
     },
@@ -271,7 +286,9 @@ AddServiceToPackage(event) {
   }
   console.log(data);
   this.packageService.AddServiceToPackage(data).subscribe(res =>{
+    this.showSuccess('Service','service ajouté au package avec succès');
     this.refreshPackagesList();
+    this.allservicesOfPackage(this.currentPackageSelected);
     this.packageService.getServiceCanAdd(this.currentPackageSelected).subscribe(res=>{
       this.allservices = res;
     })

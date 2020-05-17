@@ -39,7 +39,7 @@ export class PackageService {
   AddServiceToPackage(Service){
     return this.http.post('http://localhost:3000/packages/addService',Service,this.Header);
   }
-  putPackage(Package: Package) {
+  putPackage(Package) {
     return this.http.put(`http://localhost:3000/packages/${Package._id}`,Package,this.Header);
   }
   deletePackage(_id: string) {

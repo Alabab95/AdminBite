@@ -11,6 +11,8 @@ import { LoginComponent } from './login/login.component';
 import { Login2Component } from './login2/login2.component';
 import { SignupComponent } from './signup/signup.component';
 import { Signup2Component } from './signup2/signup2.component';
+import {ToastModule} from 'primeng/toast';
+import {InputTextModule} from 'primeng/inputtext';
 
 import { AuthenticationRoutes } from './authentication.routing';
 
@@ -19,7 +21,9 @@ import { AuthenticationRoutes } from './authentication.routing';
     CommonModule,
     RouterModule.forChild(AuthenticationRoutes),
     NgbModule,
-    FormsModule
+    FormsModule,
+    ToastModule,
+    InputTextModule
   ],
   declarations: [
     NotfoundComponent,

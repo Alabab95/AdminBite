@@ -19,10 +19,13 @@ export class UserService {
     return this._refreshsNeeded;
   }
 
-  selectedUser: User = {
+  selectedUser = {
     _id:"",
     login: '',
     password: '',
+    firstName: '',
+    lastName:'',
+    adress:'',
     society: '',
     activity: '',
     phone:'',
@@ -35,11 +38,15 @@ export class UserService {
   noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True' }) };
   Header = { headers: new HttpHeaders({ 'Authorization': 'Bearer '+this.getToken()}) };
   
-  postUser(user: User){
+  postUser(user){
     const userData = new FormData();
     return this.http.post(environment.apiBaseUrl+'/register-fournisseur',user,this.noAuthHeader);
   }
-  putUser(user: User) {
+  postadmin(user){
+    const userData = new FormData();
+    return this.http.post(environment.apiBaseUrl+'/register-admin',user,this.noAuthHeader);
+  }
+  putUser(user) {
     return this.http.put(environment.apiBaseUrl + `/update/${user._id}`,user,this.Header)
     .pipe(
       tap(()=>{

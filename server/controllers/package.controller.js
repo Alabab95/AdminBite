@@ -272,7 +272,14 @@ module.exports.delete = (req,res,next)=> {
 
 module.exports.update = (req,res,next) => {
     const id = req.params.id;
-    Package.findByIdAndUpdate(id, { $set: req.body }, { new: true }, (err, doc) => {
+    const obj = {
+      name:req.body.name,
+      domaine:req.body.domaine,
+      price:req.body.price,
+      date:req.body.date
+    }
+    console.log(req.body);
+    Package.update({_id:id}, obj, {new: true }, (err, doc) => {
       if (!err) { res.send(doc); }
       else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
     });
@@ -284,7 +291,7 @@ module.exports.servicesCanAdd = (req,res,next) => {
     .populate('fournisseur','login')
     .then(async docs => {
       console.log(docs);
-      let services = await Service.find();
+      let services = await Service.find({fournisseurId:req._id});
       let arraytopass = [];
       console.log(services);
       let i=0;
@@ -314,8 +321,13 @@ module.exports.servicesCanAdd = (req,res,next) => {
     })
 }
 
-module.exports.allPackages = (req,res,next) => {
-    Package.find()
+module.exports.allPackages =async (req,res,next) => {
+   let packages = await Package.find({fournisseur:req._id})
+   if(packages.length == 0){
+     console.log(packages);
+    return res.send(packages);
+   }else{
+    Package.find({fournisseur:req._id})
     .select("_id name domaine fournisseur services price date")
     .populate('services', 'name price description state')
     .populate('fournisseur','login')
@@ -346,6 +358,8 @@ module.exports.allPackages = (req,res,next) => {
         error: err
       });
     });
+   }
+    
 }
 module.exports.allServiceOfPackage = (req,res,next) => {
   Package.findById(req.params.id).then(async pack=>{

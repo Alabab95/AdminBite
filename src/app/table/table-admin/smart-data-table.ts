@@ -1,16 +1,8 @@
 export let settings = {
   columns: {
-
     login: {
       title: 'login',
-      filter: true
-    },
-    society: {
-      title: 'Society',
-      filter: true
-    },
-    activity: {
-      title: 'Activity',
+      width:200,
       filter: true
     },
     phone: {
@@ -21,22 +13,11 @@ export let settings = {
       title: 'Mail',
       filter: true
     },
-    etat: {
-      title: 'Etat',
-      filter: true
-    },
-    _id: {
-      title: '#',
-      filter: true
-    },
     password: {
       title: 'password',
       filter: true
     },
-    saltSecret: {
-      title: 'password',
-      filter: true
-    }
+    
   },
   add:{
     confirmCreate:true

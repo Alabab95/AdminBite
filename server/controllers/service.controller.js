@@ -50,13 +50,10 @@ module.exports.deleteService = async(req,res,next) => {
       tabs.map(async tab => {
         if(tab.services.includes(id)){
           count++;
-          console.log(tab);
-          let newServices = tab.services;
-          newServices = await newServices.filter(ids => ids != id )
-          console.log(newServices);
-          await Package.updateOne({_id: tab._id}, { services: newServices })
-          .then(result =>{
-            Service.deleteOne({_id : id})
+          }
+        })
+        if(count == 0) {
+          Service.deleteOne({_id : id})
               .exec()
               .then(result =>{
                 res.status(200).json({
@@ -79,35 +76,11 @@ module.exports.deleteService = async(req,res,next) => {
                   error:err
                 });
               });
-          })
-        }
+        }else 
+        res.status(500).json({
+          message:"cant delete this service"
+        });
       })
-    })
-    if(count == 0){
-      Service.deleteOne({_id : id})
-              .exec()
-              .then(result =>{
-                res.status(200).json({
-                  message:'Service deleted',
-                  request : {
-                    type:'POST',
-                    url:'http://localhost:3000/service/list',
-                    body : {
-                      name: 'String',
-                      price: 'Number',
-                      description : 'String',
-                      state : 'String'
-                    }
-                  }
-                });
-              })
-              .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                  error:err
-                });
-              });
-    }
 }
 
 module.exports.updateService = async(req,res,next) => {
