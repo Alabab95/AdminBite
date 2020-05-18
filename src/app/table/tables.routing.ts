@@ -12,7 +12,7 @@ import { TableAbonnementsComponent } from './table-abonnements/table-abonnements
 import { TablepackagesComponent } from './tablepackages/tablepackages.component';
 import { TableServicesComponent } from './table-services/table-services.component';
 import { TableFournisseursInactiveComponent } from './table-fournisseurs-non_active/table-fournisseurs-inactive.component';
-
+import { TableClientComponent } from './table-client/table-clients.component';
 export const TablesRoutes: Routes = [
   {
     path: '',
@@ -97,6 +97,17 @@ export const TablesRoutes: Routes = [
       {
         path: 'tableadmin',
         component: TableAdminComponent,
+        data: {
+          title: 'Table Admin',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Smart Table' }
+          ]
+        }
+      },
+      {
+        path: 'tableclient',
+        component: TableClientComponent,
         data: {
           title: 'Table Admin',
           urls: [

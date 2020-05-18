@@ -152,45 +152,52 @@ module.exports.addPackageToAbonnement = (req,res,next) => {
 }
 
 module.exports.createAbonnement = (req,res,next) => {
-    console.log(req.body);
+    package = req.body.package;
+    let services = [];
+    package.services.map(async id_service => {
+      service = await Service.findById(id_service)
+                      .select('name price description state fournisseurId');
+      if(!service){
+        return console.log("famch");
+      }
+      services.push(service)      
+    })
+    console.log(package);
     const abonnement = new Abonnement({
         _id : new mongoose.Types.ObjectId(),
-        name : req.body.name,
-        fournisseur :req.body.fournisseur,
-        client :req.body.client,
+        client :req._id,
         package :req.body.package,
-        price : 0,
+        price : req.body.package.price,
         date : new Date(),
         etat : "en cours",
-    });
+    });    
+    // abonnement
+    // .save()
+    // .then(result => {
         
-    abonnement
-    .save()
-    .then(result => {
-        
-        res.status(201).json({
-            message : "Abonnement created",
-            createdAbonnement : {
-                _id : result._id,
-                name : result.name,
-                fournisseur :result.fournisseur,
-                client : result.client,
-                package :result.package,
-                price : result.price,
-                etat : result.etat,
-                date : result.date
-            },
-            request: {
-                type: "GET",
-                url: "http://localhost:3000/abonnements/" + result._id
-                }
-        });
-    })
-    .catch(err => {
-        res.status(500).json({
-            error : err
-        });
-    });
+    //     res.status(201).json({
+    //         message : "Abonnement created",
+    //         createdAbonnement : {
+    //             _id : result._id,
+    //             name : result.name,
+    //             fournisseur :result.fournisseur,
+    //             client : result.client,
+    //             package :result.package,
+    //             price : result.price,
+    //             etat : result.etat,
+    //             date : result.date
+    //         },
+    //         request: {
+    //             type: "GET",
+    //             url: "http://localhost:3000/abonnements/" + result._id
+    //             }
+    //     });
+    // })
+    // .catch(err => {
+    //     res.status(500).json({
+    //         error : err
+    //     });
+    // });
 }
 
 module.exports.delete = (req,res,next)=> {

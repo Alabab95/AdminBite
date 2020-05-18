@@ -1,7 +1,3 @@
-<link rel="stylesheet" type="text/css" href="/node_modules/primeicons/primeicons.css" />
-<link rel="stylesheet" type="text/css" href="/node_modules/primeng/resources/themes/nova-light/theme.css" />
-<link rel="stylesheet" type="text/css" href="/node_modules/primeng/resources/primeng.min.css" />
-
 <p-toast></p-toast>
 <!-- confirme form  -->
 <p-toast position="center" key="c" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
@@ -75,7 +71,7 @@
                           <td>{{us.price}}</td>
                           <td>{{us.description}}</td>
                           <td>
-                            <a (click)="showConfirm(us)">
+                            <a (click)="showConfirmToDeleteService(us)">
                               <i class="ti-close text-danger m-r-10"></i>
                             </a>
                           </td>

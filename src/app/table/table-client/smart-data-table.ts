@@ -16,14 +16,6 @@ export let settings = {
       title: 'Adress',
       filter: true
     },
-    society: {
-      title: 'Society',
-      filter: true
-    },
-    activity: {
-      title: 'Activity',
-      filter: true
-    },
     phone: {
       title: 'Phone',
       filter: true
@@ -32,14 +24,13 @@ export let settings = {
       title: 'Mail',
       filter: true
     },
-    etat: {
-      title: 'Etat',
-      filter: true
-    },
     password: {
       title: 'password',
       filter: true
     }
+  },
+  actions: {
+    add: false,
   },
   add:{
     confirmCreate:true

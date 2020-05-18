@@ -163,11 +163,13 @@ onAccept(event) {
   );
 
 }
+
 showConfirmToDeleteService(event) {
   this.serviceToDelete = event;
   this.messageService.clear();
   this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'êtes-vous sûr?', detail:'êtes-vous sûr de vouloir supprimer ce service!!'});
 }
+
 showConfirmToDeletePackage(event) {
   this.packageToDelete = event;
   this.messageService.clear();
@@ -254,13 +256,12 @@ deleteRecord(event){
       console.log("fail",err);
     }
   );
-
 }
+
 testAdd(event){
   console.log(this.boolAdd);
   this.boolAdd = true;
 }
-
 
 refreshPackagesList(){
   this.packageService.getPackageList().subscribe(async (res) => {

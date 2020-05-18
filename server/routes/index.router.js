@@ -53,6 +53,7 @@ router.delete('/delete/:id',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['supe
 router.get('/list',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlUser.list);
 router.get('/listfourniatt',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlUser.listFourniAtt);
 router.get('/listadmin',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlUser.listadmin);
+router.get('/listclient',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin']),ctrlUser.listclient);
 router.get('/list1/:id',ctrlUser.list1);
 router.get('/userProfile',jwtHelper.verifyJwtToken,jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur','client']), ctrlUser.userProfile);
 router.get('/listAdmins/:society',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur','client']),ctrlUser.listAdmins);
