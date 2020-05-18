@@ -1,3 +1,44 @@
+<link rel="stylesheet" type="text/css" href="/node_modules/primeicons/primeicons.css" />
+<link rel="stylesheet" type="text/css" href="/node_modules/primeng/resources/themes/nova-light/theme.css" />
+<link rel="stylesheet" type="text/css" href="/node_modules/primeng/resources/primeng.min.css" />
+
+<p-toast></p-toast>
+<!-- confirme form  -->
+<p-toast position="center" key="c" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div style="text-align: center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onConfirm()" label="Oui" class="ui-button-success"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onReject()" label="Annuler" class="ui-button-secondary"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<p-toast position="center" key="d" (onClose)="onRejectdelPack()" [modal]="true" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div style="text-align: center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onConfirmdelPack()" label="Oui" class="ui-button-success"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onRejectdelPack()" label="Annuler" class="ui-button-secondary"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+
 <div class="row">
   <div class="col-12">
       <div class="card">
@@ -5,8 +46,78 @@
               <h4 class="card-title">Modifier Ajouter et Supprimer des Packages</h4>
               <h6 class="card-subtitle">Listes Des Packages.</h6>
               <div class="table table-responsive smart-table">
-                <ng2-smart-table [settings]="settings" [source]="source" class="" (createConfirm)="addRecord($event)" (editConfirm)="updateRecord($event)" (deleteConfirm)="deleteRecord($event)"></ng2-smart-table>
+                <ng2-smart-table [settings]="settings" [source]="source" class="" (userRowSelect)="test($event)"  (createConfirm)="addRecord($event)" (editConfirm)="updateRecord($event)" (deleteConfirm)="showConfirmToDeletePackage($event)"></ng2-smart-table>
               </div>
           </div>
       </div>
 </div>
+
+<div *ngIf="ServicesService.Service.length > 0 "  class="col-12">
+  <div class="card">
+      <div class="card-body">
+          <h4 class="card-title">Services du Package </h4>
+          <h6 class="card-subtitle"></h6>
+
+          <div class="table-responsive">
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th scope="col">name</th>
+                          <th scope="col">price</th>
+                          <th scope="col">description</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+
+                      <tr  *ngFor="let us of ServicesService.Service">
+
+                          <td>{{us.name}}</td>
+                          <td>{{us.price}}</td>
+                          <td>{{us.description}}</td>
+                          <td>
+                            <a (click)="showConfirm(us)">
+                              <i class="ti-close text-danger m-r-10"></i>
+                            </a>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+          </div>
+</div></div>
+<hr>
+<div *ngIf="allservices.length > 0 "  class="col-12">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Add New Service</h4>
+            <h6 class="card-subtitle"></h6>
+  
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">name</th>
+                            <th scope="col">price</th>
+                            <th scope="col">description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+  
+                        <tr  *ngFor="let us of allservices">
+  
+                            <td>{{us.name}}</td>
+                            <td>{{us.price}}</td>
+                            <td>{{us.description}}</td>
+                            <td>
+                                <a (click)="AddServiceToPackage(us)">
+                                    <i class="ti-thumb-up text-info m-r-10"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            </div>
+  </div></div>
+
+

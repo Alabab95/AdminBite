@@ -50,8 +50,8 @@ export const ROUTES_SA: RouteInfo[] = [
       submenu: []
     },
     {
-      path: '/admins/tableAdmins',
-      title: 'Gestions des admins',
+      path: '/fournisseursinactive/tablefournisseursinactive',
+      title: 'Fournisseurs En attente',
       icon: '',
       class: '',
       extralink: false,
@@ -68,7 +68,7 @@ export const ROUTES_SA: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '/packages/tablepackages',
+    path: '/packages/tablepack',
     title: 'Gestion des packages',
     icon: 'icon-Paint-Brush',
     class: '',
@@ -85,15 +85,15 @@ export const ROUTES_SA: RouteInfo[] = [
   },
   {
     path: '',
-    title: 'Reservations',
+    title: 'Services',
     icon: 'mdi mdi-dots-horizontal',
     class: 'nav-small-cap',
     extralink: true,
     submenu: []
   },
   {
-    path: '/reservations/tablereservations',
-    title: 'Gestion des Reservations',
+    path: '/services/tableservices',
+    title: 'Gestion des Services',
     icon: 'mdi mdi-notification-clear-all',
     class: '',
     extralink: false,
@@ -152,8 +152,8 @@ export const ROUTES_A: RouteInfo[] = [
       submenu: []
     },
     {
-      path: '/admins/tableAdmins',
-      title: 'Gestions des admins',
+      path: '/fournisseursinactive/tablefournisseursinactive',
+      title: 'Fournisseurs En attente',
       icon: '',
       class: '',
       extralink: false,
@@ -178,6 +178,14 @@ export const ROUTES_A: RouteInfo[] = [
     submenu: []
   },
   {
+    path: '/services/tableservices',
+    title: 'Gestion des services',
+    icon: 'icon-Paint-Brush',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
+  {
     path: '/abonnements/tableabonnements',
     title: 'Gestion des Abonnements',
     icon: 'mdi mdi-notification-clear-all',
@@ -194,8 +202,8 @@ export const ROUTES_A: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '/reservations/tablereservations',
-    title: 'Gestion des Reservations',
+    path: '/services/tableservices',
+    title: 'Gestion des Services',
     icon: 'mdi mdi-notification-clear-all',
     class: '',
     extralink: false,
@@ -238,33 +246,16 @@ export const ROUTES_F: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '/apps/email',
-    title: 'Gestion des Utilisateurs',
-    icon: 'icon-Administrator',
-    class: 'has-arrow',
+    path: '/packages/tablepackages',
+    title: 'Gestion des packages',
+    icon: 'icon-Paint-Brush',
+    class: '',
     extralink: false,
-    submenu: [
-    {
-      path: '/fournisseurs/tablefournisseurs',
-      title: 'Gestions des fournisseurs',
-      icon: '',
-      class: '',
-      extralink: false,
-      submenu: []
-    }
-  ]
-  },
-  {
-    path: '',
-    title: 'packages / abonnements',
-    icon: 'mdi mdi-dots-horizontal',
-    class: 'nav-small-cap',
-    extralink: true,
     submenu: []
   },
   {
-    path: '/packages/tablepackages',
-    title: 'Gestion des packages',
+    path: '/services/tableservices',
+    title: 'Gestion des services',
     icon: 'icon-Paint-Brush',
     class: '',
     extralink: false,
@@ -287,8 +278,8 @@ export const ROUTES_F: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '/reservations/tablereservations',
-    title: 'Gestion des Reservations',
+    path: '/services/tableservices',
+    title: 'Gestion des Services',
     icon: 'mdi mdi-notification-clear-all',
     class: '',
     extralink: false,

@@ -3,7 +3,7 @@ export class Package {
     name: String;
     domaine: String;
     fournisseur: String;
-    services: any;
+    services: [String];
     price: String;
     date: String;
   }

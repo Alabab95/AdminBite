@@ -10,7 +10,8 @@ import { TableFournisseursComponent } from './table-fournisseurs/table-fournisse
 import { TableAdminComponent } from './table-admin/table-admin.component';
 import { TableAbonnementsComponent } from './table-abonnements/table-abonnements.component';
 import { TablepackagesComponent } from './tablepackages/tablepackages.component';
-import { TableReservationsComponent } from './table-reservations/table-reservations.component';
+import { TableServicesComponent } from './table-services/table-services.component';
+import { TableFournisseursInactiveComponent } from './table-fournisseurs-non_active/table-fournisseurs-inactive.component';
 
 export const TablesRoutes: Routes = [
   {
@@ -116,8 +117,8 @@ export const TablesRoutes: Routes = [
         }
       },
       {
-        path: 'tablepackages',
-        component: TablepackagesComponent,
+        path: 'tablepack',
+        component:TablepackagesComponent,
         data: {
           title: 'Table Packs',
           urls: [
@@ -127,10 +128,22 @@ export const TablesRoutes: Routes = [
         }
       },
       {
-        path: 'tablereservations',
-        component:TableReservationsComponent,
+        path: 'tablefournisseursinactive',
+        component:TableFournisseursInactiveComponent,
         data: {
-          title: 'Reservations',
+          title: 'Table fourni',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Smart Table' }
+          ]
+        }
+      },
+      {
+        
+        path: 'tableservices',
+        component:TableServicesComponent,
+        data: {
+          title: 'Services',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Smart Table' }

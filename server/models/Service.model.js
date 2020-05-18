@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 var ServiceSchema = new mongoose.Schema({
   name: {
       type: String,
-      required: 'name can\'t be empty',
+      required: 'name can\'t be empty',       
       unique: true
   },
   price: {
@@ -15,6 +15,10 @@ var ServiceSchema = new mongoose.Schema({
   },
   state : {
     type : String
+  },
+  fournisseurId:{
+    type : String,
+    required: true
   }
   
 });
