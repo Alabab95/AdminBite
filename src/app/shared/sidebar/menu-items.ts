@@ -178,7 +178,7 @@ export const ROUTES_A: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '/packages/tablepackages',
+    path: '/packages/tablepack',
     title: 'Gestion des packages',
     icon: 'icon-Paint-Brush',
     class: '',
@@ -254,7 +254,7 @@ export const ROUTES_F: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '/packages/tablepackages',
+    path: '/packages/tablepack',
     title: 'Gestion des packages',
     icon: 'icon-Paint-Brush',
     class: '',

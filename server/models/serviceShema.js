@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
  var ServiceSchema = new mongoose.Schema({
   name: {
       type: String,
-      required: 'name can\'t be empty',       
-      unique: true
+      required: 'name can\'t be empty'
   },
   price: {
       type: Number,
