@@ -16,6 +16,7 @@ import { TableFournisseursComponent } from './table-fournisseurs/table-fournisse
 import { TableAdminComponent } from './table-admin/table-admin.component';
 import { TableFournisseursInactiveComponent } from './table-fournisseurs-non_active/table-fournisseurs-inactive.component';
 import { TableAbonnementsComponent } from './table-abonnements/table-abonnements.component';
+import { TableAbonnementsEnAttenteComponent } from './table-abonnements-enattente/table-abonnements-enattente.component';
 import { TablepackagesComponent } from './tablepackages/tablepackages.component';
 import { CustomTemp } from './tablepackages/customTemp.component';
 import { TableServicesComponent } from './table-services/table-services.component';
@@ -48,6 +49,7 @@ import {ButtonModule} from 'primeng/button';
     TableFournisseursComponent,
     TableAdminComponent,
     TableAbonnementsComponent,
+    TableAbonnementsEnAttenteComponent,
     TablepackagesComponent,
     TableServicesComponent,
     TableFournisseursInactiveComponent,

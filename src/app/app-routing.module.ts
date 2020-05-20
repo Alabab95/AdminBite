@@ -33,6 +33,7 @@ export const Approutes: Routes = [
       { path: 'clients', loadChildren: () => import('./table/tables.module').then(m => m.TablesModule) },
       { path: 'services', loadChildren: () => import('./table/tables.module').then(m => m.TablesModule) },
       { path: 'abonnements', loadChildren: () => import('./table/tables.module').then(m => m.TablesModule) },
+      { path: 'abonnementsenattente', loadChildren: () => import('./table/tables.module').then(m => m.TablesModule) },
       { path: 'packages', loadChildren: () => import('./table/tables.module').then(m => m.TablesModule) },
       { path: 'charts', loadChildren: () => import('./charts/charts.module').then(m => m.ChartModule) },
       {

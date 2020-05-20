@@ -2,11 +2,114 @@
   <div class="col-12">
       <div class="card">
           <div class="card-body">
-              <h4 class="card-title">Modifier Ajouter et Supprimer des Fournisseurs</h4>
-              <h6 class="card-subtitle">Listes Des Fournisseurs.</h6>
+              <h4 class="card-title">Modifier Ajouter et Supprimer des Abonements</h4>
+              <h6 class="card-subtitle">Listes Des Abonements.</h6>
               <div class="table table-responsive smart-table">
-                  <ng2-smart-table [settings]="settings" [source]="source" class=""></ng2-smart-table>
+                  <ng2-smart-table [settings]="settings" (userRowSelect)="test($event)" [source]="source" class=""></ng2-smart-table>
               </div>
           </div>
       </div>
 </div>
+
+    <div *ngIf="services.length > 0" class="card col-12">
+            <div class="card-body">
+                <h4 class="card-title">Services d'Abonements Not Done</h4>
+                <h6 class="card-subtitle"></h6>
+    
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">name</th>
+                                <th scope="col">price</th>
+                                <th scope="col">description</th>
+                                <th scope="col">etat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    
+                            <tr *ngFor="let us of services" >
+                                <td *ngIf="us.state == 'not done'">{{us.name}}</td>
+                                <td *ngIf="us.state == 'not done'">{{us.price}}</td>
+                                <td *ngIf="us.state == 'not done'">{{us.description}}</td>
+                                <td *ngIf="us.state == 'not done'">{{us.state}}</td>
+                                <td *ngIf="us.state == 'not done'">
+                                    <a (click)="add(us)">
+                                        <i class="ti-thumb-up text-info m-r-10"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+
+
+    <div *ngIf="services.length > 0" class="card col-12">
+        <div class="card-body">
+            <h4 class="card-title">Services d'Abonements Done</h4>
+            <h6 class="card-subtitle"></h6>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">name</th>
+                            <th scope="col">price</th>
+                            <th scope="col">description</th>
+                            <th scope="col">etat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let us of services" >
+                            <td *ngIf="us.state == 'done'">{{us.name}}</td>
+                            <td *ngIf="us.state == 'done'">{{us.price}}</td>
+                            <td *ngIf="us.state == 'done'">{{us.description}}</td>
+                            <td *ngIf="us.state == 'done'">{{us.state}}</td>
+                            <td *ngIf="us.state == 'done'">
+                                <a (click)="remove(us)">
+                                    <i class="ti-close text-danger m-r-10"></i>
+                                </a> 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  <hr>
+  <!--<div *ngIf="allservices.length > 0 "  class="col-12">
+      <div class="card">
+          <div class="card-body">
+              <h4 class="card-title">Add New Service</h4>
+              <h6 class="card-subtitle"></h6>
+    
+              <div class="table-responsive">
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th scope="col">name</th>
+                              <th scope="col">price</th>
+                              <th scope="col">description</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+    
+                          <tr  *ngFor="let us of allservices">
+    
+                              <td>{{us.name}}</td>
+                              <td>{{us.price}}</td>
+                              <td>{{us.description}}</td>
+                              <td>
+                                  <a (click)="AddServiceToPackage(us)">
+                                      <i class="ti-thumb-up text-info m-r-10"></i>
+                                  </a>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              </div>
+    </div></div> -->
