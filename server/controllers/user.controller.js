@@ -7,7 +7,6 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 const User = mongoose.model('User');
 
-
 module.exports.register = (req,role, res, next) => {
   console.log(req.body);
   var user = new User();
@@ -18,7 +17,7 @@ module.exports.register = (req,role, res, next) => {
   user.phone = req.body.phone;
   user.mail = req.body.mail;
   user.role = role;
-  user.role == "fournisseur" ? user.etat = "en attente":user.etat = "approuvé";
+  user.role == "fournisseur" && !req.body.etat ? user.etat = "en attente" : user.etat = req.body.etat;
   user.firstName = req.body.firstName;
   user.lastName = req.body.lastName;
   user.adress = req.body.adress;
@@ -95,6 +94,13 @@ module.exports.listFourniAtt = (req, res, next) => {
 }
 module.exports.listadmin = (req, res, next) => {
   User.find({role : 'admin'},(err, docs) => {
+      console.log(docs);
+      if (!err) { res.send(docs); }
+      else { console.log('Error in Retriving users :' + JSON.stringify(err, undefined, 2)); }
+  });
+}
+module.exports.listclient = (req, res, next) => {
+  User.find({role : 'client'},(err, docs) => {
       console.log(docs);
       if (!err) { res.send(docs); }
       else { console.log('Error in Retriving users :' + JSON.stringify(err, undefined, 2)); }

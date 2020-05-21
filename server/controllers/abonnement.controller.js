@@ -152,45 +152,77 @@ module.exports.addPackageToAbonnement = (req,res,next) => {
 }
 
 module.exports.createAbonnement = (req,res,next) => {
-    console.log(req.body);
-    const abonnement = new Abonnement({
-        _id : new mongoose.Types.ObjectId(),
-        name : req.body.name,
-        fournisseur :req.body.fournisseur,
-        client :req.body.client,
-        package :req.body.package,
-        price : 0,
-        date : new Date(),
-        etat : "en cours",
-    });
-        
-    abonnement
-    .save()
-    .then(result => {
-        
-        res.status(201).json({
-            message : "Abonnement created",
-            createdAbonnement : {
-                _id : result._id,
-                name : result.name,
-                fournisseur :result.fournisseur,
-                client : result.client,
-                package :result.package,
-                price : result.price,
-                etat : result.etat,
-                date : result.date
-            },
-            request: {
-                type: "GET",
-                url: "http://localhost:3000/abonnements/" + result._id
-                }
+    package = req.body.package;
+    let services = [];
+    let i =0;
+    package.services.forEach(async id_service => {
+      i++;
+      console.log(id_service)
+      service = await Service.findById(id_service).select('name price description state fournisseurId');
+      if(!service){
+        return console.log("famch");
+      }
+      s = {
+        name:service.name,
+        price : service.price,
+        description: service.description,
+        state : service.state,
+        fournisseurId:service.fournisseurId
+      }
+      services.push(s) 
+      if( i == package.services.length){
+        console.log(services);
+        console.log(req._id);
+        const abonnement = new Abonnement({
+          _id : new mongoose.Types.ObjectId(),
+          client :req._id,
+          fournisseur:req.body.package.fournisseur,
+          package : {
+            _id : new mongoose.Types.ObjectId(),
+            name:"sqccs",
+            domaine :"qsdqsd",
+            price : 40,
+            fournisseur: "5eb24d37356dd20894e8d250",
+            date:"2020-05-17T10:59:50.653+00:00",
+            services: ["5ec118d43384dc1f38235c5e"]
+          },
+          services:services,
+          price : req.body.package.price,
+          date : new Date(),
+          etat : "en cours",
+      }); 
+      console.log(abonnement); 
+      console.log(req.body.package); 
+      abonnement
+        .save()
+        .then(result => {
+            res.status(201).json({
+                message : "Abonnement created",
+                createdAbonnement : {
+                    _id : result._id,
+                    name : result.name,
+                    fournisseur :result.fournisseur,
+                    client : result.client,
+                    package :result.package,
+                    services:result.services,
+                    price : result.price,
+                    etat : result.etat,
+                    date : result.date
+                },
+                request: {
+                    type: "GET",
+                    url: "http://localhost:3000/abonnements/" + result._id
+                    }
+            });
+        })
+        .catch(err => {
+            res.status(500).json({
+                error : err
+            });
         });
-    })
-    .catch(err => {
-        res.status(500).json({
-            error : err
-        });
-    });
+          }     
+        });   
+    
 }
 
 module.exports.delete = (req,res,next)=> {

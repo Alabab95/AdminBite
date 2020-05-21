@@ -62,7 +62,6 @@ export class LoginComponent implements OnInit {
         this.userService.setToken(res['token']);
         this.userService.getUserProfile().subscribe(
           res => {
-
             this.showSuccess();
             this.userDetails = res['user'];
             this.router.navigateByUrl('/dashboard/dashboard');

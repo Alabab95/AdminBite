@@ -45,7 +45,7 @@ export class SidebarComponent implements OnInit {
     this.userService.getUserProfile().subscribe(
       res => {
         this.userDetails = res['user'];
-          console.log("azeaze"+this.userDetails.role);
+          console.log(this.userDetails.role);
           if(this.userDetails.role == "admin"){
             this.sidebarnavItems = ROUTES_A.filter(sidebarnavItem => sidebarnavItem);
           }else if(this.userDetails.role == "superadmin"){

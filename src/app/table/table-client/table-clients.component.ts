@@ -6,21 +6,21 @@ import { Router } from "@angular/router";
 import { User } from 'src/app/shared/user.model';
 import { HttpHeaders } from '@angular/common/http';
 @Component({
-  templateUrl: './table-fournisseurs.component.html',
+  templateUrl: './table-clients.component.html',
+  styleUrls:['./table-Clients.component.css'],
+  styles:[`
+    th.ng2-smart-actions-title.ng2-smart-actions-title-add {
+      visibility: hidden;
+    }
+  `],
   providers:[UserService]
 })
-export class TableFournisseursComponent implements OnInit {
+export class TableClientComponent implements OnInit {
   source: LocalDataSource;
   source2: LocalDataSource;
   constructor(private userService : UserService,private router : Router) {
-    this.source = new LocalDataSource(tableData.data); // create the source
-    this.source2 = new LocalDataSource(tableData.data); // create the source
    }
    ngOnInit(){
-    this.userService.refreshNeeded
-    .subscribe(()=>{
-      this.refreshUserList();
-    })
     this.refreshUserList();
     this.source2 = new LocalDataSource(tableData.data); // create the source
    }
@@ -35,19 +35,15 @@ export class TableFournisseursComponent implements OnInit {
       "firstName" : event.newData.firstName,
       "lastName" : event.newData.lastName,
       "adress" :  event.newData.adress,
-      "society" : event.newData.society,
-      "activity" : event.newData.activity,
       "phone" : event.newData.phone,
-      "mail" : event.newData.mail,
-      "etat" :  "approuvé"
+      "mail" : event.newData.mail
     }
-    this.userService.postUser(data).subscribe(
+    this.userService.postclient(data).subscribe(
       res => {
 
         console.log("success");
         event.confirm.resolve(event.newData);
-        this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
-
+        this.refreshUserList();
       },
       err => {
         console.log("fail",err);
@@ -65,11 +61,8 @@ updateRecord(event) {
     "firstName" : event.newData.firstName,
     "adress" :  event.newData.adress,
     "lastName" : event.newData.lastName,
-    "society" : event.newData.society,
-    "activity" : event.newData.activity,
     "phone" : event.newData.phone,
-    "mail" : event.newData.mail,
-    "etat" : event.newData.etat
+    "mail" : event.newData.mail
 
   }
   this.userService.putUser(data).subscribe(
@@ -95,11 +88,8 @@ onAccept(event) {
     "firstName" : event.firstName,
     "lastName" : event.lastName,
     "adress" :  event.adress,
-    "society" : event.society,
-    "activity" : event.activity,
     "phone" : event.phone,
-    "mail" : event.mail,
-    "etat" : "approuvé"
+    "mail" : event.mail
   }
   this.userService.putUser(data).subscribe(
     res => {
@@ -127,18 +117,14 @@ onRefus(event) {
     "firstName" : event.firstName,
     "lastName" : event.lastName,
     "adress" :  event.adress,
-    "society" : event.society,
-    "activity" : event.activity,
     "phone" : event.phone,
-    "mail" : event.mail,
-    "etat" : 'Réfusée'
-
+    "mail" : event.mail
   }
-  this.userService.putUser(data).subscribe(
+  this.userService.postclient(data).subscribe(
     res => {
 
       console.log("success");
-      this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
+      this.refreshUserList();
 
 
     },
@@ -148,7 +134,6 @@ onRefus(event) {
   );
 
 }
-
 deleteRecord(event){
   this.userService.deleteUser(event.data._id).subscribe(
     res => {
@@ -163,15 +148,14 @@ deleteRecord(event){
   );
 
 }
-
-
 refreshUserList(){
-  this.userService.getUserList().subscribe((res) => {
+  this.userService.getUserListClient().subscribe((res) => {
   this.userService.users = res as User[];
     console.log( this.userService.users);
     this.source = new LocalDataSource(this.userService.users);
   });
 
 }
+
 }
 

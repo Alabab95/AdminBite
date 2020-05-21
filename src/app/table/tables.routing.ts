@@ -12,7 +12,8 @@ import { TableAbonnementsComponent } from './table-abonnements/table-abonnements
 import { TablepackagesComponent } from './tablepackages/tablepackages.component';
 import { TableServicesComponent } from './table-services/table-services.component';
 import { TableFournisseursInactiveComponent } from './table-fournisseurs-non_active/table-fournisseurs-inactive.component';
-
+import { TableClientComponent } from './table-client/table-clients.component';
+import { TableAbonnementsEnAttenteComponent } from './table-abonnements-enattente/table-abonnements-enattente.component';
 export const TablesRoutes: Routes = [
   {
     path: '',
@@ -106,10 +107,32 @@ export const TablesRoutes: Routes = [
         }
       },
       {
+        path: 'tableclient',
+        component: TableClientComponent,
+        data: {
+          title: 'Table Admin',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Smart Table' }
+          ]
+        }
+      },
+      {
         path: 'tableabonnements',
         component: TableAbonnementsComponent,
         data: {
           title: 'Table Abonnements',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Smart Table' }
+          ]
+        }
+      },
+      {
+        path: 'tableabonnementsenattente',
+        component: TableAbonnementsEnAttenteComponent,
+        data: {
+          title: 'Table Abonnements en attente',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Smart Table' }

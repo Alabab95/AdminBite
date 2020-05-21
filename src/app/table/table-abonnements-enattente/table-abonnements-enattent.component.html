@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+          <div class="card-body">
+              <h4 class="card-title">Demande d'adhésion</h4>
+              <h6 class="card-subtitle"></h6>
+              <h6 class="card-title m-t-40">
+                  <i class="m-r-5 font-18 mdi mdi-numeric-1-box-multiple-outline"></i> Table With Outside Padding</h6>
+              <div class="table-responsive">
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th scope="col">name</th>
+                              <th scope="col">fournisseur</th>
+                              <th scope="col">client</th>
+                              <th scope="col">price</th>
+                              <th scope="col">etat</th>
+                              <th scope="col">date</th>
+    
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngIf="abonements == []">
+                              <p>No Abonements En Attente </p>
+                        </tr>
+                          <tr *ngFor="let us of abonements">
+    
+                              <td>{{us.name}}</td>
+                              <td>{{us.fournisseur}}</td>
+                              <td>{{us.client}}</td>
+                              <td>{{us.price}}</td>
+                              <td>{{us.etat}}</td>
+                              <td>{{us.date}}</td>
+                              <td>
+                              <a>
+                                <i class="ti-thumb-up text-info m-r-10"></i>
+                              </a>
+                              <a>
+                                <i class="ti-close text-danger m-r-10"></i>
+                              </a>
+                              </td>
+    
+                          </tr>
+    
+                      </tbody>
+                  </table>
+              </div>
+              </div>
+    </div>
+    
+    </div>
+    </div>
+    

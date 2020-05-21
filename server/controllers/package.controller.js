@@ -143,7 +143,7 @@ module.exports.addServicesToPackage = (req,res,next) => {
 }
 
 
-module.exports.createPackage = (req,res,next) => {
+module.exports.createPackage = async (req,res,next) => {
     /* console.log("service id === ",req.body.serviceId);
     Service.findById(req.body.serviceId)
         .then(service => {
@@ -157,23 +157,29 @@ module.exports.createPackage = (req,res,next) => {
             } */
        // console.log(p);
         //const ress = calculePrice(req.body.services);
-
+        let user = await  User.findOne({firstName:req.body.fournisseur,role:"fournisseur"});
+        console.log(user);
+        if(!user){
+          return res.status(500).json({
+            message:"fournisseur not found !"
+          })
+        }
         let price = 0;
         let i = 0;
-        console.log(req.body);
+        //console.log(req.body);
         if(req.body.services.length>0){
             req.body.services.map(async e => {
               await Service.findById(e)
                 .then(s => {
                   price += s.price;
                   i++;
-                  console.log("price "+ i +" "+price);
+                  //console.log("price "+ i +" "+price);
                   if(i==req.body.services.length) {
                     const pack = new Package({
                     _id : new mongoose.Types.ObjectId(),
                     name : req.body.name,
                     domaine : req.body.domaine,
-                    fournisseur :req._id,
+                    fournisseur :user._id,
                     services :req.body.services,
                     price : price,
                     date : new Date()
@@ -302,7 +308,6 @@ module.exports.servicesCanAdd = (req,res,next) => {
           arraytopass.push(e);
         } 
         if(i==services.length) {
-         
           res.send(arraytopass);
         }
       })
@@ -322,21 +327,60 @@ module.exports.servicesCanAdd = (req,res,next) => {
 }
 
 module.exports.allPackages =async (req,res,next) => {
+  if(req.role == 'superadmin' || req.role == 'admin'){
+      let packages = await Package.find()
+      if(packages.length == 0){
+        //console.log(packages);
+        return res.send(packages);
+      }else{
+        Package.find()
+        .select("_id name domaine fournisseur services price date")
+        .populate('services', 'name price description state')
+        .populate('fournisseur','firstName')
+        .exec()
+        .then(docs => {
+          i=0;
+          packs=[];
+          docs.map(async doc => {
+            doc.fournisseurName = doc.fournisseur.firstName;
+            pack={
+              _id:doc._id,
+              services:doc.services,
+              name : doc.name,
+              domaine : doc.domaine,
+              price:doc.price,
+              date:doc.date,
+              fournisseur : doc.fournisseur.firstName
+            }
+            i++;
+            console.log(pack);
+            packs.push(pack);
+            if(i == docs.length) res.send(packs);
+          })
+          
+        })
+        .catch(err => {
+          res.status(500).json({
+            error: err
+          });
+        });
+      }
+  }else{
    let packages = await Package.find({fournisseur:req._id})
    if(packages.length == 0){
-     console.log(packages);
+     //console.log(packages);
     return res.send(packages);
    }else{
     Package.find({fournisseur:req._id})
     .select("_id name domaine fournisseur services price date")
     .populate('services', 'name price description state')
-    .populate('fournisseur','login')
+    .populate('fournisseur','firstName')
     .exec()
     .then(docs => {
       i=0;
       packs=[];
       docs.map(async doc => {
-         doc.fournisseurName = doc.fournisseur.login;
+         doc.fournisseurName = doc.fournisseur.firstName;
          pack={
            _id:doc._id,
            services:doc.services,
@@ -344,10 +388,10 @@ module.exports.allPackages =async (req,res,next) => {
            domaine : doc.domaine,
            price:doc.price,
            date:doc.date,
-           fournisseur : doc.fournisseur.login
+           fournisseur : doc.fournisseur.firstName
          }
          i++;
-         console.log(pack);
+         //console.log(pack);
          packs.push(pack);
          if(i == docs.length) res.send(packs);
       })
@@ -359,7 +403,7 @@ module.exports.allPackages =async (req,res,next) => {
       });
     });
    }
-    
+  }
 }
 module.exports.allServiceOfPackage = (req,res,next) => {
   Package.findById(req.params.id).then(async pack=>{

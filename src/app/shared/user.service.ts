@@ -39,12 +39,13 @@ export class UserService {
   Header = { headers: new HttpHeaders({ 'Authorization': 'Bearer '+this.getToken()}) };
   
   postUser(user){
-    const userData = new FormData();
     return this.http.post(environment.apiBaseUrl+'/register-fournisseur',user,this.noAuthHeader);
   }
   postadmin(user){
-    const userData = new FormData();
     return this.http.post(environment.apiBaseUrl+'/register-admin',user,this.noAuthHeader);
+  }
+  postclient(user){
+    return this.http.post(environment.apiBaseUrl+'/register-client',user,this.noAuthHeader);
   }
   putUser(user) {
     return this.http.put(environment.apiBaseUrl + `/update/${user._id}`,user,this.Header)
@@ -54,12 +55,14 @@ export class UserService {
       })
     );
   }
-
   deleteUser(_id: string) {
     return this.http.delete(environment.apiBaseUrl + `/delete/${_id}`,this.Header);
   }
   getUserList() {
     return this.http.get(environment.apiBaseUrl +'/list',this.Header);
+  }
+  getUserListClient() {
+    return this.http.get(environment.apiBaseUrl +'/listclient',this.Header);
   }
   getUserListFourniAtt() {
     return this.http.get(environment.apiBaseUrl +'/listfourniatt',this.Header);

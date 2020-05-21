@@ -1,8 +1,9 @@
 const abonnements = require('express').Router();
 const ctrlAbonnement = require('../controllers/abonnement.controller');
+const jwtHelper = require('../config/jwtHelper');
 
 
-abonnements.post('/',ctrlAbonnement.createAbonnement);
+abonnements.post('/',jwtHelper.verifyJwtToken,ctrlAbonnement.createAbonnement);
 abonnements.get('/:id',ctrlAbonnement.returnAbonnement);
 abonnements.get('/',ctrlAbonnement.allAbonnements);
 abonnements.patch('/:id',ctrlAbonnement.update);

@@ -34,18 +34,20 @@ import { HttpHeaders } from '@angular/common/http';
       color: #ffffff;
   }
 `],
-  providers:[PackageService,MessageService]
-})
+  providers:[PackageService,MessageService,UserService]
+}) 
+
 export class TablepackagesComponent implements OnInit {
   
   @Input() variable  = "value";
   currentPackageSelected;
   serviceToDelete;
   packageToDelete;
+  fournisseur = false;
   source: LocalDataSource;
   source2: LocalDataSource;
   boolAdd :Boolean = false ;
-  constructor(private messageService: MessageService,private ServicesService:ServicesService,private packageService : PackageService,private router : Router) {
+  constructor(private userService : UserService,private messageService: MessageService,private ServicesService:ServicesService,private packageService : PackageService,private router : Router) {
     this.source = new LocalDataSource(tableData.data); // create the source
     this.source2 = new LocalDataSource(tableData.data); // create the source
    }
@@ -53,11 +55,27 @@ export class TablepackagesComponent implements OnInit {
    allservices;
    settings = tableData.settings;
    settings2 = tableData.settings2;
-   ngOnInit(){
-    this.ServicesService.Service = [];
-    this.allservices = [];
-    this.refreshPackagesList();
-    let tab = [];
+   async ngOnInit(){
+    console.log(this.userService.selectedUser);
+    await this.userService.getUserProfile().subscribe(
+      res => {
+        this.userService.selectedUser = res['user'];
+        //console.log(this.userService.selectedUser);
+        if( res['user'].role == "fournisseur"){
+          this.settings.columns.fournisseur.addable = false;
+        }else this.settings.columns.fournisseur.addable = true;
+        this.settings = Object.assign({},this.settings);
+        console.log(this.userService.selectedUser);
+        this.ServicesService.Service = [];
+        this.allservices = [];
+        this.refreshPackagesList();
+        let tab = [];
+      },
+      err => {
+        console.log(err);
+      }
+    )
+    
     // this.packageService.refreshNeeded.subscribe(()=>{
     //   this.allservicesOfPackage(this.currentPackageSelected);
     // });
@@ -163,11 +181,13 @@ onAccept(event) {
   );
 
 }
+
 showConfirmToDeleteService(event) {
   this.serviceToDelete = event;
   this.messageService.clear();
   this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'êtes-vous sûr?', detail:'êtes-vous sûr de vouloir supprimer ce service!!'});
 }
+
 showConfirmToDeletePackage(event) {
   this.packageToDelete = event;
   this.messageService.clear();
@@ -254,13 +274,12 @@ deleteRecord(event){
       console.log("fail",err);
     }
   );
-
 }
+
 testAdd(event){
   console.log(this.boolAdd);
   this.boolAdd = true;
 }
-
 
 refreshPackagesList(){
   this.packageService.getPackageList().subscribe(async (res) => {
