@@ -1,3 +1,21 @@
+<p-toast></p-toast>
+<p-toast position="center" key="d" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div style="text-align: center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onConfirm()" label="Oui" class="ui-button-success"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onReject()" label="Annuler" class="ui-button-secondary"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
 <div class="row">
   <div class="col-12">
       <div class="card">
@@ -5,7 +23,7 @@
               <h4 class="card-title">Modifier Ajouter et Supprimer des Abonements</h4>
               <h6 class="card-subtitle">Listes Des Abonements.</h6>
               <div class="table table-responsive smart-table">
-                  <ng2-smart-table [settings]="settings" (userRowSelect)="test($event)" [source]="source" class=""></ng2-smart-table>
+                  <ng2-smart-table [settings]="settings" (userRowSelect)="test($event)" [source]="source" class="" (editConfirm)="updateRecord($event)" (deleteConfirm)="showConfirmToDeleteAbonnement($event)"></ng2-smart-table>
               </div>
           </div>
       </div>
@@ -29,11 +47,11 @@
                         <tbody>
     
                             <tr *ngFor="let us of services" >
-                                <td *ngIf="us.state == 'not done'">{{us.name}}</td>
-                                <td *ngIf="us.state == 'not done'">{{us.price}}</td>
-                                <td *ngIf="us.state == 'not done'">{{us.description}}</td>
-                                <td *ngIf="us.state == 'not done'">{{us.state}}</td>
-                                <td *ngIf="us.state == 'not done'">
+                                <td *ngIf="us.state == 'NOT DONE'">{{us.name}}</td>
+                                <td *ngIf="us.state == 'NOT DONE'">{{us.price}}</td>
+                                <td *ngIf="us.state == 'NOT DONE'">{{us.description}}</td>
+                                <td *ngIf="us.state == 'NOT DONE'">{{us.state}}</td>
+                                <td *ngIf="us.state == 'NOT DONE'">
                                     <a (click)="add(us)">
                                         <i class="ti-thumb-up text-info m-r-10"></i>
                                     </a>
@@ -62,13 +80,12 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         <tr *ngFor="let us of services" >
-                            <td *ngIf="us.state == 'done'">{{us.name}}</td>
-                            <td *ngIf="us.state == 'done'">{{us.price}}</td>
-                            <td *ngIf="us.state == 'done'">{{us.description}}</td>
-                            <td *ngIf="us.state == 'done'">{{us.state}}</td>
-                            <td *ngIf="us.state == 'done'">
+                            <td *ngIf="us.state == 'DONE'">{{us.name}}</td>
+                            <td *ngIf="us.state == 'DONE'">{{us.price}}</td>
+                            <td *ngIf="us.state == 'DONE'">{{us.description}}</td>
+                            <td *ngIf="us.state == 'DONE'">{{us.state}}</td>
+                            <td *ngIf="us.state == 'DONE'">
                                 <a (click)="remove(us)">
                                     <i class="ti-close text-danger m-r-10"></i>
                                 </a> 

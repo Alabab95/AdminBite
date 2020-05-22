@@ -1,3 +1,21 @@
+<p-toast></p-toast>
+<p-toast position="center" key="d" (onClose)="onReject()" [modal]="true" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div style="text-align: center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onConfirm()" label="Oui" class="ui-button-success"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onReject()" label="Annuler" class="ui-button-secondary"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -20,11 +38,11 @@
                           </tr>
                       </thead>
                       <tbody>
-                          <tr *ngIf="abonements == []">
+                          <tr *ngIf="AbonementService.Abonnements.length == 0">
                               <p>No Abonements En Attente </p>
                         </tr>
-                          <tr *ngFor="let us of abonements">
-    
+                          <tr *ngFor="let us of AbonementService.Abonnements">
+
                               <td>{{us.name}}</td>
                               <td>{{us.fournisseur}}</td>
                               <td>{{us.client}}</td>
@@ -32,10 +50,10 @@
                               <td>{{us.etat}}</td>
                               <td>{{us.date}}</td>
                               <td>
-                              <a>
+                              <a (click)="accepter(us)">
                                 <i class="ti-thumb-up text-info m-r-10"></i>
                               </a>
-                              <a>
+                              <a (click)="showConfirmToDeleteAbonnement(us)">
                                 <i class="ti-close text-danger m-r-10"></i>
                               </a>
                               </td>

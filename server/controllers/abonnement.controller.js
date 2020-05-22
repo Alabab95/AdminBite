@@ -152,7 +152,7 @@ module.exports.addPackageToAbonnement = (req,res,next) => {
 }
 
 module.exports.createAbonnement = (req,res,next) => {
-    package = req.body.package;
+    let package = req.body.package;
     let services = [];
     let i =0;
     package.services.forEach(async id_service => {
@@ -163,6 +163,7 @@ module.exports.createAbonnement = (req,res,next) => {
         return console.log("famch");
       }
       s = {
+        _id: new mongoose.Types.ObjectId(),
         name:service.name,
         price : service.price,
         description: service.description,
@@ -175,28 +176,29 @@ module.exports.createAbonnement = (req,res,next) => {
         console.log(req._id);
         const abonnement = new Abonnement({
           _id : new mongoose.Types.ObjectId(),
+          name:req.body.name,
           client :req._id,
           fournisseur:req.body.package.fournisseur,
           package : {
             _id : new mongoose.Types.ObjectId(),
-            name:"sqccs",
-            domaine :"qsdqsd",
-            price : 40,
-            fournisseur: "5eb24d37356dd20894e8d250",
-            date:"2020-05-17T10:59:50.653+00:00",
-            services: ["5ec118d43384dc1f38235c5e"]
+            name: package.name,
+            domaine : package.domaine,
+            price : package.price,
+            fournisseur: package.fournisseur,
+            date:package.date,
+            services: package.services
           },
           services:services,
           price : req.body.package.price,
           date : new Date(),
-          etat : "en cours",
+          etat : "non paye",
       }); 
-      console.log(abonnement); 
-      console.log(req.body.package); 
+      console.log(abonnement);
+      console.log(req.body.package);
       abonnement
         .save()
         .then(result => {
-            res.status(201).json({
+            res.status(200).json({
                 message : "Abonnement created",
                 createdAbonnement : {
                     _id : result._id,
@@ -208,11 +210,7 @@ module.exports.createAbonnement = (req,res,next) => {
                     price : result.price,
                     etat : result.etat,
                     date : result.date
-                },
-                request: {
-                    type: "GET",
-                    url: "http://localhost:3000/abonnements/" + result._id
-                    }
+                }
             });
         })
         .catch(err => {
@@ -231,11 +229,6 @@ module.exports.delete = (req,res,next)=> {
     .then(result => {
       res.status(200).json({
         message: "Abonnement deleted",
-        request: {
-          type: "POST",
-          url: "http://localhost:3000/abonnements",
-          body: { packageId: "ID", quantity: "Number" }
-        }
       });
     })
     .catch(err => {
@@ -245,32 +238,48 @@ module.exports.delete = (req,res,next)=> {
     });
 }
 
-module.exports.update = (req,res,next) => {
-    const id = req.params.id;
-    Abonnement.findByIdAndUpdate(id, { $set: req.body }, { new: true }, (err, doc) => {
-      if (!err) { res.send(doc); }
-      else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
-    });
+module.exports.update =async (req,res,next) => {
+  console.log(req.body);
+  let servicemodif;
+  let abonnement = await Abonnement.findById(req.params.id);
+   abonnement.etat = 'paye';
+  abonnement.save().then(()=>{
+    return res.status(200).json({
+      message : "ok",
+    })
+  });
 }
 
 module.exports.allAbonnements = (req,res,next) => {
-    Abonnement.find()
-    .select("_id name fournisseur client package price etat date")
-    .populate([{
-      path: 'package',
-      model: 'Package',
-      populate: {
-        path: 'services',
-        model: 'Service'
-      }
-    }, {
-      path: 'client',
-      model: 'User'
-    },{
-      path: 'fournisseur',
-      model: 'User'
-    }])
-    .exec()
+    if(req.role == 'superadmin' || req.role == 'admin'){
+      Abonnement
+      .find({etat:'paye'})
+      .populate('fournisseur','firstName')
+      .populate('client','firstName')
+      .then(docs => {
+        res.status(200).json({
+          count: docs.length,
+          abonnements: docs.map(doc => {
+            return {
+              _id : doc._id,
+              name : doc.name,
+              fournisseur : doc.fournisseur.firstName,
+              client : doc.client.firstName,
+              package : doc.package.name,
+              price : doc.price,
+              etat : doc.etat,
+              date : doc.date,
+            };
+          })
+        });
+      })
+      .catch(err => {
+        res.status(500).json({
+          error: err
+        });
+    });
+    }else {
+      Abonnement.find({fournisseur:req._id,etat :'paye'})
     .then(docs => {
       res.status(200).json({
         count: docs.length,
@@ -299,45 +308,79 @@ module.exports.allAbonnements = (req,res,next) => {
         error: err
       });
     });
+    }
+}
+
+module.exports.allAbonnementsNonPaye = (req,res,next) => {
+  if(req.role == 'superadmin' || req.role == 'admin'){
+    Abonnement
+    .find({etat:'non paye'})
+    .populate('fournisseur','firstName')
+    .populate('client','firstName')
+    .then(docs => {
+      res.status(200).json({
+        count: docs.length,
+        abonnements: docs.map(doc => {
+          return {
+            _id : doc._id,
+            name : doc.name,
+            fournisseur : doc.fournisseur.firstName,
+            client : doc.client.firstName,
+            package : doc.package.name,
+            price : doc.price,
+            etat : doc.etat,
+            date : doc.date,
+          };
+        })
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: err
+      });
+  });
+  }else {
+    Abonnement.find({fournisseur:req._id,etat:'non paye'})
+  .then(docs => {
+    res.status(200).json({
+      count: docs.length,
+      abonnements: docs.map(doc => {
+        let price =0;
+        price = doc.package.price
+        return {
+          _id : doc._id,
+          name : doc.name,
+          fournisseur :doc.fournisseur,
+          client : doc.client,
+          package :doc.package,
+          price : price,
+          etat : doc.etat,
+          date : doc.date,
+          request: {
+            type: "GET",
+            url: "http://localhost:3000/abonnements/" + doc._id
+          }
+        };
+      })
+    });
+  })
+  .catch(err => {
+    res.status(500).json({
+      error: err
+    });
+  });
+  }
 }
 
 module.exports.returnAbonnement = (req,res,next) => {
     Abonnement.findById(req.params.id)
-    .populate([{
-      path: 'package',
-      model: 'Package',
-      populate: {
-        path: 'services',
-        model: 'Service'
-      }
-    }, {
-      path: 'client',
-      model: 'User'
-    },{
-      path: 'fournisseur',
-      model: 'User'
-    }])
-    .exec()
     .then(abonnement => {
       if (!abonnement) {
         return res.status(404).json({
           message: "Abonnement not found"
         });
       }
-      res.status(200).json({
-        request: {
-          Id : abonnement._id,
-          Name:abonnement.name,
-          package : abonnement.package,
-          price : abonnement.price,
-          date : abonnement.date,
-          etat : abonnement.etat,
-          client : abonnement.client,
-          fournisseur : abonnement.fournisseur,
-          type: "GET",
-          url: "http://localhost:3000/abonnements"
-        }
-      });
+      res.status(200).json({abonnement:abonnement});
     })
     .catch(err => {
       console.log(err)
@@ -347,3 +390,45 @@ module.exports.returnAbonnement = (req,res,next) => {
     });
 }
 
+
+module.exports.activateService = async (req,res,next)=>{
+  console.log(req.body);
+  let servicemodif;
+   let abonnement = await Abonnement.findById(req.body._id);
+   abonnement.services.map(service =>{
+      if(service._id == req.params.id){
+        console.log(service.state);
+        service.state = "DONE";
+        servicemodif = service;
+       // return res.json({message:"ok",service_state : service.state});
+      }
+   })
+  abonnement.save().then(()=>{
+    return res.status(200).json({
+      message : "ok",
+      services:abonnement.services,
+      servicemodi : servicemodif
+    })
+  });
+}
+
+module.exports.disactivateService= async (req,res,next)=>{
+  console.log(req.body);
+  let servicemodif;
+   let abonnement = await Abonnement.findById(req.body._id);
+   abonnement.services.map(service =>{
+      if(service._id == req.params.id){
+        console.log(service.state);
+        service.state = "NOT DONE";
+        servicemodif = service;
+       // return res.json({message:"ok",service_state : service.state});
+      }
+   })
+  abonnement.save().then(()=>{
+    return res.status(200).json({
+      message : "ok",
+      services:abonnement.services,
+      servicemodi : servicemodif
+    })
+  });
+}
