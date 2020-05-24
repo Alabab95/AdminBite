@@ -158,7 +158,7 @@ module.exports.createPackage = async (req,res,next) => {
             } */
        // console.log(p);
         //const ress = calculePrice(req.body.services);
-        let user = await  User.findOne({_id:req.body.fournisseur});
+        let user = await  User.findOne({firstName:req.body.fournisseur,role:"fournisseur"});
         console.log(user);
         if(!user){
           return res.status(500).json({
