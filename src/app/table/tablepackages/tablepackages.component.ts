@@ -104,15 +104,17 @@ export class TablepackagesComponent implements OnInit {
     console.log(event.newData);
     var services = [];
     event.newData.services!=""?services=event.newData.services:services=[];
-    console.log(services);
+    console.log("services=",services);
+    console.log("founisseur :",event.newData.fournisseur)
+    console.log("fournisseur",this.userService.selectedUser._id);
+
     var data =  {
       "_id": '',
       "name" : event.newData.name,
       "domaine" : event.newData.domaine,
-      "fournisseur" : event.newData.fournisseur,
+      "fournisseur" : this.userService.selectedUser._id,
       "services" : services,
-      "price" : event.newData.price,
-      "date" : event.newData.date
+      "price" : event.newData.price
     }
     this.packageService.postPackage(data).subscribe(
       res => {
@@ -164,9 +166,7 @@ onAccept(event) {
     "domaine" : event.newData.domaine,
     "fournisseur" : event.newData.fournisseur,
     "services" : event.newData.services,
-    "price" : event.newData.price,
-    "date" : event.newData.date
-
+    "price" : event.newData.price
   }
   this.packageService.putPackage(data).subscribe(
     res => {

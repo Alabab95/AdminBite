@@ -14,7 +14,7 @@ import { Cell, DefaultEditor, Editor,ViewCell} from 'ng2-smart-table';
 
 import { HttpHeaders } from '@angular/common/http';
 @Component({
-  templateUrl: './CustomTemp.component.html',
+  templateUrl: './customTemp.component.html',
   styles : [`
   :host ::ng-deep .ui-multiselected-item-token,
   :host ::ng-deep .ui-multiselected-empty-token {

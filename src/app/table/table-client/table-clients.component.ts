@@ -7,7 +7,7 @@ import { User } from 'src/app/shared/user.model';
 import { HttpHeaders } from '@angular/common/http';
 @Component({
   templateUrl: './table-clients.component.html',
-  styleUrls:['./table-Clients.component.css'],
+  styleUrls:['./table-clients.component.css'],
   styles:[`
     th.ng2-smart-actions-title.ng2-smart-actions-title-add {
       visibility: hidden;

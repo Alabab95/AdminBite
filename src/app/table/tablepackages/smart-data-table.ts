@@ -24,12 +24,6 @@ export let settings = {
       editable : false,
       addable:false,
     },
-    date: {
-      title: 'Date',
-      filter: true,
-      editable : false,
-      addable:false,
-    },
     services : {
       title : 'Services',
       filter: false,
@@ -89,10 +83,6 @@ export let settings2 = {
     },
     price: {
       title: 'Price',
-      filter: true
-    },
-    date: {
-      title: 'Date',
       filter: true
     },
 

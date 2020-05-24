@@ -94,6 +94,8 @@ updateRecord(event) {
   this.ServicesService.putService(data).subscribe(
     res => {
       console.log("success");
+      this.showSuccess('Service','Service modifié avec succès')
+
       event.confirm.resolve(event.newData);
 
     },
