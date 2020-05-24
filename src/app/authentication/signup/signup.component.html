@@ -3,7 +3,7 @@
     <div class="auth-box">
         <div>
             <div class="logo">
-                <span class="db"><img src="assets/images/logo-icon.png" alt="logo" /></span>
+                <span class="db"><img src="assets/images/logo-icon.png" alt="logo"/></span>
                 <h5 class="font-medium m-b-20">Demande d'adhésion</h5>
             </div>
             <!-- Form -->
@@ -14,12 +14,17 @@
                             <div class="col-12 ">
                                 <!-- <input class="form-control form-control-lg" name="login" type="text" required=" " placeholder="login" #login="ngModel" [(ngModel)]="userService.selectedUser.login"> -->
                                 <span class="ui-float-label">
-                                    <input id="float-input" class="form-control form-control-lg" name="login" type="text" required size="30" #login="ngModel" [(ngModel)]="userService.selectedUser.login" pInputText> 
+                                    <input id="float-input" class="form-control form-control-lg" name="login" type="text" pattern="^[a-zA-Z ]+[1-9]*.*$" required size="30" #login="ngModel" [(ngModel)]="userService.selectedUser.login" pInputText> 
                                     <label class="h5" for="float-input">Login</label>
                                 </span>
                             </div>
-                            <div class="col-12 ">
-                                <span class="text-danger" *ngIf="login.invalid && login.touched">Login is required</span>
+                            <div class="col-12 " *ngIf="login.invalid && login.touched">
+                                <div>
+                                    <span class="text-danger"  *ngIf="login.errors.required">Login is required</span>
+                                </div>
+                                <div>
+                                    <span class="text-danger" *ngIf="login.errors.pattern">unvalid login</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -43,31 +48,41 @@
                             <div class="col-12 ">
                                 <!-- <input class="form-control form-control-lg" name="login" type="text" required=" " placeholder="login" #login="ngModel" [(ngModel)]="userService.selectedUser.login"> -->
                                 <span class="ui-float-label">
-                                    <input id="float-input" class="form-control form-control-lg" name="firstName" type="text" required size="30" #firstName="ngModel" [(ngModel)]="userService.selectedUser.firstName" pInputText> 
+                                    <input id="float-input" class="form-control form-control-lg" name="firstName"  type="text" pattern="^[a-zA-Z ]+$" required size="30" #firstName="ngModel" [(ngModel)]="userService.selectedUser.firstName" pInputText> 
                                     <label class="h5" for="float-input">First Name</label>
                                 </span>
                             </div>
-                            <div class="col-12 ">
-                                <span class="text-danger" *ngIf="firstName.invalid && firstName.touched">First Name is required</span>
+                            <div class="col-12" *ngIf="firstName.invalid && firstName.touched">
+                                <div>
+                                    <span class="text-danger" *ngIf="firstName.errors.required">First Name is required</span>
+                                </div>
+                                <div>
+                                    <span class="text-danger" *ngIf="firstName.errors.pattern">Invalid First Name</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-12 ">
                                 <!-- <input class="form-control form-control-lg" name="login" type="text" required=" " placeholder="login" #login="ngModel" [(ngModel)]="userService.selectedUser.login"> -->
                                 <span class="ui-float-label">
-                                    <input id="float-input" class="form-control form-control-lg" name="lastName" type="text" required size="30" #lastName="ngModel" [(ngModel)]="userService.selectedUser.lastName" pInputText> 
+                                    <input id="float-input" class="form-control form-control-lg" name="lastName" type="text" pattern="^[a-zA-Z ]+$" required size="30" #lastName="ngModel" [(ngModel)]="userService.selectedUser.lastName" pInputText> 
                                     <label class="h5" for="float-input">Last Name</label>
                                 </span>
                             </div>
-                            <div class="col-12 ">
-                                <span class="text-danger" *ngIf="lastName.invalid && lastName.touched">Last Name is required</span>
+                            <div class="col-12" *ngIf="lastName.invalid && lastName.touched">
+                                <div>
+                                    <span class="text-danger" *ngIf="lastName.errors.required">Last Name is required</span>
+                                </div>
+                                <div>
+                                    <span class="text-danger" *ngIf="lastName.errors.pattern">Invalid Last Name</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-12 ">
                                 <!-- <input class="form-control form-control-lg" name="login" type="text" required=" " placeholder="login" #login="ngModel" [(ngModel)]="userService.selectedUser.login"> -->
                                 <span class="ui-float-label">
-                                    <input id="float-input" class="form-control form-control-lg" name="adress" type="text" required size="30" #adress="ngModel" [(ngModel)]="userService.selectedUser.adress" pInputText> 
+                                    <input id="float-input" class="form-control form-control-lg" name="adress" type="text"  required size="30" #adress="ngModel" [(ngModel)]="userService.selectedUser.adress" pInputText> 
                                     <label class="h5" for="float-input">Adress</label>
                                 </span>
                             </div>
@@ -78,25 +93,35 @@
                         <div class="form-group row">
                             <div class="col-12 ">
                                 <span class="ui-float-label">
-                                    <input id="float-input" class="form-control form-control-lg" name="society" type="text" required size="30" #society="ngModel" [(ngModel)]="userService.selectedUser.society" pInputText> 
+                                    <input id="float-input" class="form-control form-control-lg" name="society" type="text" pattern="^[a-zA-Z ]+[1-9]*.*$" required size="30" #society="ngModel" [(ngModel)]="userService.selectedUser.society" pInputText> 
                                     <label class="h5" for="float-input">Society</label>
                                 </span>
                                 <!-- <input class="form-control form-control-lg" type="text" required=" " name="society" placeholder="society" #society="ngModel" [(ngModel)]="userService.selectedUser.society"> -->
                             </div>
                              <div class="col-12 " *ngIf="society.invalid && society.touched">
-                                <span class="text-danger" *ngIf="society.errors.required">Society is required</span>
+                                 <div>
+                                    <span class="text-danger" *ngIf="society.errors.required">Society is required</span>
+                                </div>
+                                <div>
+                                    <span class="text-danger" *ngIf="society.errors.pattern">Society is required</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-12 ">
                                 <span class="ui-float-label">
-                                    <input id="float-input" class="form-control form-control-lg" name="activity" type="text" required size="30" #activity="ngModel" [(ngModel)]="userService.selectedUser.activity" pInputText> 
+                                    <input id="float-input" class="form-control form-control-lg" name="activity" type="text" pattern="^[a-zA-Z ]+[1-9]*.*$" required size="30" #activity="ngModel" [(ngModel)]="userService.selectedUser.activity" pInputText> 
                                     <label class="h5" for="float-input">Activity</label>
                                 </span>
                                 <!-- <input class="form-control form-control-lg" type="text" required=" " name="activity" placeholder="activity" #activity="ngModel" [(ngModel)]="userService.selectedUser.activity"> -->
                             </div>
-                            <div class="col-12 ">
-                                <span class="text-danger" *ngIf="activity.invalid && activity.touched">Activity is required</span>
+                            <div class="col-12 " *ngIf="activity.invalid && activity.touched">
+                                <div>
+                                    <span class="text-danger" *ngIf="activity.errors.required">Activity is required</span>
+                                </div>
+                                <div>
+                                    <span class="text-danger" *ngIf="activity.errors.pattern">invalid Activity</span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -119,7 +144,7 @@
                         <div class="form-group row has-error">
                             <div class="col-12 ">
                                 <span class="ui-float-label">
-                                    <input id="float-input" class="form-control form-control-lg" name="mail" type="text" required email size="30" #mail="ngModel" [(ngModel)]="userService.selectedUser.mail" pInputText> 
+                                    <input id="float-input" class="form-control form-control-lg" name="mail" type="text" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" size="30" #mail="ngModel" [(ngModel)]="userService.selectedUser.mail" pInputText> 
                                     <label class="h5" for="float-input">Mail</label>
                                 </span>
                                 <!-- <input class="form-control form-control-lg" type="mail" required=" " name="mail" placeholder="mail" #mail="ngModel" [(ngModel)]="userService.selectedUser.mail"> -->
@@ -129,7 +154,7 @@
                                     <span class="text-danger" *ngIf="mail.errors.required">Mail is required</span>
                                </div>
                                <div>
-                                    <span class="text-danger" *ngIf="mail.errors.email">mail must be a valid address</span>
+                                    <span class="text-danger" *ngIf="mail.errors.pattern">mail must be a valid address</span>
                                </div>
                            </div>
                         </div>
