@@ -67,70 +67,70 @@ export let settings2 = {
   }
 };
 export let data = [
-  {
-    id: 1,
-    name: 'abonement 1',
-    fournisseur: "syrine",
-    client:"skander",
-    price:140,
-    etat:"non accepté",
-    date:"2020-05-19T22:36:03.463Z",
-    services:[{
-      name : "service 1",
-      price : 40,
-      description : "description service 1 ",
-      state:'not done'
-    },
-    {
-      name : "service 2",
-      price : 100,
-      description : "description service 2",
-      state:'not done'
-    }
-  ]
-  },
-  {
-    id: 1,
-    name: 'abonement 2',
-    fournisseur: "ala",
-    client:"chaima",
-    price:60,
-    etat:"non accepté",
-    date:"2020-07-19T22:36:03.463Z",
-    services:[{
-      name : "service 1",
-      price : 20,
-      description : "description service 7 ",
-      state:'not done'
-    },
-    {
-      name : "service 1",
-      price : 40,
-      description : "description service 1",
-      state:'not done'
-    }
-  ]
-  },
-  {
-    id: 1,
-    name: 'abonement 3',
-    fournisseur: "achref",
-    client:"syrine",
-    price:60,
-    etat:"non accepté",
-    date:"2020-07-19T22:36:03.463Z",
-    services:[{
-      name : "service 1",
-      price : 20,
-      description : "description service 7 ",
-      state:'not done'
-    },
-    {
-      name : "service 1",
-      price : 40,
-      description : "description service 1",
-      state:'not done'
-    }
-  ]
-  }
+  // {
+  //   id: 1,
+  //   name: 'abonement 1',
+  //   fournisseur: "syrine",
+  //   client:"skander",
+  //   price:140,
+  //   etat:"non accepté",
+  //   date:"2020-05-19T22:36:03.463Z",
+  //   services:[{
+  //     name : "service 1",
+  //     price : 40,
+  //     description : "description service 1 ",
+  //     state:'not done'
+  //   },
+  //   {
+  //     name : "service 2",
+  //     price : 100,
+  //     description : "description service 2",
+  //     state:'not done'
+  //   }
+  // ]
+  // },
+  // {
+  //   id: 1,
+  //   name: 'abonement 2',
+  //   fournisseur: "ala",
+  //   client:"chaima",
+  //   price:60,
+  //   etat:"non accepté",
+  //   date:"2020-07-19T22:36:03.463Z",
+  //   services:[{
+  //     name : "service 1",
+  //     price : 20,
+  //     description : "description service 7 ",
+  //     state:'not done'
+  //   },
+  //   {
+  //     name : "service 1",
+  //     price : 40,
+  //     description : "description service 1",
+  //     state:'not done'
+  //   }
+  // ]
+  // },
+  // {
+  //   id: 1,
+  //   name: 'abonement 3',
+  //   fournisseur: "achref",
+  //   client:"syrine",
+  //   price:60,
+  //   etat:"non accepté",
+  //   date:"2020-07-19T22:36:03.463Z",
+  //   services:[{
+  //     name : "service 1",
+  //     price : 20,
+  //     description : "description service 7 ",
+  //     state:'not done'
+  //   },
+  //   {
+  //     name : "service 1",
+  //     price : 40,
+  //     description : "description service 1",
+  //     state:'not done'
+  //   }
+  // ]
+  // }
 ];

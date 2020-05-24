@@ -4,9 +4,13 @@ const jwtHelper = require('../config/jwtHelper');
 
 
 abonnements.post('/',jwtHelper.verifyJwtToken,ctrlAbonnement.createAbonnement);
-abonnements.get('/:id',ctrlAbonnement.returnAbonnement);
-abonnements.get('/',ctrlAbonnement.allAbonnements);
-abonnements.patch('/:id',ctrlAbonnement.update);
+abonnements.get('/singleAbonement/:id',ctrlAbonnement.returnAbonnement);
+abonnements.get('/',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlAbonnement.allAbonnements);
+abonnements.put('/:id',ctrlAbonnement.update);
+abonnements.get('/nonpaye',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlAbonnement.allAbonnementsNonPaye);
+abonnements.put('/activateService/:id',ctrlAbonnement.activateService);
+abonnements.put('/disactivateService/:id',ctrlAbonnement.disactivateService);
+
 abonnements.delete('/:id',ctrlAbonnement.delete);
 
 abonnements.post('/addPackage',ctrlAbonnement.addPackageToAbonnement);

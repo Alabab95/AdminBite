@@ -104,15 +104,15 @@ export class TablepackagesComponent implements OnInit {
     console.log(event.newData);
     var services = [];
     event.newData.services!=""?services=event.newData.services:services=[];
-    console.log("services=",services);
+    console.log(services);
     console.log("founisseur :",event.newData.fournisseur)
     console.log("fournisseur",this.userService.selectedUser._id);
-
-    var data =  {
+    this.userService.getUserProfile().subscribe(res => {
+      var data =  {
       "_id": '',
       "name" : event.newData.name,
       "domaine" : event.newData.domaine,
-      "fournisseur" : this.userService.selectedUser._id,
+      "fournisseur" :  res['user'].role === "fournisseur"?res['user'].firstName:event.newData.fournisseur,
       "services" : services,
       "price" : event.newData.price
     }
@@ -129,6 +129,8 @@ export class TablepackagesComponent implements OnInit {
         console.log("fail",err);
       }
     );
+    })
+    
   }
 
 
