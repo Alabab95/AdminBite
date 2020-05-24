@@ -50,7 +50,8 @@ export class SalesComponent implements AfterViewInit {
     type: 'Line',
     data: {
       labels: ['1PM', '2PM', '3PM', '4PM', '5PM', '6PM'],
-      series: [[2, 0, 5, 2, 5, 2]]
+      /* series: [[2, 0, 5, 2, 5, 2]] */
+      series: [[0, 1, 2, 3, 4, 5]]
     },
     options: {
       showArea: true,
@@ -76,8 +77,8 @@ export class SalesComponent implements AfterViewInit {
       bindto: '#product-sales',
       data: {
         columns: [
-          ['Iphone', 5, 6, 3, 7, 9, 10, 14, 12, 11, 9, 8, 7, 10, 6, 12, 10, 8],
-          ['Ipad', 1, 2, 8, 3, 4, 5, 7, 6, 5, 6, 4, 3, 3, 12, 5, 6, 3]
+           /* ['Abonnements', 5, 6, 3, 7, 9, 10, 14, 12, 11, 9, 8, 7, 10, 6, 12, 10, 8], */
+           ['Abonnements', 1, 2, 4, 3, 4, 5, 7, 6, 5, 6, 4, 3, 3, 2, 5, 6, 3]
         ],
         type: 'spline'
       },
@@ -106,7 +107,7 @@ export class SalesComponent implements AfterViewInit {
         hide: false
       },
       color: {
-        pattern: ['#ccc', '#4798e8']
+        pattern: ['#4798e8', '#ccc']
       }
     });
   }

@@ -4,7 +4,7 @@ import {Subject} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
-import { Package } from './Package.model';
+import { Package } from './package.model';
 
 @Injectable({
   providedIn: 'root'

@@ -17,14 +17,31 @@
         </div>
     </ng-template>
 </p-toast>
+<p-toast position="center" key="d" (onClose)="onRejectdelPack()" [modal]="true" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div style="text-align: center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onConfirmdelPack()" label="Oui" class="ui-button-success"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onRejectdelPack()" label="Annuler" class="ui-button-secondary"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Modifier Ajouter et Supprimer des Services</h4>
-                <h6 class="card-subtitle">Listes Des Packages.</h6>
+                <h6 class="card-subtitle">Listes Des Services.</h6>
                 <div class="table table-responsive smart-table">
-                  <ng2-smart-table [settings]="settings" [source]="source" class="" (create)="testAdd($event)" (createConfirm)="addRecord($event)" (editConfirm)="updateRecord($event)" (deleteConfirm)="deleteRecord($event)"></ng2-smart-table>
+                  <ng2-smart-table [settings]="settings" [source]="source" class="" (create)="testAdd($event)" (createConfirm)="addRecord($event)" (editConfirm)="updateRecord($event)" (deleteConfirm)="showConfirmToDeleteService($event)"></ng2-smart-table>
                 </div>
             </div>
         </div>

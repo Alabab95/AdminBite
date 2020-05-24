@@ -33,6 +33,8 @@ import {MessageService} from 'primeng/api';
 export class TableServicesComponent implements OnInit {
   source: LocalDataSource;
   source2: LocalDataSource;
+  serviceToDelete;
+
   constructor(private messageService: MessageService,private ServicesService : ServicesService,private router : Router) {
     this.source = new LocalDataSource(tableData.data); // create the source
     this.source2 = new LocalDataSource(tableData.data); // create the source
@@ -94,6 +96,8 @@ updateRecord(event) {
   this.ServicesService.putService(data).subscribe(
     res => {
       console.log("success");
+      this.showSuccess('Service','Service modifié avec succès')
+
       event.confirm.resolve(event.newData);
 
     },
@@ -118,6 +122,8 @@ onAccept(event) {
   this.ServicesService.putService(data).subscribe(
     res => {
       console.log("success");
+      this.showSuccess('Service','Service modifié avec succès')
+
       this.refreshServicesList();
 
     },
@@ -133,19 +139,20 @@ test(event){
 }
 
 onRefus(event) {
-  console.log("updating");
+  console.log("updating",event);
   var data =  {
-    "_id": event._id,
-    "name" : event.newData.name,
-    "price" : event.newData.price,
-    "description" : event.newData.description,
-    "state" : event.newData.state,
-    "fournisseurId" : event.newData.fournisseurId
+    "_id": event.data._id,
+    "name" : event.data.name,
+    "price" : event.data.price,
+    "description" : event.data.description,
+    "state" : event.data.state,
+    "fournisseurId" : event.data.fournisseurId
 
   }
   this.ServicesService.putService(data).subscribe(
     res => {
       console.log("success");
+      this.deleteRecord(event)
       this.router.navigateByUrl('/services/tableservices');
 
 
@@ -156,11 +163,24 @@ onRefus(event) {
   );
 
 }
+showConfirmToDeleteService(event) {
+  this.serviceToDelete = event;
+  this.messageService.clear();
+  this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'êtes-vous sûr?', detail:'êtes-vous sûr de vouloir supprimer ce service!!'});
+}
+onReject() {
+  this.messageService.clear('c');
+}
+
+onConfirm() {
+  this.onRefus(this.serviceToDelete);
+  this.messageService.clear('c');
+}
+
 
 deleteRecord(event){
   this.ServicesService.deleteService(event.data._id).subscribe(
     res => {
-
       console.log("success");
       event.confirm.resolve(event.source.data);
 

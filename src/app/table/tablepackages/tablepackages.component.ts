@@ -105,6 +105,8 @@ export class TablepackagesComponent implements OnInit {
     var services = [];
     event.newData.services!=""?services=event.newData.services:services=[];
     console.log(services);
+    console.log("founisseur :",event.newData.fournisseur)
+    console.log("fournisseur",this.userService.selectedUser._id);
     this.userService.getUserProfile().subscribe(res => {
       var data =  {
       "_id": '',
@@ -112,8 +114,7 @@ export class TablepackagesComponent implements OnInit {
       "domaine" : event.newData.domaine,
       "fournisseur" :  res['user'].role === "fournisseur"?res['user'].firstName:event.newData.fournisseur,
       "services" : services,
-      "price" : event.newData.price,
-      "date" : event.newData.date
+      "price" : event.newData.price
     }
     this.packageService.postPackage(data).subscribe(
       res => {
@@ -167,9 +168,7 @@ onAccept(event) {
     "domaine" : event.newData.domaine,
     "fournisseur" : event.newData.fournisseur,
     "services" : event.newData.services,
-    "price" : event.newData.price,
-    "date" : event.newData.date
-
+    "price" : event.newData.price
   }
   this.packageService.putPackage(data).subscribe(
     res => {

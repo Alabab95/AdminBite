@@ -144,6 +144,7 @@ module.exports.addServicesToPackage = (req,res,next) => {
 
 
 module.exports.createPackage = async (req,res,next) => {
+  console.log("fourniiseuuuuuuuur===",req.body.fournisseur)
     /* console.log("service id === ",req.body.serviceId);
     Service.findById(req.body.serviceId)
         .then(service => {

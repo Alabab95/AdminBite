@@ -13,8 +13,8 @@ export class SalesIncomeComponent implements AfterViewInit {
       bindto: '#income',
       data: {
         columns: [
-          ['Growth Income', 100, 200, 300, 300, 400, 200],
-          ['Net Income', 130, 100, 440, 200, 320, 100]
+          ['Revenu de croissance', 100, 200, 300, 300, 400, 200],
+          ['Revenu net', 130, 100, 440, 200, 320, 100]
         ],
         type: 'bar'
       },
@@ -55,7 +55,7 @@ export class SalesIncomeComponent implements AfterViewInit {
     const chart2 = c3.generate({
       bindto: '#sales',
       data: {
-        columns: [['One+', 50], ['T', 60], ['Samsung', 10]],
+        columns: [['Syrine', 50], ['Chaima', 70], ['Ala', 10]],
 
         type: 'donut'
       },
