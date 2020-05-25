@@ -154,7 +154,7 @@ export const TablesRoutes: Routes = [
         path: 'tablefournisseursinactive',
         component:TableFournisseursInactiveComponent,
         data: {
-          title: 'Table fourni',
+          title: 'Table fournisseurs en attente',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Smart Table' }

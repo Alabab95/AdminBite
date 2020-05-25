@@ -52,8 +52,8 @@ export class TableFournisseursComponent implements OnInit {
     showSuccess(summary,detail) {
       this.messageService.add({severity:'success', summary: summary, detail: detail});
     }
-    showError() {
-      this.messageService.add({severity:'error', summary: 'Error Message', detail:'Validation failed'});
+    showError(msg) {
+      this.messageService.add({severity:'success', summary: 'Supprission', detail:msg});
     }
     showConfirm() {
       this.messageService.clear();
@@ -187,9 +187,11 @@ onRefus(event) {
 
 }
 showConfirmToDeleteUser(event) {
+  console.log("event",event)
   this.userToDelete=event;
   this.messageService.clear();
-  this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'êtes-vous sûr?', detail:'êtes-vous sûr de vouloir supprimer cet admin!!'});
+  this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'êtes-vous sûr?', detail:'êtes-vous sûr de vouloir supprimer le fournisseur '+event.data.firstName+' ?'});
+
 }
 onReject() {
   this.messageService.clear('c');
@@ -206,6 +208,7 @@ deleteRecord(event){
 
       console.log("success");
       event.confirm.resolve(event.source.data);
+      this.showError("Le fournisseur "+event.data.firstName+" supprimé avec succès")
       this.refreshUserList();
 
 
