@@ -76,10 +76,48 @@ module.exports.deleteService = async(req,res,next) => {
                   error:err
                 });
               });
-        }else 
-        res.status(500).json({
-          message:"cant delete this service"
-        });
+        }else {
+          Package.find().then(tabs => {
+            tabs.map(async tab => {
+              if(tab.services.includes(id)){
+                console.log(tab.services.indexOf(id))
+                tab.services.filter(e => e!=id);
+                let services = tab.services;
+                services.splice(tab.services.indexOf(id),1);
+                console.log(services);
+                tab.services = services
+                let s = await Service.findById(id);
+                tab.price -= s.price;
+                tab.save().then(()=>{
+                  Service.deleteOne({_id : id})
+                    .exec()
+                    .then(result =>{
+                      res.status(200).json({
+                        message:'Service deleted',
+                        request : {
+                          type:'POST',
+                          url:'http://localhost:3000/service/list',
+                          body : {
+                            name: 'String',
+                            price: 'Number',
+                            description : 'String',
+                            state : 'String'
+                          }
+                        }
+                      });
+                    })
+                    .catch(err => {
+                      console.log(err);
+                      res.status(500).json({
+                        error:err
+                      });
+                    });
+                })
+                }
+              }) 
+            })        
+        }
+        
       })
 }
 

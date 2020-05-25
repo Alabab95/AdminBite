@@ -167,6 +167,7 @@ module.exports.createPackage = async (req,res,next) => {
         }
         let price = 0;
         let i = 0;
+        console.log(user._id);
         //console.log(req.body);
         if(req.body.services.length>0){
             req.body.services.map(async e => {
@@ -220,7 +221,7 @@ module.exports.createPackage = async (req,res,next) => {
               _id : new mongoose.Types.ObjectId(),
               name : req.body.name,
               domaine : req.body.domaine,
-              fournisseur :req._id,
+              fournisseur :user._id,
               services :req.body.services,
               price : 0,
               date : new Date()
@@ -298,7 +299,12 @@ module.exports.servicesCanAdd = (req,res,next) => {
     .populate('fournisseur','login')
     .then(async docs => {
       console.log(docs);
-      let services = await Service.find({fournisseurId:req._id});
+      let services
+      if(req.role=='fournisseur'){
+       services = await Service.find({fournisseurId:req._id});  
+      }else {
+       services = await Service.find();
+      }
       let arraytopass = [];
       console.log(services);
       let i=0;
@@ -328,7 +334,7 @@ module.exports.servicesCanAdd = (req,res,next) => {
 }
 
 module.exports.allPackages =async (req,res,next) => {
-  if(req.role == 'superadmin' || req.role == 'admin'){
+  if(req.role == 'superadmin' || req.role == 'admin'||req.role == 'client'){
       let packages = await Package.find()
       if(packages.length == 0){
         //console.log(packages);

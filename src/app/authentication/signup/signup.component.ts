@@ -46,7 +46,8 @@ export class SignupComponent implements OnInit {
       res => {
         console.log("success");
         this.showSuccess();
-        this.router.navigateByUrl('/dashboard/dashboard');
+        setTimeout(()=> { this.router.navigateByUrl('/authentication/login');}, 2500);
+       
       },
       err => {
         console.log("fail",err.message);
