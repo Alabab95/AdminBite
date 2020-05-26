@@ -132,7 +132,7 @@ export const TablesRoutes: Routes = [
         path: 'tableabonnementsenattente',
         component: TableAbonnementsEnAttenteComponent,
         data: {
-          title: 'Table Abonnements en attente',
+          title: 'Table Abonnements non payés',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Smart Table' }

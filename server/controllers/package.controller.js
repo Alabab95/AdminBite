@@ -349,6 +349,7 @@ module.exports.allPackages =async (req,res,next) => {
           i=0;
           packs=[];
           docs.map(async doc => {
+            console.log("doc ::",doc)
             doc.fournisseurName = doc.fournisseur.firstName;
             pack={
               _id:doc._id,

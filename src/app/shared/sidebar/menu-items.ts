@@ -69,7 +69,7 @@ export const ROUTES_SA: RouteInfo[] = [
   },
   {
     path: '',
-    title: 'packages / abonnements',
+    title: 'packages',
     icon: 'mdi mdi-dots-horizontal',
     class: 'nav-small-cap',
     extralink: true,
@@ -83,31 +83,7 @@ export const ROUTES_SA: RouteInfo[] = [
     extralink: false,
     submenu: []
   },
-  {
-    path: '/apps/email',
-    title: 'Gestion Abonnements',
-    icon: 'icon-Administrator',
-    class: 'has-arrow',
-    extralink: false,
-    submenu: [
-      {
-        path: '/abonnements/tableabonnements',
-        title: 'Abonnements Accepté',
-        icon: 'mdi mdi-notification-clear-all',
-        class: '',
-        extralink: false,
-        submenu: []
-      },
-      {
-        path: '/abonnementsenattente/tableabonnementsenattente',
-        title: 'Abonnements En attente',
-        icon: 'mdi mdi-notification-clear-all',
-        class: '',
-        extralink: false,
-        submenu: []
-      },
-    ]
-  },
+  
   {
     path: '',
     title: 'Services',
@@ -202,31 +178,7 @@ export const ROUTES_A: RouteInfo[] = [
     extralink: false,
     submenu: []
   },
-  {
-    path: '/apps/email',
-    title: 'Gestion Abonnements',
-    icon: 'icon-Administrator',
-    class: 'has-arrow',
-    extralink: false,
-    submenu: [
-      {
-        path: '/abonnements/tableabonnements',
-        title: 'Abonnements Accepté',
-        icon: 'mdi mdi-notification-clear-all',
-        class: '',
-        extralink: false,
-        submenu: []
-      },
-      {
-        path: '/abonnementsenattente/tableabonnementsenattente',
-        title: 'Abonnements En attente',
-        icon: 'mdi mdi-notification-clear-all',
-        class: '',
-        extralink: false,
-        submenu: []
-      },
-    ]
-  },
+  
   {
     path: '',
     title: 'Services',
@@ -304,7 +256,7 @@ export const ROUTES_F: RouteInfo[] = [
     submenu: [
       {
         path: '/abonnements/tableabonnements',
-        title: 'Abonnements Accepté',
+        title: 'Abonnements payés',
         icon: 'mdi mdi-notification-clear-all',
         class: '',
         extralink: false,
@@ -312,7 +264,7 @@ export const ROUTES_F: RouteInfo[] = [
       },
       {
         path: '/abonnementsenattente/tableabonnementsenattente',
-        title: 'Abonnements En attente',
+        title: 'Abonnements non payés',
         icon: 'mdi mdi-notification-clear-all',
         class: '',
         extralink: false,
