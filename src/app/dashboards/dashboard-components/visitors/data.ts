@@ -1,68 +1,68 @@
 export const multi = [
   {
-    name: 'Germany',
+    name: 'Sousse',
     series: [
       {
-        name: '2010',
+        name: 'Janvier',
         value: 40
       },
       {
-        name: '2000',
+        name: 'Fevrier',
         value: 36
       },
       {
-        name: '1990',
+        name: 'Mars',
         value: 31
       }
     ]
   },
   {
-    name: 'USA',
+    name: 'Tunis',
     series: [
       {
-        name: '2010',
+        name: 'Janvier',
         value: 49
       },
       {
-        name: '2000',
+        name: 'Fevrier',
         value: 45
       },
       {
-        name: '1990',
+        name: 'Mars',
         value: 37
       }
     ]
   },
   {
-    name: 'India',
+    name: 'Monastir',
     series: [
       {
-        name: '2010',
+        name: 'Janvier',
         value: 36
       },
       {
-        name: '2000',
+        name: 'Fevrier',
         value: 34
       },
       {
-        name: '1990',
+        name: 'Mars',
         value: 29
       }
     ]
   },
   {
-    name: 'Spain',
+    name: 'Sfax',
     series: [
       {
-        name: '2010',
+        name: 'Janvier',
         value: 36
       },
       {
-        name: '2000',
+        name: 'Fevrier',
         value: 32
       },
       {
-        name: '1990',
+        name: 'Mars',
         value: 26
       }
     ]

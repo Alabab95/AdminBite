@@ -105,14 +105,7 @@ export const ROUTES_SA: RouteInfo[] = [
 
 
 export const ROUTES_A: RouteInfo[] = [
-  {
-    path: '',
-    title: 'dfsdf',
-    icon: 'mdi mdi-dots-horizontal',
-    class: 'nav-small-cap',
-    extralink: true,
-    submenu: []
-  },
+  
   {
     path: '',
     title: 'Personal',
@@ -199,14 +192,7 @@ export const ROUTES_A: RouteInfo[] = [
 ];
 
 export const ROUTES_F: RouteInfo[] = [
-  {
-    path: '',
-    title: 'dfsdf',
-    icon: 'mdi mdi-dots-horizontal',
-    class: 'nav-small-cap',
-    extralink: true,
-    submenu: []
-  },
+ 
   {
     path: '',
     title: 'Personal',
@@ -216,7 +202,7 @@ export const ROUTES_F: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '/dashboard/dashboard',
+    path: '/dashboard/dashboard2',
     title: 'Dashboard',
     icon: 'icon-Car-Wheel',
     class: '',

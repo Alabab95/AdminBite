@@ -18,9 +18,9 @@ export class VisitorsComponent {
   showLegend = false;
   showXAxisLabel = true;
   tooltipDisabled = false;
-  xAxisLabel = 'Country';
+  xAxisLabel = 'Gouvernorat';
   showYAxisLabel = true;
-  yAxisLabel = 'Visits';
+  yAxisLabel = 'Ventes';
   showGridLines = true;
   innerPadding = 0;
   autoScale = true;
