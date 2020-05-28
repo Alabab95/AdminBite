@@ -7,6 +7,7 @@ const User = require('./user.controller');
 
 module.exports.addService = (req, res, next) => {
     console.log(req._id);
+    //i
     const service = new Service({
         _id : new mongoose.Types.ObjectId(),
         name : req.body.name,

@@ -7,25 +7,9 @@ import { UserService } from '../../shared/user.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls :["login.component.css"],
   providers: [UserService,MessageService],
-  styles : [`
-        :host ::ng-deep button {
-            margin-right: .25em;
-        }
-
-        :host ::ng-deep .custom-toast .ui-toast-message {
-            background: #FC466B;
-            background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
-            background: linear-gradient(to right, #3F5EFB, #FC466B);
-        }
-
-        :host ::ng-deep .custom-toast .ui-toast-message div {
-            color: #ffffff;
-        }
-
-        :host ::ng-deep .custom-toast .ui-toast-message.ui-toast-message-info .ui-toast-close-icon {
-            color: #ffffff;
-        }`]
+  
 })
 export class LoginComponent implements OnInit {
   userDetails;

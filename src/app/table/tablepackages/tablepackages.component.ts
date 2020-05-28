@@ -266,10 +266,11 @@ deleteRecord(event){
     res => {
 
       console.log("success");
-      this.refreshPackagesList();
       this.ServicesService.Service=[];
       this.allservices=[]
       event.confirm.resolve(event.source.data);
+      this.showSuccess("Package","Le Package "+event.data.name+" supprimé avec succès")
+      this.refreshPackagesList();
 
     },
     err => {

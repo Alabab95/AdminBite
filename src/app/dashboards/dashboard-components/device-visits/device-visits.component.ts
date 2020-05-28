@@ -12,7 +12,7 @@ export class DeviceVisitsComponent implements AfterViewInit {
     const chart = c3.generate({
       bindto: '#visitor',
       data: {
-        columns: [['Desktop', 60], ['Tablet', 12], ['Mobile', 28]],
+        columns: [['Tunis', 60], ['Sfax', 12], ['Sousse', 28]],
 
         type: 'donut'
       },
@@ -20,7 +20,7 @@ export class DeviceVisitsComponent implements AfterViewInit {
         label: {
           show: false
         },
-        title: 'Visits',
+        title: 'Ventes',
         width: 25
       },
 

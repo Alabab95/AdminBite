@@ -183,6 +183,8 @@ deleteRecord(event){
     res => {
       console.log("success");
       event.confirm.resolve(event.source.data);
+      this.showSuccess("Service","Le Service "+event.data.name+" supprimé avec succès")
+      this.refreshServicesList();
 
     },
     err => {
