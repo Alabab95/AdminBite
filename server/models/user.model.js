@@ -6,19 +6,22 @@ var userSchema = new mongoose.Schema({
   login: {
       type: String,
       required: 'login can\'t be empty',
-      unique: true
+      unique: true,
+      match: [/^[a-zA-Z ]+[1-9]*.*$/, 'invalid login']
   },
   firstName: {
     type: String,
     required: [function(){
       return this.role === 'client'|| this.role === 'fournisseur';
-    },'firstName is required']
+    },'firstName is required'],
+    match: [/^[a-zA-Z ]+$/, 'invalid First Name']
   },
   lastName: {
     type: String,
     required: [function(){
       return this.role === 'client'|| this.role === 'fournisseur';
-    },'lastName is required']
+    },'lastName is required'],
+    match: [/^[a-zA-Z ]+$/, 'invalid Last Name']
   },
   adress: {
     type: String,
@@ -40,26 +43,29 @@ var userSchema = new mongoose.Schema({
       type: String,
       required: [function(){
         return this.role === 'fournisseur';
-      },'Society is required']
+      },'Society is required'],
+      match: [/^[a-zA-Z ]+[1-9]*.*$/, 'invalid society Name']
 
   },
   activity: {
       type: String,
       required:[function(){
         return this.role === 'fournisseur';
-      },'Activity is required']
+      },'Activity is required'],
+      match: [/^[a-zA-Z ]+[1-9]*.*$/, 'invalid Activity Name']
 
   },
   phone: {
       type: String,
-      required: 'phone can\'t be empty'
-
+      required: 'phone can\'t be empty',
+      match: [/^[0-9]{8}$/, 'invalid phone number']
+      
   },
   mail: {
       type: String,
       required: 'mail can\'t be empty',
-      unique: true
-
+      unique: true,
+      match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'Please fill a valid email address']
   },
   image: {type: String},
   etat: {

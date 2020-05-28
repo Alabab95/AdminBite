@@ -46,6 +46,9 @@ export class TableFournisseursComponent implements OnInit {
     this.refreshUserList();
     this.source2 = new LocalDataSource(tableData.data); // create the source
    }
+   showWarn(summary,detail) {
+    this.messageService.add({severity:'warn', summary: summary, detail: detail});
+  }
 
    settings = tableData.settings;
    settings2 = tableData.settings2;
@@ -84,7 +87,8 @@ export class TableFournisseursComponent implements OnInit {
 
       },
       err => {
-        console.log("fail",err);
+        this.showWarn("erreur","données invalide");
+      event.confirm.reject();
       }
     );
   }
@@ -113,11 +117,10 @@ updateRecord(event) {
       console.log("success");
       event.confirm.resolve(event.newData);
       this.refreshUserList();
-
-
     },
     err => {
-      console.log("fail",err);
+      this.showWarn("erreur","données invalide");
+      event.confirm.reject();
     }
   );
 
@@ -171,19 +174,10 @@ onRefus(event) {
     "etat" : 'Réfusée'
 
   }
-  this.userService.putUser(data).subscribe(
-    res => {
-
       console.log("success");
       this.deleteRecord(event)
       this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
 
-
-    },
-    err => {
-      console.log("fail",err);
-    }
-  );
 
 }
 showConfirmToDeleteUser(event) {
@@ -227,7 +221,6 @@ refreshUserList(){
     console.log( this.userService.users);
     this.source = new LocalDataSource(this.userService.users);
   });
-
 }
 }
 

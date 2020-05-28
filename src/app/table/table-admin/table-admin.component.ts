@@ -49,6 +49,9 @@ export class TableAdminComponent implements OnInit {
   showSuccess(summary,detail) {
     this.messageService.add({severity:'success', summary: summary, detail: detail});
   }
+  showWarn(summary,detail) {
+    this.messageService.add({severity:'warn', summary: summary, detail: detail});
+  }
   showError() {
     this.messageService.add({severity:'error', summary: 'Error Message', detail:'Validation failed'});
   }
@@ -72,7 +75,8 @@ export class TableAdminComponent implements OnInit {
         this.refreshUserList();
       },
       err => {
-        console.log("fail",err);
+        this.showWarn("erreur","données invalide");
+        event.confirm.reject();
       }
     );
   }
@@ -98,7 +102,8 @@ updateRecord(event) {
 
     },
     err => {
-      console.log("fail",err);
+      this.showWarn("erreur","données invalide");
+        event.confirm.reject();
     }
   );
 
@@ -122,7 +127,8 @@ onAccept(event) {
 
     },
     err => {
-      console.log("fail",err);
+      this.showWarn("erreur","données invalide");
+        event.confirm.reject();
     }
   );
 
@@ -138,19 +144,8 @@ onRefus(event) {
     "mail" : event.data.mail,
 
   }
-  this.userService.putUser(data).subscribe(
-    res => {
-
-      console.log("success");
       this.deleteRecord(event)
       this.refreshUserList();
-
-
-    },
-    err => {
-      console.log("fail",err);
-    }
-  );
 
 }
 showConfirmToDeleteUser(event) {

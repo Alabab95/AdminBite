@@ -6,6 +6,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 
 const User = mongoose.model('User');
+const Package = mongoose.model('Package');
 
 module.exports.register = (req,role, res, next) => {
   console.log(req.body);
@@ -26,7 +27,7 @@ module.exports.register = (req,role, res, next) => {
           res.send(doc);
       else {
           if (err.code == 11000)
-              res.status(422).send(['Duplicate email adrress or login found.']);
+              res.status(422).send(['Duplicate email adrress or login.']);
           else
               return next(err);
       }
@@ -141,17 +142,25 @@ module.exports.update = async (req, res) => {
 // };
 console.log(req.body.password);
 console.log(bcrypt.hashSync(req.body.password,10));
+let user = await User.findById(req.params.id);
 if(req.body.password)
-{  
-  User.findByIdAndUpdate(req.params.id, { $set: req.body, password:bcrypt.hashSync(req.body.password,10) }, { new: true }, (err, doc) => {
+{ 
+  if(user.password === req.body.password){
+    User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true,runValidators: true }, (err, doc) => {
     if (!err) { res.send(doc); }
-    else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
+    else {res.status(400).json({"message":"erreur updating"}); }
   });
-}
-  else {
-    User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true }, (err, doc) => {
+  }else {
+    User.findByIdAndUpdate(req.params.id, { $set: req.body, password:bcrypt.hashSync(req.body.password,10) }, { new: true,runValidators: true }, (err, doc) => {
       if (!err) { res.send(doc); }
-      else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
+      else {res.status(400).json({"message":"erreur updating"}); }
+    });
+  }
+  
+}else {
+    User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true,runValidators: true }, (err, doc) => {
+      if (!err) { res.send(doc); }
+      else {res.status(400).json({"message":"erreur updating"}); }
     });
   }
 }
@@ -166,14 +175,24 @@ User.findByIdAndUpdate(req._id, { $set: req.body }, { new: true }, (err, doc) =>
 }
 
 
-module.exports.delete = (req, res) => {
+module.exports.delete = async (req, res) => {
   if (!ObjectId.isValid(req.params.id))
       return res.status(400).send(`No record with given id : ${req.params.id}`);
+  let user = await User.findById(req.params.id);
+  if(user.role == 'fournisseur'){
+    Package.deleteMany({fournisseur:req.params.id}).then(x=>{
+      User.findByIdAndRemove(req.params.id, (err, doc) => {
+        if (!err) { res.send(doc); }
+        else { console.log('Error in Employee Delete :' + JSON.stringify(err, undefined, 2)); }
+      });
+    });
 
+  }else {
   User.findByIdAndRemove(req.params.id, (err, doc) => {
       if (!err) { res.send(doc); }
       else { console.log('Error in Employee Delete :' + JSON.stringify(err, undefined, 2)); }
   });
+  }
 }
 
 

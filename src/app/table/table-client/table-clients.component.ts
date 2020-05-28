@@ -79,7 +79,8 @@ export class TableClientComponent implements OnInit {
         this.refreshUserList();
       },
       err => {
-        console.log("fail",err);
+        this.showWarn("erreur","données invalide");
+        event.confirm.reject();
       }
     );
   }
@@ -110,7 +111,8 @@ updateRecord(event) {
 
     },
     err => {
-      console.log("fail",err);
+      this.showWarn("erreur","données invalide");
+        event.confirm.reject();
     }
   );
 
@@ -135,7 +137,8 @@ onAccept(event) {
 
     },
     err => {
-      console.log("fail",err);
+      this.showWarn("erreur","données invalide");
+      event.confirm.reject();
     }
   );
 
@@ -157,30 +160,15 @@ onRefus(event) {
     "phone" : event.data.phone,
     "mail" : event.data.mail
   }
-  this.userService.postclient(data).subscribe(
-    res => {
-
-      console.log("success");
       this.deleteRecord(event)
-
-
-    },
-    err => {
-      console.log("fail",err);
-    }
-  );
-
 }
 deleteRecord(event){
   this.userService.deleteUser(event.data._id).subscribe(
     res => {
-
       console.log("success");
       event.confirm.resolve(event.source.data);
       this.showSuccess("Client","Le Client "+event.data.firstName+" supprimé avec succès")
       this.refreshUserList();
-
-
     },
     err => {
       console.log("fail",err);
@@ -209,6 +197,9 @@ refreshUserList(){
     this.source = new LocalDataSource(this.userService.users);
   });
 
+}
+showWarn(summary,detail) {
+  this.messageService.add({severity:'warn', summary: summary, detail: detail});
 }
 
 }

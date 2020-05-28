@@ -5,6 +5,7 @@ import { UserService } from '../../shared/user.service';
 import { PackageService } from '../../shared/package.service';
 import { ServicesService } from '../../shared/services.service';
 import {MessageService} from 'primeng/api';
+import { NgForm } from '@angular/forms';
 
 import { Router } from "@angular/router";
 import { User } from 'src/app/shared/user.model';
@@ -101,7 +102,6 @@ export class TablepackagesComponent implements OnInit {
     this.messageService.add({severity:'success', summary: summary, detail: detail});
    }
    addRecord(event) {
-    console.log(event.newData);
     var services = [];
     event.newData.services!=""?services=event.newData.services:services=[];
     console.log(services);
