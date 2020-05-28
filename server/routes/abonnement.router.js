@@ -3,7 +3,7 @@ const ctrlAbonnement = require('../controllers/abonnement.controller');
 const jwtHelper = require('../config/jwtHelper');
 
 
-abonnements.post('/',jwtHelper.verifyJwtToken,ctrlAbonnement.createAbonnement);
+abonnements.post('/:id',jwtHelper.verifyJwtToken,ctrlAbonnement.createAbonnement);
 abonnements.get('/singleAbonement/:id',ctrlAbonnement.returnAbonnement);
 abonnements.get('/',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlAbonnement.allAbonnements);
 abonnements.put('/:id',ctrlAbonnement.update);

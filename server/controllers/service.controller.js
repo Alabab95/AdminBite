@@ -60,7 +60,7 @@ module.exports.deleteService = async(req,res,next) => {
                   message:'Service deleted',
                   request : {
                     type:'POST',
-                    url:'http://localhost:3000/service/list',
+                    url:'http://localhost:3000/services/',
                     body : {
                       name: 'String',
                       price: 'Number',
@@ -96,7 +96,7 @@ module.exports.deleteService = async(req,res,next) => {
                         message:'Service deleted',
                         request : {
                           type:'POST',
-                          url:'http://localhost:3000/service/list',
+                          url:'http://localhost:3000/services/',
                           body : {
                             name: 'String',
                             price: 'Number',

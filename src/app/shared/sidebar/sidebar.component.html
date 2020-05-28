@@ -17,7 +17,7 @@
                         <i class="ti-power-off"></i>
                     </button>
                     <div class="animated flipInY" aria-labelledby="Userdd" ngbDropdownMenu>
-                        <a class="dropdown-item" href="javascript:void(0)">
+                        <a class="dropdown-item" (click)="showModalDialog()" href="javascript:void(0)">
                             <i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
                         <a class="dropdown-item" href="javascript:void(0)">
                             <i class="ti-wallet m-r-5 m-l-5"></i> My Balance</a>
@@ -70,3 +70,195 @@
         </li>
     </ul>
 </nav>
+
+<p-dialog header="Godfather I" [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false">
+    <form class="form-horizontal m-t-20" #updateProfilForm="ngForm" (ngSubmit)="updateProfile(updateProfilForm)">
+        <div class="p-grid">
+            <div class="p-col-6"> 
+                <div class="form-group row">
+                    <div class="col-12 ">
+                        <!-- <input class="form-control form-control-lg" name="login" type="text" required=" " placeholder="login" #login="ngModel" [(ngModel)]="userService.selectedUser.login"> -->
+                        <span class="ui-float-label">
+                            <input id="float-input" class="form-control form-control-lg" value="{{userDetails.login}}" name="login" type="text" pattern="^[a-zA-Z ]+[1-9]*.*$" required size="30" #login="ngModel" [(ngModel)]="userService.selectedUser.login" pInputText> 
+                            <label class="h5" for="float-input">Login</label>
+                        </span>
+                    </div>
+                    <div class="col-12 " *ngIf="login.invalid && login.touched && login.value == null">
+                        <div>
+                            <span class="text-danger"  *ngIf="login.errors.required">Login is required</span>
+                        </div>
+                        <div>
+                            <span class="text-danger" *ngIf="login.errors.pattern">unvalid login</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-col-6">
+                <div class="form-group row">
+                    <div class="col-12 ">
+                        <span class="ui-float-label">
+                            <input id="float-input" class="form-control form-control-lg" name="password" value="{{userDetails.password}}" type="password" required minlength="8" size="30" #password="ngModel" [(ngModel)]="userService.selectedUser.password" pInputText>
+                              
+                            <label class="h5" for="float-input">Password</label>
+                        </span>
+                        <!-- <input class="form-control form-control-lg" type="password" name="password" required=" " placeholder="password" #password="ngModel" [(ngModel)]="userService.selectedUser.password"> -->
+                    </div>
+                    <div class="col-12 " *ngIf="password.invalid && password.touched  && password.value == null">
+                        <div>                                
+                            <span class="text-danger" *ngIf="password.errors.required">Password is required</span>
+                        </div>
+                        <div>
+                            <span class="text-danger" *ngIf="password.errors.minlength">Password must be at least 8 characters long</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="userDetails.role == 'fournisseur'" class="p-col-6">
+                    <div class="form-group row">
+                        <div class="col-12 ">
+                            <!-- <input class="form-control form-control-lg" name="login" type="text" required=" " placeholder="login" #login="ngModel" [(ngModel)]="userService.selectedUser.login"> -->
+                            <span class="ui-float-label">
+                                <input id="float-input" class="form-control form-control-lg" name="firstName" value="{{userDetails.firstName}}"  type="text" pattern="^[a-zA-Z ]+$" required size="30" #firstName="ngModel" [(ngModel)]="userService.selectedUser.firstName" pInputText> 
+                                <label class="h5" for="float-input">First Name</label>
+                            </span>
+                        </div>
+                        <div class="col-12" *ngIf="firstName.invalid && firstName.touched  && firstName.value == null">
+                            <div>
+                                <span class="text-danger" *ngIf="firstName.errors.required">First Name is required</span>
+                            </div>
+                            <div>
+                                <span class="text-danger" *ngIf="firstName.errors.pattern">Invalid First Name</span>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div  *ngIf="userDetails.role == 'fournisseur'" class="p-col-6">
+                    <div class="form-group row">
+                        <div class="col-12 ">
+                            <!-- <input class="form-control form-control-lg" name="login" type="text" required=" " placeholder="login" #login="ngModel" [(ngModel)]="userService.selectedUser.login"> -->
+                            <span class="ui-float-label">
+                                <input id="float-input" class="form-control form-control-lg" name="lastName" value="{{userDetails.lastName}}" type="text" pattern="^[a-zA-Z ]+$" required size="30" #lastName="ngModel" [(ngModel)]="userService.selectedUser.lastName" pInputText> 
+                                <label class="h5" for="float-input">Last Name</label>
+                            </span>
+                        </div>
+                        <div class="col-12" *ngIf="lastName.invalid && lastName.touched  && lastName.value == null">
+                            <div>
+                                <span class="text-danger" *ngIf="lastName.errors.required">Last Name is required</span>
+                            </div>
+                            <div>
+                                <span class="text-danger" *ngIf="lastName.errors.pattern">Invalid Last Name</span>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div *ngIf="userDetails.role == 'fournisseur'" class="p-col-6">
+                <div class="form-group row">
+                    <div class="col-12 ">
+                        <!-- <input class="form-control form-control-lg" name="login" type="text" required=" " placeholder="login" #login="ngModel" [(ngModel)]="userService.selectedUser.login"> -->
+                        <span class="ui-float-label">
+                            <input id="float-input" class="form-control form-control-lg" name="adress" type="text" value="{{userDetails.adress}}" required size="30" #adress="ngModel" [(ngModel)]="userService.selectedUser.adress" pInputText> 
+                            <label class="h5" for="float-input">Adress</label>
+                        </span>
+                    </div>
+                    <div class="col-12 ">
+                        <span class="text-danger" *ngIf="adress.invalid && adress.touched  && address.value == null">Adress is required</span>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="userDetails.role == 'fournisseur'" class="p-col-6">
+                <div class="form-group row">
+                    <div class="col-12 ">
+                        <span class="ui-float-label">
+                            <input id="float-input" class="form-control form-control-lg" name="society" type="text" value="{{userDetails.society}}" pattern="^[a-zA-Z ]+[1-9]*.*$" required size="30" #society="ngModel" [(ngModel)]="userService.selectedUser.society" pInputText> 
+                            <label class="h5" for="float-input">Society</label>
+                        </span>
+                        <!-- <input class="form-control form-control-lg" type="text" required=" " name="society" placeholder="society" #society="ngModel" [(ngModel)]="userService.selectedUser.society"> -->
+                    </div>
+                    <div class="col-12 " *ngIf="society.invalid && society.touched  && society.value == null">
+                        <div>
+                            <span class="text-danger" *ngIf="society.errors.required">Society is required</span>
+                        </div>
+                        <div>
+                            <span class="text-danger" *ngIf="society.errors.pattern">Society is required</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-col-6">
+                <div class="form-group row">
+                    <div class="col-12 ">
+                        <span class="ui-float-label">
+                            <input id="float-input" class="form-control form-control-lg" name="mail" type="text" value="{{userDetails.mail}}" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" size="30" #mail="ngModel" [(ngModel)]="userService.selectedUser.mail" pInputText> 
+                            <label class="h5" for="float-input">Mail</label>
+                        </span>
+                        <!-- <input class="form-control form-control-lg" type="mail" required=" " name="mail" placeholder="mail" #mail="ngModel" [(ngModel)]="userService.selectedUser.mail"> -->
+                    </div>
+                    <div class="col-12 " *ngIf="mail.invalid && mail.touched  && mail.value == null">
+                        <div>                                
+                            <span class="text-danger" *ngIf="mail.errors.required">Mail is required</span>
+                    </div>
+                    <div>
+                            <span class="text-danger" *ngIf="mail.errors.pattern">mail must be a valid address</span>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="p-col-6">
+                <div class="form-group row">
+                    <div class="col-12 ">
+                        <span class="ui-float-label">
+                            <input id="float-input" class="form-control form-control-lg" name="phone" type="text" value="{{userDetails.phone}}" required pattern="^[0-9]{8}$" size="30" #phone="ngModel" [(ngModel)]="userService.selectedUser.phone" pInputText> 
+                            <label class="h5" for="float-input">Phone</label>
+                        </span>
+                        <!-- <input class="form-control form-control-lg" type="text" required=" " name="phone" placeholder="phone" #phone="ngModel" [(ngModel)]="userService.selectedUser.phone"> -->
+                    </div>
+                    <div class="col-12 " *ngIf="phone.invalid && phone.touched  && phone.value == null">
+                        <div>                                
+                            <span class="text-danger" *ngIf="phone.errors.required">Phone is required</span>
+                    </div>
+                    <div>
+                            <span class="text-danger" *ngIf="phone.errors.pattern">Phone must be a valid phone number</span>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="userDetails.role == 'fournisseur'" class="p-grid p-align-center">
+            <div class="p-col"></div>
+            <div class="p-col">
+                <div class="form-group row">
+                    <div class="col-12 ">
+                        <span class="ui-float-label">
+                            <input id="float-input" class="form-control form-control-lg" name="activity" type="text" value="{{userDetails.activity}}" pattern="^[a-zA-Z ]+[1-9]*.*$" required size="30" #activity="ngModel" [(ngModel)]="userService.selectedUser.activity" pInputText> 
+                            <label class="h5" for="float-input">Activity</label>
+                        </span>
+                        <!-- <input class="form-control form-control-lg" type="text" required=" " name="activity" placeholder="activity" #activity="ngModel" [(ngModel)]="userService.selectedUser.activity"> -->
+                    </div>
+                    <div class="col-12 " *ngIf="activity.invalid && activity.touched  && activity.value == null">
+                        <div>
+                            <span class="text-danger" *ngIf="activity.errors.required">Activity is required</span>
+                        </div>
+                        <div>
+                            <span class="text-danger" *ngIf="activity.errors.pattern">invalid Activity</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-col"></div>
+        </div>
+        <!-- <div class="form-group row">
+            <div class="col-12 ">
+                <button class="form-control form-control-lg" name="image" #image="ngModel" [(ngModel)]="userService.selectedUser.image" type="button" (click) = "FilePicker.click()">upload</button>
+                <input type="file" #FilePicker>
+            </div>
+        </div>  -->
+        <div class="form-group text-center ">
+            <div class="col-xs-12 p-b-20 ">
+                <input class="btn btn-block btn-lg btn-info" type="submit" value="Confirmer">
+            </div>
+        </div>
+    </form>
+</p-dialog>

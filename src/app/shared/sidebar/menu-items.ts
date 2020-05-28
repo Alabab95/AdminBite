@@ -183,7 +183,15 @@ export const ROUTES_A: RouteInfo[] = [
       class: '',
       extralink: false,
       submenu: []
-    }
+    },
+    {
+      path: '/clients/tableclient',
+      title: 'Gestions des clients',
+      icon: '',
+      class: '',
+      extralink: false,
+      submenu: []
+    },
   ]
   },
   {

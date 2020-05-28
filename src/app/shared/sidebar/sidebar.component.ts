@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { ROUTES_SA, ROUTES_A, ROUTES_F } from './menu-items';
+import { NgForm } from '@angular/forms';
 import { RouteInfo } from './sidebar.metadata';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,13 +9,18 @@ declare var $: any;
 
 @Component({
   selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html'
+  templateUrl: './sidebar.component.html',
+  styles: [
+    "node_modules/primeflex/primeflex.css"
+  ]
 })
 export class SidebarComponent implements OnInit {
   showMenu = '';
   showSubMenu = '';
   Admin = false;
   userDetails;
+  showpass = 'text';
+  displayModal : boolean;
 
   public sidebarnavItems: any[];
   // this is for the open close
@@ -45,7 +51,8 @@ export class SidebarComponent implements OnInit {
     this.userService.getUserProfile().subscribe(
       res => {
         this.userDetails = res['user'];
-          console.log(this.userDetails.role);
+        this.userService.selectedUser=res['user'];
+        console.log(this.userDetails);
           if(this.userDetails.role == "admin"){
             this.sidebarnavItems = ROUTES_A.filter(sidebarnavItem => sidebarnavItem);
           }else if(this.userDetails.role == "superadmin"){
@@ -55,7 +62,6 @@ export class SidebarComponent implements OnInit {
             this.sidebarnavItems = ROUTES_F.filter(sidebarnavItem => sidebarnavItem);
 
           }
-          console.log(this.userDetails.society);
 
       },
       err => {
@@ -70,4 +76,21 @@ export class SidebarComponent implements OnInit {
     this.userService.deleteToken();
     this.router.navigate(['/authentication/login']);
   }
+  testt(){
+    console.log("hhhh");
+  }
+  showModalDialog() {
+    this.displayModal = true;
+}
+updateProfile(form: NgForm){
+  console.log(form.value);
+   let user = {
+     _id : this.userDetails._id,
+    ...form.value
+  }
+  console.log(user);
+  this.userService.putUser(user).subscribe(res=>{
+    console.log("done");
+  });
+}
 }

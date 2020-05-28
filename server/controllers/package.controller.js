@@ -5,7 +5,7 @@ const User = mongoose.model('User');
 
 module.exports.filterParDate = (req,res,next) => {
   Package.find({})
-    .select("_id name domaine fournisseur service price date")
+    .select("_id name domaine fournisseur services price date")
     .populate('services','name price description state')
     .sort('-date')
     .exec()
@@ -14,10 +14,7 @@ module.exports.filterParDate = (req,res,next) => {
         count: docs.length,
         packages: docs.map(doc => {
           console.log("doc.services =",doc.services)
-          let price =0;
-          doc.services.map(item => {
-            price = price + item.price
-          })
+
           return {
             _id: doc._id,
             product: doc.product,
@@ -26,7 +23,7 @@ module.exports.filterParDate = (req,res,next) => {
             domaine : doc.domaine,
             fournisseur : doc.fournisseur,
             services : doc.services,
-            price : price,
+            price : doc.price,
             date : doc.date,
             request: {
               type: "GET",
@@ -158,7 +155,7 @@ module.exports.createPackage = async (req,res,next) => {
             } */
        // console.log(p);
         //const ress = calculePrice(req.body.services);
-        let user = await  User.findOne({firstName:req.body.fournisseur,role:"fournisseur"});
+        let user = await  User.findOne({login:req.body.fournisseur,role:"fournisseur"});
         console.log(user);
         if(!user){
           return res.status(500).json({
@@ -170,8 +167,8 @@ module.exports.createPackage = async (req,res,next) => {
         console.log(user._id);
         //console.log(req.body);
         if(req.body.services.length>0){
-            req.body.services.map(async e => {
-              await Service.findById(e)
+            req.body.services.map(async serviceId => {
+              await Service.findById(serviceId)
                 .then(s => {
                   price += s.price;
                   i++;
@@ -297,8 +294,8 @@ module.exports.servicesCanAdd = (req,res,next) => {
   Package.findById(req.params.id)
     .select("_id name domaine fournisseur services price date")
     .populate('fournisseur','login')
-    .then(async docs => {
-      console.log(docs);
+    .then(async package => {
+      console.log(package);
       let services
       if(req.role=='fournisseur'){
        services = await Service.find({fournisseurId:req._id});  
@@ -308,28 +305,15 @@ module.exports.servicesCanAdd = (req,res,next) => {
       let arraytopass = [];
       console.log(services);
       let i=0;
-      services.map(  e => {
+      services.map( service => {
         i++;
-        if( !docs.services.includes(e._id)){
-          console.log('bablaaze')
-          arraytopass.push(e);
+        if( !package.services.includes(service._id)){
+          arraytopass.push(service);
         } 
         if(i==services.length) {
           res.send(arraytopass);
         }
-      })
-
-      // docs.services.map(ele =>{
-      //   services.map(s =>{
-      //     console.log(ele != s.id);
-      //     if(ele != s._id && !arraytopass.includes(s)){
-      //       arraytopass.push(s);
-      //     }
-      //   })
-      // });
-      //let anothervar = services.filter(elem => !docs.services.includes(elem));
-      console.log(arraytopass);
-      
+      }) 
     })
 }
 

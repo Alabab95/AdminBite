@@ -127,24 +127,33 @@ module.exports.listAdmins= (req, res) => {
   });
 }
 
-module.exports.update = (req, res) => {
-  console.log(req.user);
+module.exports.update = async (req, res) => {
   if (!ObjectId.isValid(req.params.id))
   return res.status(400).send(`No record with given id : ${req.params.id}`);
-
-var user = {
-  login : req.body.login,
-  password : req.body.password,
-  society : req.body.society,
-  activity : req.body.activity,
-  phone : req.body.phone,
-  etat : req.body.etat,
-  mail : req.body.mail,
-};
-User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true }, (err, doc) => {
-  if (!err) { res.send(doc); }
-  else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
-});
+// var user = {
+//   login : req.body.login,
+//   password : req.body.password,
+//   society : req.body.society,
+//   activity : req.body.activity,
+//   phone : req.body.phone,
+//   etat : req.body.etat,
+//   mail : req.body.mail,
+// };
+console.log(req.body.password);
+console.log(bcrypt.hashSync(req.body.password,10));
+if(req.body.password)
+{  
+  User.findByIdAndUpdate(req.params.id, { $set: req.body, password:bcrypt.hashSync(req.body.password,10) }, { new: true }, (err, doc) => {
+    if (!err) { res.send(doc); }
+    else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
+  });
+}
+  else {
+    User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true }, (err, doc) => {
+      if (!err) { res.send(doc); }
+      else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
+    });
+  }
 }
 
 module.exports.updateProfile = (req, res) => {

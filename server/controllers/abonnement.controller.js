@@ -151,11 +151,58 @@ module.exports.addPackageToAbonnement = (req,res,next) => {
        
 }
 
-module.exports.createAbonnement = (req,res,next) => {
-    let package = req.body.package;
+module.exports.createAbonnement = async (req,res,next) => {
+    let package = await Package.findById(req.params.id);
+    console.log(package);
     let services = [];
     let i =0;
+    if(package.services.length == 0){
+      console.log("blabla")
+      const abonnement = new Abonnement({
+        _id : new mongoose.Types.ObjectId(),
+        name:package.name,
+        client :req._id,
+        fournisseur:package.fournisseur,
+        package : {
+          _id : new mongoose.Types.ObjectId(),
+          name: package.name,
+          domaine : package.domaine,
+          price : package.price,
+          fournisseur: package.fournisseur,
+          date:package.date,
+          services: package.services
+        },
+        services:package.services,
+        price : package.price,
+        date : new Date(),
+        etat : "non paye",
+    });
+    abonnement
+      .save()
+      .then(result => {
+          res.status(200).json({
+              message : "Abonnement created",
+              createdAbonnement : {
+                  _id : result._id,
+                  name : result.name,
+                  fournisseur :result.fournisseur,
+                  client : result.client,
+                  package :result.package,
+                  services:result.services,
+                  price : result.price,
+                  etat : result.etat,
+                  date : result.date
+              }
+          });
+      })
+      .catch(err => {
+          res.status(500).json({
+              error : err
+          });
+      });
+    }else {
     package.services.forEach(async id_service => {
+      console.log(package.services.length)
       i++;
       console.log(id_service)
       service = await Service.findById(id_service).select('name price description state fournisseurId');
@@ -176,9 +223,9 @@ module.exports.createAbonnement = (req,res,next) => {
         console.log(req._id);
         const abonnement = new Abonnement({
           _id : new mongoose.Types.ObjectId(),
-          name:req.body.name,
+          name:package.name,
           client :req._id,
-          fournisseur:req.body.package.fournisseur,
+          fournisseur:package.fournisseur,
           package : {
             _id : new mongoose.Types.ObjectId(),
             name: package.name,
@@ -189,12 +236,12 @@ module.exports.createAbonnement = (req,res,next) => {
             services: package.services
           },
           services:services,
-          price : req.body.package.price,
+          price : package.price,
           date : new Date(),
           etat : "non paye",
       }); 
       console.log(abonnement);
-      console.log(req.body.package);
+      console.log(package);
       abonnement
         .save()
         .then(result => {
@@ -220,7 +267,7 @@ module.exports.createAbonnement = (req,res,next) => {
         });
           }     
         });   
-    
+      }
 }
 
 module.exports.delete = (req,res,next)=> {

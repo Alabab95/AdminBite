@@ -13,7 +13,6 @@ module.exports.verifyJwtToken = (req, res, next) => {
                 if (err)
                     return res.status(500).send({ auth: false, message: 'Token authentication failed.' });
                 else {
-                    console.log("wselt lena ");
                     req._id = decoded._id;
                     req.role = decoded.role;
                     req.email = decoded.email;
@@ -25,7 +24,7 @@ module.exports.verifyJwtToken = (req, res, next) => {
         )
     }
 }
-module.exports.cheackRole = roles=>(req,res,next) => {
+module.exports.cheackRole = roles =>(req,res,next) => {
     if (roles.includes(req.role)){
         next();
     }else {

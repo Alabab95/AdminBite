@@ -36,6 +36,8 @@ import { GFournisseursComponent } from './g-fournisseurs/g-fournisseurs.componen
 import { AuthGuard } from './apps/auth/auth.guard';
 import { AuthInterceptor } from './apps/auth/auth.interceptor';
 import { UserService } from './shared/user.service';
+import {DialogModule} from 'primeng/dialog';
+import {InputTextModule} from 'primeng/inputtext';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -62,12 +64,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    InputTextModule,
     NgbModule.forRoot(),
     SlimLoadingBarModule.forRoot(),
     RouterModule.forRoot(Approutes, { useHash: false }),
     PerfectScrollbarModule,
     NgMultiSelectDropDownModule.forRoot(),
-    AgmCoreModule.forRoot({ apiKey: 'AIzaSyBUb3jDWJQ28vDJhuQZxkC0NXr_zycm8D0' })
+    AgmCoreModule.forRoot({ apiKey: 'AIzaSyBUb3jDWJQ28vDJhuQZxkC0NXr_zycm8D0' }),
+    DialogModule
   ],
   providers: [
     {
