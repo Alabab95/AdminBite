@@ -30,6 +30,7 @@ import {MessageService} from 'primeng/api';
   providers:[UserService,MessageService]
 })
 export class SignupComponent implements OnInit {
+  imagePreview;
   constructor(private messageService: MessageService,private userService : UserService,private router : Router) {}
 
   ngOnInit(){
@@ -41,7 +42,8 @@ export class SignupComponent implements OnInit {
     this.messageService.add({severity:'success', summary: 'Inscription', detail:'s\'inscrire avec succès'});
   }
   onSubmit(form: NgForm) {
-    console.log(form.value);
+    form.value.image = this.userService.selectedUser.image;
+    console.log(form.value.image);
     this.userService.postUser(form.value).subscribe(
       res => {
         console.log("success");
@@ -54,4 +56,18 @@ export class SignupComponent implements OnInit {
       }
     );
   }
+  onImagePick(event:Event){
+    const file = (event.target as HTMLInputElement).files[0];
+    this.userService.selectedUser.image = file;
+    console.log(file);
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      this.imagePreview = reader.result;
+    }
+    reader.readAsDataURL(file);
+  }
+  onUpload(event) {
+    console.log(event);
+    this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+}
 }

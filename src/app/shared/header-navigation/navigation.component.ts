@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, EventEmitter, Output } from '@angular/core';
+import { Component, AfterViewInit,OnInit, EventEmitter, Output } from '@angular/core';
 import {
   NgbModal,
   ModalDismissReasons,
@@ -14,9 +14,9 @@ declare var $: any;
   selector: 'app-navigation',
   templateUrl: './navigation.component.html'
 })
-export class NavigationComponent implements AfterViewInit {
+export class NavigationComponent implements AfterViewInit,OnInit {
   @Output() toggleSidebar = new EventEmitter<void>();
-
+  imagePath;
   public config: PerfectScrollbarConfigInterface = {};
 
   public showSearch = false;
@@ -91,5 +91,13 @@ export class NavigationComponent implements AfterViewInit {
   onLogout(){
     this.userService.deleteToken();
     this.router.navigate(['/authentication/login']);
+  }
+  ngOnInit(){
+    
+    this.userService.getUserProfile().subscribe(
+    res => {
+      this.userService.selectedUser=res['user'];
+      this.imagePath = this.userService.selectedUser.image;
+    });
   }
 }

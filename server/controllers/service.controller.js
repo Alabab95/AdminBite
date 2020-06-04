@@ -7,7 +7,6 @@ const User = require('./user.controller');
 
 module.exports.addService = (req, res, next) => {
     console.log(req._id);
-    //i
     const service = new Service({
         _id : new mongoose.Types.ObjectId(),
         name : req.body.name,
@@ -164,7 +163,7 @@ module.exports.updateService = async(req,res,next) => {
         message : 'Service updated',
         request : {
           type : 'GET',
-          url : 'http://localhost:3000/service/'+id
+          url : 'http://localhost:3000/services/'+id
         }
       });
     })
@@ -180,7 +179,7 @@ module.exports.updateService = async(req,res,next) => {
   
 
 }
-
+//service detail
 module.exports.getService = (req,res,next) => {
   const id = req.params.id;
   Service.findById(id)
@@ -193,7 +192,7 @@ module.exports.getService = (req,res,next) => {
           service : doc,
           request : {
             type: 'GET',
-            url: 'http://localhost:3000/service/list'
+            url: 'http://localhost:3000/services/'+id
           }
         });
       } else {

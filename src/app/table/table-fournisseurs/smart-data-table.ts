@@ -34,7 +34,8 @@ export let settings = {
     },
     etat: {
       title: 'Etat',
-      filter: true
+      filter: true,
+      addable : false
     },
     password: {
       title: 'password',

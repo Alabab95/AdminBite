@@ -289,6 +289,7 @@ module.exports.update = (req,res,next) => {
       else { console.log('Error in User Update :' + JSON.stringify(err, undefined, 2)); }
     });
 }
+//service eli ynjm yzidhom lfournisseur lil pack
 module.exports.servicesCanAdd = (req,res,next) => {
   console.log(req.params.id);
   Package.findById(req.params.id)

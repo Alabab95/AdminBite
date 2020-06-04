@@ -31,6 +31,7 @@ export class UserService {
     phone:'',
     mail:'',
     etat:'',
+    image:null,
     saltSecret: ''
   };
   users: User[];
@@ -39,7 +40,22 @@ export class UserService {
   Header = { headers: new HttpHeaders({ 'Authorization': 'Bearer '+this.getToken()}) };
   
   postUser(user){
-    return this.http.post(environment.apiBaseUrl+'/register-fournisseur',user,this.noAuthHeader);
+    const userData = new FormData();
+    userData.append("user",user);
+    userData.append("login",user.login);
+    userData.append("password",user.password);
+    userData.append("firstName",user.firstName);
+    userData.append("lastName",user.lastName);
+    userData.append("adress",user.adress);
+    userData.append("society",user.society);
+    userData.append("activity",user.activity);
+    userData.append("phone",user.phone);
+    userData.append("mail",user.mail);
+    userData.append("etat",user.etat);
+    if(user.image) userData.append("image",user.image,user.login);
+    console.log(user);
+    console.log(userData.get('user'));
+    return this.http.post(environment.apiBaseUrl+'/register-fournisseur',userData,this.noAuthHeader);
   }
   postadmin(user){
     return this.http.post(environment.apiBaseUrl+'/register-admin',user,this.noAuthHeader);
@@ -47,8 +63,20 @@ export class UserService {
   postclient(user){
     return this.http.post(environment.apiBaseUrl+'/register-client',user,this.noAuthHeader);
   }
-  putUser(user) {
-    return this.http.put(environment.apiBaseUrl + `/update/${user._id}`,user,this.Header)
+  putUser(user) {  
+    const userData = new FormData();
+    console.log(user.image);
+    if(user.login) userData.append("login",user.login);
+    if(user.password) userData.append("password",user.password);
+    if(user.firstName) userData.append("firstName",user.firstName);
+    if(user.lastName) userData.append("lastName",user.lastName);
+    if(user.adress) userData.append("adress",user.adress);
+    if(user.society) userData.append("society",user.society);
+    if(user.activity) userData.append("activity",user.activity);
+    if(user.phone) userData.append("phone",user.phone);
+    if(user.mail) userData.append("mail",user.mail);
+    if(typeof user.image === 'object') userData.append("image",user.image,user.login); else  userData.append("image",user.image); 
+    return this.http.put(environment.apiBaseUrl + `/update/${user._id}`,userData,this.Header)
     .pipe(
       tap(()=>{
         this._refreshsNeeded.next();
@@ -77,6 +105,9 @@ export class UserService {
   login(authCredentials) {
     return this.http.post(environment.apiBaseUrl + '/authenticate', authCredentials,this.noAuthHeader);
   }
+  resetpass(form) {
+    return this.http.post(environment.apiBaseUrl + '/resetpass', form,this.Header);
+  }
 
 
   getUserProfile() {
@@ -86,8 +117,8 @@ export class UserService {
 
   //Helper Methods
 
-  setToken(token: string) {
-    localStorage.setItem('token', token);
+  setToken(tokenValue: string) {
+    localStorage.setItem('token', tokenValue);
   }
 
   getToken() {

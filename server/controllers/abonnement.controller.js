@@ -325,7 +325,7 @@ module.exports.allAbonnements = (req,res,next) => {
           error: err
         });
     });
-    }else {
+    }else if(req.role == 'fournisseur'){
       Abonnement.find({fournisseur:req._id,etat :'paye'})
     .then(docs => {
       res.status(200).json({
@@ -355,6 +355,36 @@ module.exports.allAbonnements = (req,res,next) => {
         error: err
       });
     });
+    }else {
+      Abonnement.find({client:req._id,etat :'paye'})
+      .then(docs => {
+        res.status(200).json({
+          count: docs.length,
+          abonnements: docs.map(doc => {
+            let price =0;
+            price = doc.package.price
+            return {
+              _id : doc._id,
+              name : doc.name,
+              fournisseur :doc.fournisseur,
+              client : doc.client,
+              package :doc.package,
+              price : price,
+              etat : doc.etat,
+              date : doc.date,
+              request: {
+                type: "GET",
+                url: "http://localhost:3000/abonnements/" + doc._id
+              }
+            };
+          })
+        });
+      })
+      .catch(err => {
+        res.status(500).json({
+          error: err
+        });
+      });
     }
 }
 

@@ -17,11 +17,14 @@ const storage = multer.diskStorage({
         let error = new Error('Invalid mime type');
         if(isValid){
             error = null;
-        }else 
-        cb(error,"/images");
+        } 
+        cb(error,"./images");
     },
     filename:(req,file,cb)=>{
+        console.log(file.originalname)
+        console.log(file.mimetype)
         const name = file.originalname.toLowerCase().split(' ').join('-');
+        console.log(name)
         const ext = MIME_TYPE_MAP[file.mimetype];
         cb(null,name+'-'+Date.now()+'.'+ ext);
     }
@@ -33,15 +36,15 @@ router.post('/register-fournisseur',multer({storage:storage}).single("image"), (
     ctrlUser.register(req,'fournisseur',res,next);
 });
 //register client
-router.post('/register-client', (req,res,next)=>{
+router.post('/register-client',multer({storage:storage}).single("image"), (req,res,next)=>{
     ctrlUser.register(req,'client',res,next);
 });
 //register admin
-router.post('/register-admin', (req,res,next)=>{
+router.post('/register-admin',multer({storage:storage}).single("image"), (req,res,next)=>{
     ctrlUser.register(req,'admin',res,next);
 });
 //register super-admin
-router.post('/register-superadmin', (req,res,next)=>{
+router.post('/register-superadmin',multer({storage:storage}).single("image"), (req,res,next)=>{
     ctrlUser.register(req,'superadmin',res,next);
 });
 router.post('/authenticate', ctrlUser.authenticate);
@@ -54,9 +57,8 @@ router.get('/list',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','
 router.get('/listfourniatt',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlUser.listFourniAtt);
 router.get('/listadmin',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlUser.listadmin);
 router.get('/listclient',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin']),ctrlUser.listclient);
-router.get('/list1/:id',ctrlUser.list1);
+// router.get('/list1/:id',ctrlUser.list1);
 router.get('/userProfile',jwtHelper.verifyJwtToken,jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur','client']), ctrlUser.userProfile);
-router.get('/listAdmins/:society',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur','client']),ctrlUser.listAdmins);
-router.post('/resetpassword',jwtHelper.verifyJwtToken,ctrlUser.resetpassword);
-
+// router.get('/listAdmins/:society',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur','client']),ctrlUser.listAdmins);
+router.post('/resetpass',jwtHelper.verifyJwtToken,ctrlUser.resetpassword);
 module.exports = router;

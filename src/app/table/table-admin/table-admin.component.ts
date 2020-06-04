@@ -167,7 +167,7 @@ deleteRecord(event){
     res => {
       console.log("success");
       event.confirm.resolve(event.source.data);
-      this.showSuccess("Admin","L'Admin "+event.data.firstName+" supprimé avec succès")
+      this.showSuccess("Admin","L'Admin "+event.data.login+" supprimé avec succès")
       this.refreshUserList();
 
     },

@@ -6,6 +6,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
+const path = require('path');
 
 const rtsIndex = require('./routes/index.router');
 const serviceRouter = require('./routes/service.router');
@@ -17,6 +18,7 @@ var app = express();
 
 // middleware
 app.use(bodyParser.json());
+app.use('/images',express.static(path.join("./images")));
 app.use(cors());
 app.use((req,res,next)=>{
  res.setHeader("Access-Control-Allow-Origin", "*");

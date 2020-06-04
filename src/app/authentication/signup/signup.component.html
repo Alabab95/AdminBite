@@ -158,16 +158,23 @@
                                </div>
                            </div>
                         </div>
-                        <!-- <div class="form-group row">
+                         <div class="form-group row">
                             <div class="col-12 ">
                                 <button class="form-control form-control-lg" name="image" #image="ngModel" [(ngModel)]="userService.selectedUser.image" type="button" (click) = "FilePicker.click()">upload</button>
-                                <input type="file" #FilePicker>
+                                <input accept="image/*" type="file" #FilePicker (change)="onImagePick($event)">
                             </div>
-                        </div>  -->
+                        </div>
+                        <div class="p-grid" *ngIf="imagePreview !==''&&imagePreview">
+                            <div class="p-col"></div>
+                            <div class="p-col img-prv">
+                                <img [src]="imagePreview">
+                            </div>
+                            <div class="p-col"></div>
+                        </div>
                         <div class="form-group text-center ">
                             <div class="col-xs-12 p-b-20 ">
                               <input type="hidden" name="etat" #etat="ngModel" [(ngModel)]="userService.selectedUser.etat"  value="en attente">
-                                <input class="btn btn-block btn-lg btn-info" type="submit" value="signup">
+                                <input class="btn btn-block btn-lg btn-info" [disabled]="!signUpForm.valid" type="submit" value="signup">
                             </div>
                         </div>
                         <div class="form-group m-b-0 m-t-10 ">

@@ -1,3 +1,11 @@
 input[type ='file']{
     visibility: hidden;
 }
+
+.img-prv{
+    height: 7rem;
+    margin: 0 0;
+}
+.img-prv img{
+    height: 100%;
+}
