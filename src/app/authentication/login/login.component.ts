@@ -48,7 +48,9 @@ export class LoginComponent implements OnInit {
           res => {
             this.showSuccess();
             this.userDetails = res['user'];
-            this.router.navigateByUrl('/dashboard/dashboard');
+            let url ='/dashboard/dashboard';
+            if(this.userDetails.role == 'fournisseur') url = '/dashboard/dashboard2'
+             this.router.navigateByUrl(url);
             console.log("login clicked")
             this.userService.selectedUser = res['user'];
             console.log(this.userService.selectedUser);

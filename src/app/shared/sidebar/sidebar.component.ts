@@ -127,7 +127,7 @@ updateProfile(form: NgForm){
     this.displayModal = false;
   },
   err =>{
-    this.showWarn();
+    this.showWarn();    
   }
   );
 }
