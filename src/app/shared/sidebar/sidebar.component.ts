@@ -122,7 +122,7 @@ updateProfile(form: NgForm){
   console.log(user);
   this.userService.putUser(user).subscribe(res=>{
     console.log(res);
-    this.imagePath = res.image;
+    //this.imagePath = res.image;
     this.showSuccess('mettre à jour l\'utilisateur','mettre à jour l\'utilisateur avec succès')
     this.displayModal = false;
   },
