@@ -5,9 +5,9 @@ const jwtHelper = require('../config/jwtHelper');
 
 abonnements.post('/:id',jwtHelper.verifyJwtToken,ctrlAbonnement.createAbonnement);
 abonnements.get('/singleAbonement/:id',ctrlAbonnement.returnAbonnement);
-abonnements.get('/',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlAbonnement.allAbonnements);
+abonnements.get('/',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur','client']),ctrlAbonnement.allAbonnements);
 abonnements.put('/:id',ctrlAbonnement.update);
-abonnements.get('/nonpaye',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur']),ctrlAbonnement.allAbonnementsNonPaye);
+abonnements.get('/nonpaye',jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['superadmin','admin','fournisseur','client']),ctrlAbonnement.allAbonnementsNonPaye);
 abonnements.put('/activateService/:id',ctrlAbonnement.activateService);
 abonnements.put('/disactivateService/:id',ctrlAbonnement.disactivateService);
 

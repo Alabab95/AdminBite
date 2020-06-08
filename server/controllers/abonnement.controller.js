@@ -202,25 +202,25 @@ module.exports.createAbonnement = async (req,res,next) => {
       });
     }else {
     package.services.forEach(async id_service => {
-      console.log(package.services.length)
-      i++;
-      console.log(id_service)
-      service = await Service.findById(id_service).select('name price description state fournisseurId');
+      console.log(i);
+      console.log(package.services.length); 
+      let service = await Service.findById(id_service).select('name price description state fournisseurId');
       if(!service){
         return console.log("famch");
       }
-      s = {
+      let s = {
         _id: new mongoose.Types.ObjectId(),
-        name:service.name,
+        name: service.name,
         price : service.price,
         description: service.description,
         state : service.state,
-        fournisseurId:service.fournisseurId
+        fournisseurId: service.fournisseurId
       }
-      services.push(s) 
+      services.push(s);
+      i++;
       if( i == package.services.length){
+        console.log(i + " = " + package.services.length);
         console.log(services);
-        console.log(req._id);
         const abonnement = new Abonnement({
           _id : new mongoose.Types.ObjectId(),
           name:package.name,
@@ -356,7 +356,7 @@ module.exports.allAbonnements = (req,res,next) => {
       });
     });
     }else {
-      Abonnement.find({client:req._id,etat :'paye'})
+      Abonnement.find({client:req._id})
       .then(docs => {
         res.status(200).json({
           count: docs.length,
@@ -417,7 +417,7 @@ module.exports.allAbonnementsNonPaye = (req,res,next) => {
       });
   });
   }else {
-    Abonnement.find({fournisseur:req._id,etat:'non paye'})
+  Abonnement.find({fournisseur:req._id,etat:'non paye'})
   .then(docs => {
     res.status(200).json({
       count: docs.length,

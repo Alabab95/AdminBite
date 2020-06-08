@@ -138,6 +138,8 @@ changerpassword(form: NgForm){
     ...form.value
   }
   this.userService.resetpass(user).subscribe(res =>{
+    this.showSuccess('mettre à jour l\'utilisateur','mot de passe changer avec succès')
+    this.displayModalpass = false;
     console.log(res);
   },
   err=>{
