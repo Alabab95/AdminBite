@@ -418,6 +418,8 @@ module.exports.allAbonnementsNonPaye = (req,res,next) => {
   });
   }else {
   Abonnement.find({fournisseur:req._id,etat:'non paye'})
+  .populate('fournisseur','firstName')
+  .populate('client','firstName')
   .then(docs => {
     res.status(200).json({
       count: docs.length,
@@ -427,8 +429,8 @@ module.exports.allAbonnementsNonPaye = (req,res,next) => {
         return {
           _id : doc._id,
           name : doc.name,
-          fournisseur :doc.fournisseur,
-          client : doc.client,
+          fournisseur : doc.fournisseur.firstName,
+            client : doc.client.firstName,
           package :doc.package,
           price : price,
           etat : doc.etat,
