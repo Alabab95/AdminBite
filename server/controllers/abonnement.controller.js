@@ -356,7 +356,7 @@ module.exports.allAbonnements = (req,res,next) => {
       });
     });
     }else {
-      Abonnement.find({client:req._id})
+      Abonnement.find({client:req._id,etat :'paye'})
       .then(docs => {
         res.status(200).json({
           count: docs.length,
