@@ -371,6 +371,7 @@ module.exports.allAbonnements = (req,res,next) => {
               fournisseur :doc.fournisseur,
               client : doc.client,
               package :doc.package,
+              services : doc.services,
               price : price,
               etat : doc.etat,
               date : doc.date,
