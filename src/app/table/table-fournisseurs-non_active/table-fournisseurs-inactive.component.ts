@@ -5,21 +5,22 @@ import { UserService } from '../../shared/user.service';
 import { Router } from "@angular/router";
 import { User } from 'src/app/shared/user.model';
 import { HttpHeaders } from '@angular/common/http';
+import {MessageService} from 'primeng/api';
 @Component({
   templateUrl: './table-fournisseurs-inactive.component.html',
-  providers:[UserService]
+  providers:[UserService,MessageService]
 })
 export class TableFournisseursInactiveComponent implements OnInit {
   source: LocalDataSource;
   source2: LocalDataSource;
-  constructor(private userService : UserService,private router : Router) {
+  constructor(private messageService: MessageService,private userService : UserService,private router : Router) {
    }
    async ngOnInit(){
    await this.refreshUserList();
    }
 
 onAccept(event) {
-  console.log("updating");
+  console.log(event);
   var data =  {
     "_id": event._id,
     "login" : event.login,
@@ -34,14 +35,18 @@ onAccept(event) {
   this.userService.putUser(data).subscribe(
     res => {
       console.log("success");
-      this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
+      this.showSuccess('success','fournisseur','fournisseur '+event.firstName+' apprauvé avec succés');
+      this.refreshUserList();
 
     },
     err => {
       console.log("fail",err);
     }
   );
-
+  
+}
+showSuccess(etat,summary,detail) {
+  this.messageService.add({severity:etat, summary: summary, detail: detail});
 }
 test(event){
   var selectedRow = event.selected;
@@ -64,11 +69,8 @@ onRefus(event) {
   }
   this.userService.putUser(data).subscribe(
     res => {
-
-      console.log("success");
-      this.router.navigateByUrl('/fournisseurs/tablefournisseurs');
-
-
+      this.showSuccess('error','fournisseur','fournisseur '+event.firstName+' a été refusé');
+      this.refreshUserList();
     },
     err => {
       console.log("fail",err);

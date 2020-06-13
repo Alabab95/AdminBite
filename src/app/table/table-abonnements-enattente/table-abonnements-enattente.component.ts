@@ -15,6 +15,7 @@ export class TableAbonnementsEnAttenteComponent implements OnInit {
   services = [];
   abonements = tableData.data;
   AbonnementToDelete;
+  AbonnementToAdd;
   constructor(private AbonementService:AbonementService,private messageService:MessageService) {
     this.source = new LocalDataSource(tableData.data); // create the source
     this.source2 = new LocalDataSource(tableData.data); // create the source
@@ -56,6 +57,13 @@ export class TableAbonnementsEnAttenteComponent implements OnInit {
   showSuccess(summary,detail,type) {
     this.messageService.add({severity:type, summary: summary, detail: detail});
    }
+
+   showConfirmToAcceptAbonnement(event){
+    this.AbonnementToAdd  = event;
+    this.messageService.clear();
+    this.messageService.add({key: 'c', sticky: true, severity:'warn', summary:'êtes-vous sûr?', detail:'êtes-vous sûr de vouloir passer l\'Abonnement a l\état accepter!!'});
+   }
+
    showConfirmToDeleteAbonnement(event) {
     this.AbonnementToDelete = event;
     this.messageService.clear();
@@ -67,6 +75,13 @@ export class TableAbonnementsEnAttenteComponent implements OnInit {
   onConfirm() {
     this.deleteAbonnement(this.AbonnementToDelete);
     this.messageService.clear('d');
+  }
+  onRejectacc() {
+    this.messageService.clear('c');
+  }
+  onConfirmacc() {
+    this.accepter(this.AbonnementToAdd);
+    this.messageService.clear('c');
   }
   deleteAbonnement(abonnement){
     console.log(abonnement);

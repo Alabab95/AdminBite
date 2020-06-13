@@ -16,6 +16,23 @@
         </div>
     </ng-template>
 </p-toast>
+<p-toast position="center" key="c" (onClose)="onRejectacc()" [modal]="true" [baseZIndex]="5000">
+    <ng-template let-message pTemplate="message">
+        <div style="text-align: center">
+            <i class="pi pi-exclamation-triangle" style="font-size: 3em"></i>
+            <h3>{{message.summary}}</h3>
+            <p>{{message.detail}}</p>
+        </div>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onConfirmacc()" label="Oui" class="ui-button-success"></button>
+            </div>
+            <div class="ui-g-6">
+                <button type="button" pButton (click)="onRejectacc()" label="Annuler" class="ui-button-secondary"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
 <div class="row">
     <div class="col-12">
       <div class="card">
@@ -50,7 +67,7 @@
                               <td>{{us.etat}}</td>
                               <td>{{us.date}}</td>
                               <td>
-                              <a (click)="accepter(us)">
+                              <a (click)="showConfirmToAcceptAbonnement(us)">
                                 <i class="ti-thumb-up text-info m-r-10"></i>
                               </a>
                               <a (click)="showConfirmToDeleteAbonnement(us)">
