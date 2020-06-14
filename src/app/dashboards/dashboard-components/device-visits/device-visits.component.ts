@@ -16,9 +16,9 @@ export class DeviceVisitsComponent implements AfterViewInit{
   ngAfterViewInit() {
     this.Dashboard.ventesFournisseur().subscribe(res=>{
       console.log(res);
-      this.paye = res.paye;
-      this.nonpaye = res.nonpaye;
-      this.refuse = res.refuse;
+      this.paye = res['etat'].paye;
+      this.nonpaye = res['etat'].nonpaye;
+      this.refuse = res['etat'].refuse;
       this.somme = this.paye+this.nonpaye+this.refuse
       const chart = c3.generate({
       bindto: '#visitor',

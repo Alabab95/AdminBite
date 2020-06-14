@@ -20,7 +20,9 @@ module.exports.Ventes =(req,res,next) => {
         }
       })
       console.log("etat ",etat)
-      res.status(200).json(etat)
+      res.status(200).json({
+        'etat': etat
+      })
     })
     .catch(err => {
       console.log(err);
