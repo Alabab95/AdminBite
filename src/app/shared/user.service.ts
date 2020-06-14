@@ -75,6 +75,7 @@ export class UserService {
     if(user.activity) userData.append("activity",user.activity);
     if(user.phone) userData.append("phone",user.phone);
     if(user.mail) userData.append("mail",user.mail);
+    if(user.etat) userData.append("etat",user.etat);
     if(typeof user.image === 'object') userData.append("image",user.image,user.login); else  userData.append("image",user.image); 
     return this.http.put(environment.apiBaseUrl + `/update/${user._id}`,userData,this.Header)
     .pipe(
