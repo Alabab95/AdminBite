@@ -2,7 +2,10 @@ const express = require('express');
 const multer = require('multer');
 const router = express.Router();
 
+const ctrlFournisseur = require('../controllers/fournisseurDash.controller')
 const ctrlUser = require('../controllers/user.controller');
+const ctrlPack = require('../controllers/package.controller');
+
 const jwtHelper = require('../config/jwtHelper');
 //les routers de services
 const MIME_TYPE_MAP = {
@@ -30,7 +33,13 @@ const storage = multer.diskStorage({
     }
 
 });
-const ctrlPack = require('../controllers/package.controller');
+//les ventes de fournisseur
+router.get('/ventes',jwtHelper.verifyJwtToken,jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['fournisseur']),ctrlFournisseur.Ventes)
+//nombre de packages de fournisseur
+router.get('/nbpackages',jwtHelper.verifyJwtToken,jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['fournisseur']),ctrlFournisseur.NbPackages)
+//les clients du fournisseur
+router.get('/clients',jwtHelper.verifyJwtToken,jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['fournisseur']),ctrlFournisseur.Clients )
+
 //register fournisseur
 router.post('/register-fournisseur',multer({storage:storage}).single("image"), (req,res,next)=>{
     ctrlUser.register(req,'fournisseur',res,next);

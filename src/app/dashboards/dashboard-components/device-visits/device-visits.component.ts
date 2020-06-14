@@ -1,19 +1,29 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit,OnInit } from '@angular/core';
 import * as c3 from 'c3';
-
+import {Dashboard2} from "../../../shared/dashboard2.service"
 @Component({
   selector: 'app-device-visits',
   templateUrl: './device-visits.component.html'
 })
-export class DeviceVisitsComponent implements AfterViewInit {
-  constructor() { }
 
+export class DeviceVisitsComponent implements AfterViewInit,OnInit {
+  
+  constructor(private Dashboard : Dashboard2) { }
+  paye;
+  nonpaye;
+  refuse;
+  somme;
   ngAfterViewInit() {
-    const chart = c3.generate({
+    this.Dashboard.ventesFournisseur().subscribe(res=>{
+      console.log(res);
+      this.paye = res.paye;
+      this.nonpaye = res.nonpaye;
+      this.refuse = res.refuse;
+      this.somme = this.paye+this.nonpaye+this.refuse
+      const chart = c3.generate({
       bindto: '#visitor',
       data: {
-        columns: [['Tunis', 60], ['Sfax', 12], ['Sousse', 28]],
-
+        columns: [['Payés', this.paye], ['Non payés', this.nonpaye], ['Réfusés', this.refuse]],
         type: 'donut'
       },
       donut: {
@@ -33,5 +43,8 @@ export class DeviceVisitsComponent implements AfterViewInit {
         pattern: ['#4798e8', '#ff7676', '#f6f6f6']
       }
     });
+    })
+    
   }
+  
 }
