@@ -6,7 +6,7 @@ import {Dashboard2} from "../../../shared/dashboard2.service"
   templateUrl: './device-visits.component.html'
 })
 
-export class DeviceVisitsComponent implements AfterViewInit,OnInit {
+export class DeviceVisitsComponent implements AfterViewInit{
   
   constructor(private Dashboard : Dashboard2) { }
   paye;

@@ -2,7 +2,9 @@ const express = require('express');
 const multer = require('multer');
 const router = express.Router();
 
-const ctrlFournisseur = require('../controllers/fournisseurDash.controller')
+const ctrlFournisseur = require('../controllers/fournisseurDash.controller');
+const ctrlAdmin = require('../controllers/adminDash.controller');
+
 const ctrlUser = require('../controllers/user.controller');
 const ctrlPack = require('../controllers/package.controller');
 
@@ -33,6 +35,19 @@ const storage = multer.diskStorage({
     }
 
 });
+//nombre des clients
+router.get('/nbclients',ctrlAdmin.Clients)
+//number des packages
+router.get('/nbpackages',ctrlAdmin.Packages)
+//nombre des services
+router.get('/nbservices',ctrlAdmin.Services)
+
+//nombre de fournisseurs
+router.get('/nbfournisseurs',ctrlAdmin.Fournisseurs)
+
+//details abonnement les plus vendus
+router.get('/abonnementsdetails',ctrlAdmin.TableAbonnements)
+
 //les ventes de fournisseur
 router.get('/ventes',jwtHelper.verifyJwtToken,jwtHelper.verifyJwtToken,jwtHelper.cheackRole(['fournisseur']),ctrlFournisseur.Ventes)
 //nombre de packages de fournisseur

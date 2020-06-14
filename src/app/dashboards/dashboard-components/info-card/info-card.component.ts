@@ -1,13 +1,17 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as c3 from 'c3';
-
+import {Dashboard} from "../../../shared/dashboard.service"
 @Component({
   selector: 'app-info-card',
   templateUrl: './info-card.component.html'
 })
 export class InfocardComponent implements AfterViewInit {
-  constructor() {}
-
+  constructor(private Dashboard : Dashboard) {}
+  clients
+  fournisseurs
+  packages
+  services
+  details = []
   public lineChartData: Array<any> = [
     { data: [12, 19, 3, 5, 2, 3], label: 'Balance $' }
   ];
@@ -65,6 +69,19 @@ export class InfocardComponent implements AfterViewInit {
   public lineChartType = 'line';
 
   ngAfterViewInit() {
+    this.Dashboard.nombreClients().subscribe(res =>{
+      this.clients=res['count']
+    });
+    this.Dashboard.nombreFournisseurs().subscribe(res =>{
+      this.fournisseurs=res['count']
+    });
+    this.Dashboard.nombrePackages().subscribe(res =>{
+      this.packages=res['count']
+    });
+    this.Dashboard.nombreServices().subscribe(res =>{
+      this.services=res['count']
+    });
+    
     (<any>$('#ravenue')).sparkline([6, 10, 9, 11, 9, 10, 12], {
       type: 'bar',
       height: '55',

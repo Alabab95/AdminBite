@@ -32,7 +32,6 @@ module.exports.Ventes =(req,res,next) => {
 }
 module.exports.Clients =(req,res,next) => {
   Abonnement.find({"fournisseur": req._id})
-    .select("client")
     .populate({
       path: 'client',
       model: 'User'
@@ -40,7 +39,9 @@ module.exports.Clients =(req,res,next) => {
     .exec() 
     .then(docs => {
       console.log("clients ",docs)
-      res.status(200).json(docs)
+      res.status(200).json({
+        'clients' : docs
+      })
     })
     .catch(err => {
       console.log(err);

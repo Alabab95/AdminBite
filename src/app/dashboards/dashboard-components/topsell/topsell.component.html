@@ -31,87 +31,87 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr *ngIf='details[0]'>
                     <td>
                         <div class="d-flex align-items-center">
                             <div class="m-r-10">
                                 <a class="btn btn-circle btn-info text-white">P1</a>
                             </div>
                             <div class="">
-                                <h4 class="m-b-0 font-16">Package1</h4>
+                                <h4 class="m-b-0 font-16">{{details[0].package}}</h4>
                             </div>
                         </div>
                     </td>
-                    <td>Ala</td>
-                    <td>20</td>
+                    <td>{{details[0].fournisseur}}</td>
+                    <td>{{details[0].occu}}</td>
                     <td>
-                        <label class="label label-danger">Elecricité</label>
+                        <label class="label label-danger">{{details[0].domaine}}</label>
                     </td>
                     <td>
-                        <h5 class="m-b-0">2850.06 dt</h5>
+                        <h5 class="m-b-0">{{details[0].price}} dt</h5>
                     </td>
                 </tr>
-                <tr>
+                <tr  *ngIf='details[1]'>
                     <td>
                         <div class="d-flex align-items-center">
                             <div class="m-r-10">
                                 <a class="btn btn-circle btn-orange text-white">P2</a>
                             </div>
                             <div class="">
-                                <h4 class="m-b-0 font-16">Package2</h4>
+                                <h4 class="m-b-0 font-16">{{details[1].package}}</h4>
                             </div>
                         </div>
                     </td>
-                    <td>Skander</td>
-                    <td>10</td>
+                    <td>{{details[1].fournisseur}}</td>
+                    <td>{{details[1].occu}}</td>
                     <td>
-                        <label class="label label-info">Electronique</label>
+                        <label class="label label-info">{{details[1].domaine}}</label>
                     </td>
                     
                     <td>
-                        <h5 class="m-b-0">285.09 dt</h5>
+                        <h5 class="m-b-0">{{details[1].price}} dt</h5>
                     </td>
                 </tr>
-                <tr>
+                <tr  *ngIf='details[2]'>
                     <td>
                         <div class="d-flex align-items-center">
                             <div class="m-r-10">
                                 <a class="btn btn-circle btn-success text-white">P3</a>
                             </div>
                             <div class="">
-                                <h4 class="m-b-0 font-16">Package3</h4>
+                                <h4 class="m-b-0 font-16">{{details[2].package}}</h4>
                             </div>
                         </div>
                     </td>
-                    <td>Syrine</td>
-                    <td>50</td>
+                    <td>{{details[2].fournisseur}}</td>
+                    <td>{{details[2].occu}}</td>
                     <td>
-                        <label class="label label-success">Climatisation</label>
+                        <label class="label label-success">{{details[2].domaine}}</label>
                     </td>
                     
                     <td>
-                        <h5 class="m-b-0">3850 dt</h5>
+                        <h5 class="m-b-0">{{details[2].price}} dt</h5>
                     </td>
                 </tr>
-                <tr>
+                <tr  *ngIf='details[3]'>
                     <td>
                         <div class="d-flex align-items-center">
                             <div class="m-r-10">
                                 <a class="btn btn-circle btn-purple text-white">P3</a>
                             </div>
                             <div class="">
-                                <h4 class="m-b-0 font-16">Package 3</h4>
+                                <h4 class="m-b-0 font-16">{{details[3].package}}</h4>
                             </div>
                         </div>
                     </td>
-                    <td>Chaima</td>
-                    <td>70</td>
+                    <td>{{details[3].fournisseur}}</td>
+                    <td>{{details[3].occu}}</td>
                     <td>
-                        <label class="label label-purple">Garderie</label>
+                        <label class="label label-purple">{{details[3].domaine}}</label>
                     </td>
      
                     <td>
-                        <h5 class="m-b-0">100 dt</h5>
+                        <h5 class="m-b-0">{{details[3].price}} dt</h5>
                     </td>
                 </tr>
             </tbody>
