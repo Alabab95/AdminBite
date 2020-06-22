@@ -15,26 +15,8 @@ import { Cell, DefaultEditor, Editor} from 'ng2-smart-table';
 
 import { HttpHeaders } from '@angular/common/http';
 @Component({
+  styleUrls :['./tablepackages.component.css'],
   templateUrl: './tablepackages.component.html',
-  styles : [`
-  :host ::ng-deep button {
-      margin-right: .25em;
-  }
-
-  :host ::ng-deep .custom-toast .ui-toast-message {
-      background: #FC466B;
-      background: -webkit-linear-gradient(to right, #3F5EFB, #FC466B);
-      background: linear-gradient(to right, #3F5EFB, #FC466B);
-  }
-
-  :host ::ng-deep .custom-toast .ui-toast-message div {
-      color: #ffffff;
-  }
-
-  :host ::ng-deep .custom-toast .ui-toast-message.ui-toast-message-info .ui-toast-close-icon {
-      color: #ffffff;
-  }
-`],
   providers:[PackageService,MessageService,UserService]
 }) 
 

@@ -58,6 +58,12 @@ export class AbonementService {
   getAbonement(id){
     return this.http.get(`http://localhost:3000/abonnements/singleAbonement/${id}`,this.Header);
   }
+  getgroupe(){
+    return this.http.get(`http://localhost:3000/abonnements/groupement`,this.Header);
+  }
+  getpackgroupe(){
+    return this.http.get(`http://localhost:3000/abonnements/packgrop`,this.Header);
+  }
   deleteServiceFromabonement(Service){
     return this.http.post('http://localhost:3000/abonnements/removeService',Service,this.Header);
   }

@@ -144,10 +144,6 @@ export const TablesRoutes: Routes = [
         component:TablepackagesComponent,
         data: {
           title: 'Table Packs',
-          urls: [
-            { title: 'Dashboard', url: '/dashboard' },
-            { title: 'Smart Table' }
-          ]
         }
       },
       {

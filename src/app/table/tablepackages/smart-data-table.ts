@@ -42,6 +42,8 @@ export let settings = {
   },
   add:{
     confirmCreate:true,
+    createButtonContent: '<i style="margin: 10px;" class="skander">add</i>',
+    cancelButtonContent: '<button class="btn">cancel</button>',
     
    },
   edit: {

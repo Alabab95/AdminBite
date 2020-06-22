@@ -1,3 +1,8 @@
 .ng-star-inserted{
  width :100px 
 }
+
+.ng2-smart-action .ng2-smart-action-add-create{
+    margin: 20px;
+    background-color: burlywood;
+}

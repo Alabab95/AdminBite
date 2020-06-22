@@ -3,6 +3,8 @@ import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from 'ng-chartist/dist/chartist.component';
 import * as c3 from 'c3';
 
+import{AbonementService } from "../../../shared/abonement.service"
+
 declare var require: any;
 
 export interface Chart {
@@ -19,7 +21,7 @@ export interface Chart {
   styleUrls: ['./sales.component.scss']
 })
 export class SalesComponent implements AfterViewInit {
-  constructor() { }
+  constructor(private AbonementService:AbonementService) { }
 
   // Barchart
   barChart: Chart = {
@@ -73,42 +75,70 @@ export class SalesComponent implements AfterViewInit {
   };
 
   ngAfterViewInit() {
-    const chart2 = c3.generate({
-      bindto: '#product-sales',
-      data: {
-        columns: [
-           /* ['Abonnements', 5, 6, 3, 7, 9, 10, 14, 12, 11, 9, 8, 7, 10, 6, 12, 10, 8], */
-           ['Abonnements', 1, 2, 4, 3, 4, 5, 7, 6, 5, 6, 4, 3, 3, 2, 5, 6, 3]
-        ],
-        type: 'spline'
-      },
-      axis: {
-        y: {
-          show: true,
-          tick: {
-            count: 0,
-            outer: false
+    let tab=["Abonnements"];
+    let tab2 = ["Packages"]
+    this.AbonementService.getgroupe().subscribe(res=>{
+      let tosort = res['groupe']
+      tosort.sort((a,b)=>{
+        return new Date(a._id)-new Date(b._id);
+      })
+      tosort.map(e=>{
+        tab.push(e.myCount);
+      })
+      console.log(tab);
+      this.AbonementService.getpackgroupe().subscribe(res=>{
+        let packsort = res['groupe']
+      packsort.sort((a,b)=>{
+        return new Date(a._id)-new Date(b._id);
+      })
+      console.log(packsort)
+      packsort.map(e=>{
+        tab2.push(e.myCount);
+      })
+      console.log(tab2);
+          const chart2 = c3.generate({
+          bindto: '#product-sales',
+          data: {
+            columns: [
+              tab,
+              tab2
+            ],
+            type: 'spline'
+          },
+          axis: {
+            y: {
+              show: true,
+              tick: {
+                count: 0,
+                
+              }
+            },
+            x: {
+
+              show: true,
+              tick: {
+                count: 0,
+            },
+            }
+          },
+          padding: {
+            top: 40,
+            right: 10,
+            bottom: 40,
+            left: 20
+          },
+          point: {
+            r: 2
+          },
+          legend: {
+            hide: false
+          },
+          color: {
+            pattern: ['#4798e8', '#ccc']
           }
-        },
-        x: {
-          show: true
-        }
-      },
-      padding: {
-        top: 40,
-        right: 10,
-        bottom: 40,
-        left: 20
-      },
-      point: {
-        r: 0
-      },
-      legend: {
-        hide: false
-      },
-      color: {
-        pattern: ['#4798e8', '#ccc']
-      }
-    });
+        });
+      }) 
+      
+    })
   }
 }
