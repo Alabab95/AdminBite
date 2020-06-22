@@ -17,6 +17,8 @@ abonnements.post('/addPackage',ctrlAbonnement.addPackageToAbonnement);
 abonnements.post('/removePackage',ctrlAbonnement.removePackageFromAbonnement);
 abonnements.get('/filter/date',ctrlAbonnement.filterParDate);
 abonnements.get('/clients/:id',ctrlAbonnement.getAbonnementByClientId);
+abonnements.get('/groupement',ctrlAbonnement.abonnementGrop);
+abonnements.get('/packgrop',ctrlAbonnement.packGrop);
 
 
 

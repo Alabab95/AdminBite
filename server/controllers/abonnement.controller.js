@@ -1,8 +1,23 @@
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer');
 const Package = mongoose.model('Package');
 const Service = mongoose.model('Service');
 const Abonnement = mongoose.model('Abonnement');
 const User = mongoose.model('User');
+var transport = nodemailer.createTransport({
+  service : 'gmail',
+  auth :{
+    user : '00vayne00@gmail.com',
+    pass : 'iloverp2015'
+  }
+})
+
+var mailOption = {
+  from :'00vayne00@gmail.com',
+  to :'00vayne00@gmail.com',
+  subject:'testtest',
+  text:'testtest'
+}
 
 module.exports.getAbonnementByClientId =(req,res,next) => {
   console.log("client id :",req.params.id)
@@ -245,6 +260,10 @@ module.exports.createAbonnement = async (req,res,next) => {
       abonnement
         .save()
         .then(result => {
+            transport.sendMail(mailOption,function(err,info){
+              if(err) console.log(err);
+              if(info) console.log(err);
+            })
             res.status(200).json({
                 message : "Abonnement created",
                 createdAbonnement : {
@@ -304,6 +323,7 @@ module.exports.allAbonnements = (req,res,next) => {
       .populate('fournisseur','firstName')
       .populate('client','firstName')
       .then(docs => {
+        console.log(docs)
         res.status(200).json({
           count: docs.length,
           abonnements: docs.map(doc => {
@@ -357,7 +377,7 @@ module.exports.allAbonnements = (req,res,next) => {
         error: err
       });
     });
-    }else {
+    } else {
       Abonnement.find({client:req._id,etat :'paye'})
       .then(docs => {
         res.status(200).json({
@@ -513,4 +533,31 @@ module.exports.disactivateService= async (req,res,next)=>{
       servicemodi : servicemodif
     })
   });
+}
+
+module.exports.abonnementGrop = (req,res,next)=>{
+  Abonnement.aggregate(
+    [
+      {$match:{}},
+      {$group:{ _id:{$substr:["$date",0,10]},myCount: { $sum: 1 }}}
+    ]
+  ).then(re=>{
+    console.log(re)
+    res.status(200).json({
+      groupe : re
+    })
+  })
+}
+module.exports.packGrop = (req,res,next)=>{
+  Package.aggregate(
+    [
+      {$match:{}},
+      {$group:{ _id:{$substr:["$date",0,10]},myCount: { $sum: 1 }}}
+    ]
+  ).then(re=>{
+    console.log(re)
+    res.status(200).json({
+      groupe : re
+    })
+  })
 }
