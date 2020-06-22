@@ -121,7 +121,7 @@ export const TablesRoutes: Routes = [
         path: 'tableabonnements',
         component: TableAbonnementsComponent,
         data: {
-          title: 'Table Abonnements',
+          title: 'Liste des abonnements reservés',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Smart Table' }
@@ -132,7 +132,7 @@ export const TablesRoutes: Routes = [
         path: 'tableabonnementsenattente',
         component: TableAbonnementsEnAttenteComponent,
         data: {
-          title: 'Table Abonnements non payés',
+          title: 'Liste des abonnements non reservés',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Smart Table' }
@@ -143,14 +143,18 @@ export const TablesRoutes: Routes = [
         path: 'tablepack',
         component:TablepackagesComponent,
         data: {
-          title: 'Table Packs',
+          title: 'Liste des packages',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Smart Table' }
+          ]
         }
       },
       {
         path: 'tablefournisseursinactive',
         component:TableFournisseursInactiveComponent,
         data: {
-          title: 'Table fournisseurs en attente',
+          title: 'Liste des fournisseurs en attente',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'Smart Table' }

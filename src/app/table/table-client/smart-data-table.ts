@@ -5,27 +5,27 @@ export let settings = {
       filter: true
     },
     firstName: {
-      title: 'firstName',
+      title: 'Nom',
       filter: true
     },
     lastName: {
-      title: 'lastName',
+      title: 'Prénom',
       filter: true
     },
     adress: {
-      title: 'Adress',
+      title: 'Adresse',
       filter: true
     },
     phone: {
-      title: 'Phone',
+      title: 'Tel',
       filter: true
     },
     mail: {
-      title: 'Mail',
+      title: 'EMail',
       filter: true
     },
     password: {
-      title: 'password',
+      title: 'Mot de passe',
       filter: true
     }
   },

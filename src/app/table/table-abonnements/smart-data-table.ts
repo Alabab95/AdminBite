@@ -9,19 +9,19 @@ export let settings = {
       filter: true
     },
     client: {
-      title: 'client',
+      title: 'Client',
       filter: true
     },
     price: {
-      title: 'price',
+      title: 'Prix',
       filter: true
     },
     etat: {
-      title: 'etat',
+      title: 'Etat',
       filter: true
     },
     date: {
-      title: 'date',
+      title: 'Date',
       filter: true
     }
   },

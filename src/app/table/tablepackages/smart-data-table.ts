@@ -5,7 +5,7 @@ import { Cell, DefaultEditor, Editor} from 'ng2-smart-table';
 export let settings = {
   columns: {
     name: {
-      title: 'Name',
+      title: 'Nom',
       filter: true,
     },
     domaine: {
@@ -19,7 +19,7 @@ export let settings = {
       addable:false,
     },
     price: {
-      title: 'Price',
+      title: 'Prix',
       filter: true,
       editable : false,
       addable:false,

@@ -6,19 +6,19 @@ export let settings = {
       filter: true
     },
     society: {
-      title: 'Society',
+      title: 'Societé',
       filter: true
     },
     activity: {
-      title: 'Activity',
+      title: 'Activité',
       filter: true
     },
     phone: {
-      title: 'Phone',
+      title: 'Tel',
       filter: true
     },
     mail: {
-      title: 'Mail',
+      title: 'EMail',
       filter: true
     },
     etat: {

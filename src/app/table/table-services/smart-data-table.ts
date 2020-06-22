@@ -1,15 +1,15 @@
 export let settings = {
   columns: {
     name: {
-      title: 'name',
+      title: 'Nom',
       filter: true
     },
     price: {
-      title: 'price',
+      title: 'Prix',
       filter: true
     },
     description: {
-      title: 'description',
+      title: 'Description',
       filter: true
     }
   },
