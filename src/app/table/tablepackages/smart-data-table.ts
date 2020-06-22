@@ -42,7 +42,8 @@ export let settings = {
   },
   add:{
     confirmCreate:true,
-    
+    cancelButtonContent: '<i class="ti-close text-danger">Annuler</i>',
+
    },
   edit: {
     confirmSave:true,

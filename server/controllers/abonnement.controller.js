@@ -461,6 +461,8 @@ module.exports.allAbonnementsNonPaye = (req,res,next) => {
 
 module.exports.returnAbonnement = (req,res,next) => {
     Abonnement.findById(req.params.id)
+    .populate('fournisseur','firstName society activity phone')
+    
     .then(abonnement => {
       if (!abonnement) {
         return res.status(404).json({
