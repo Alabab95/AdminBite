@@ -39,7 +39,9 @@ export let settings = {
     }
   },
   add:{
-    confirmCreate:true
+    confirmCreate:true,
+    createButtonContent: '<i style="margin: 10px;" class="ti-add text-primary">Ajouter</i>',
+    cancelButtonContent: '<i class="text-danger">Annuler</i>',
    },
   edit: {
     confirmSave:true,

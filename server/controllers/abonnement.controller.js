@@ -7,17 +7,11 @@ const User = mongoose.model('User');
 var transport = nodemailer.createTransport({
   service : 'gmail',
   auth :{
-    user : '00vayne00@gmail.com',
-    pass : 'iloverp2015'
+    user : 'issatsousse50@gmail.com',
+    pass : 'issat123456789'
   }
 })
 
-var mailOption = {
-  from :'00vayne00@gmail.com',
-  to :'00vayne00@gmail.com',
-  subject:'testtest',
-  text:'testtest'
-}
 
 module.exports.getAbonnementByClientId =(req,res,next) => {
   console.log("client id :",req.params.id)
@@ -194,7 +188,19 @@ module.exports.createAbonnement = async (req,res,next) => {
     });
     abonnement
       .save()
-      .then(result => {
+      .then(async result => {
+        let user = await User.findById({_id:result.fournisseur});
+        var mailOption = {
+          from :'issatsousse50@gmail.com',
+          to :user.mail,
+          subject:'Abonnement',
+          text:'Un client a acheter votre package'
+        }
+        console.log(user);
+        transport.sendMail(mailOption,function(err,info){
+          if(err) console.log(err);
+          if(info) console.log();
+        })
           res.status(200).json({
               message : "Abonnement created",
               createdAbonnement : {
@@ -259,11 +265,19 @@ module.exports.createAbonnement = async (req,res,next) => {
       console.log(package);
       abonnement
         .save()
-        .then(result => {
+        .then(async result => {
+            let user = await User.findById({_id:result.fournisseur});
+            var mailOption = {
+              from :'issatsousse50@gmail.com',
+              to :user.mail,
+              subject:'Abonnement',
+              text:'Un client a acheter votre package'
+            }
             transport.sendMail(mailOption,function(err,info){
               if(err) console.log(err);
               if(info) console.log(err);
             })
+            console.log(user);
             res.status(200).json({
                 message : "Abonnement created",
                 createdAbonnement : {
@@ -348,21 +362,18 @@ module.exports.allAbonnements = (req,res,next) => {
     });
     }else if(req.role == 'fournisseur'){
       Abonnement.find({fournisseur:req._id,etat :'paye'})
-      .populate('fournisseur','firstName')
-      .populate('client','firstName')
     .then(docs => {
       res.status(200).json({
         count: docs.length,
         abonnements: docs.map(doc => {
-          console.log("fourniseuuuuuuuuuuuuuuuuur clieeeeeent ",doc.client)
           let price =0;
           price = doc.package.price
           return {
             _id : doc._id,
             name : doc.name,
-            fournisseur :doc.fournisseur.firstName,
-            client : doc.client.firstName,
-            package :doc.package.name,
+            fournisseur :doc.fournisseur,
+            client : doc.client,
+            package :doc.package,
             services : doc.services,
             price : price,
             etat : doc.etat,
@@ -382,8 +393,6 @@ module.exports.allAbonnements = (req,res,next) => {
     });
     } else {
       Abonnement.find({client:req._id,etat :'paye'})
-      .populate('fournisseur','firstName')
-      .populate('client','firstName')
       .then(docs => {
         res.status(200).json({
           count: docs.length,
@@ -393,9 +402,9 @@ module.exports.allAbonnements = (req,res,next) => {
             return {
               _id : doc._id,
               name : doc.name,
-              fournisseur :doc.fournisseur.firstName,
-              client : doc.client.firstName,
-              package :doc.package.name,
+              fournisseur :doc.fournisseur,
+              client : doc.client,
+              package :doc.package,
               services : doc.services,
               price : price,
               etat : doc.etat,
