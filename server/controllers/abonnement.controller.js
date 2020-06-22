@@ -328,18 +328,21 @@ module.exports.allAbonnements = (req,res,next) => {
     });
     }else if(req.role == 'fournisseur'){
       Abonnement.find({fournisseur:req._id,etat :'paye'})
+      .populate('fournisseur','firstName')
+      .populate('client','firstName')
     .then(docs => {
       res.status(200).json({
         count: docs.length,
         abonnements: docs.map(doc => {
+          console.log("fourniseuuuuuuuuuuuuuuuuur clieeeeeent ",doc.client)
           let price =0;
           price = doc.package.price
           return {
             _id : doc._id,
             name : doc.name,
-            fournisseur :doc.fournisseur,
-            client : doc.client,
-            package :doc.package,
+            fournisseur :doc.fournisseur.firstName,
+            client : doc.client.firstName,
+            package :doc.package.name,
             services : doc.services,
             price : price,
             etat : doc.etat,
@@ -359,6 +362,8 @@ module.exports.allAbonnements = (req,res,next) => {
     });
     }else {
       Abonnement.find({client:req._id,etat :'paye'})
+      .populate('fournisseur','firstName')
+      .populate('client','firstName')
       .then(docs => {
         res.status(200).json({
           count: docs.length,
@@ -368,9 +373,9 @@ module.exports.allAbonnements = (req,res,next) => {
             return {
               _id : doc._id,
               name : doc.name,
-              fournisseur :doc.fournisseur,
-              client : doc.client,
-              package :doc.package,
+              fournisseur :doc.fournisseur.firstName,
+              client : doc.client.firstName,
+              package :doc.package.name,
               services : doc.services,
               price : price,
               etat : doc.etat,

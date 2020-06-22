@@ -23,7 +23,7 @@ export class DeviceVisitsComponent implements AfterViewInit{
       const chart = c3.generate({
       bindto: '#visitor',
       data: {
-        columns: [['Payés', this.paye], ['Non payés', this.nonpaye], ['Réfusés', this.refuse]],
+        columns: [['Réservés', this.paye], ['Non réservés', this.nonpaye], ['Réfusés', this.refuse]],
         type: 'donut'
       },
       donut: {

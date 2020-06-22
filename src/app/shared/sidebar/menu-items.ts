@@ -250,7 +250,7 @@ export const ROUTES_F: RouteInfo[] = [
     submenu: [
       {
         path: '/abonnements/tableabonnements',
-        title: 'Abonnements payés',
+        title: 'Abonnements reservés',
         icon: 'mdi mdi-notification-clear-all',
         class: '',
         extralink: false,
@@ -258,29 +258,13 @@ export const ROUTES_F: RouteInfo[] = [
       },
       {
         path: '/abonnementsenattente/tableabonnementsenattente',
-        title: 'Abonnements non payés',
+        title: 'Abonnements non reservés',
         icon: 'mdi mdi-notification-clear-all',
         class: '',
         extralink: false,
         submenu: []
       },
     ]
-  },
-  {
-    path: '',
-    title: 'Reservations',
-    icon: 'mdi mdi-dots-horizontal',
-    class: 'nav-small-cap',
-    extralink: true,
-    submenu: []
-  },
-  {
-    path: '/services/tableservices',
-    title: 'Gestion des Services',
-    icon: 'mdi mdi-notification-clear-all',
-    class: '',
-    extralink: false,
-    submenu: []
   }
 
 ];
